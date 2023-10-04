@@ -257,6 +257,21 @@ RC insert_record_from_file(
       case CHARS: {
         value_init_string(&record_values[i], file_value.c_str());
       } break;
+      case DATES: {
+        deserialize_stream.clear();
+        deserialize_stream.str(file_value);
+        int int_value;
+        deserialize_stream>>int_value;
+        if(!deserialize_stream||!deserialize_stream.eof()){
+          errmsg << "need an integer but got '" << file_values[i] << "' (field index:" << i << ")";
+          rc = RC::SCHEMA_FIELD_TYPE_MISMATCH;
+        } else {
+          char str[11]={'\0'};
+          sprintf(str,"%d-%d-%d",int_value/10000,(int_value%10000)/100,int_value%100);
+          if(value_init_date(&record_values[i],str)==-1)
+          rc=RC::RECORD_INVALID_KEY;
+        }
+      }
       default: {
         errmsg << "Unsupported field type to loading: " << field->type();
         rc = RC::SCHEMA_FIELD_TYPE_MISMATCH;

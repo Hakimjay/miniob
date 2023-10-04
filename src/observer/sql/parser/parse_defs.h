@@ -45,7 +45,8 @@ typedef enum
   UNDEFINED,
   CHARS,
   INTS,
-  FLOATS
+  FLOATS,
+  DATES
 } AttrType;
 
 //属性值
@@ -172,7 +173,8 @@ enum SqlCommandFlag {
   SCF_ROLLBACK,
   SCF_LOAD_DATA,
   SCF_HELP,
-  SCF_EXIT
+  SCF_EXIT,
+  SCF_DATE_ERROR
 };
 // struct of flag and sql_struct
 typedef struct Query {
@@ -240,6 +242,9 @@ void query_init(Query *query);
 Query *query_create();  // create and init
 void query_reset(Query *query);
 void query_destroy(Query *query);  // reset and delete
+
+int check_date(int y,int m,int d);
+int value_init_date(Value* value,const char* v);
 
 #ifdef __cplusplus
 }

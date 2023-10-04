@@ -1,0 +1,5 @@
+[2023-10-04 13:34:51.758556 pid:78989 tid:7f4268cc7740 ctx:0 INFO: cleanup@mem_pool.h:237] >> Successfully do cleanup, this->name:BufPool.
+[2023-10-04 13:42:52.461761 pid:89896 tid:7f1a25c13740 ctx:0 INFO: cleanup@mem_pool.h:237] >> Successfully do cleanup, this->name:BufPool.
+[2023-10-04 13:43:42.596235 pid:91012 tid:7f1103b8a740 ctx:0 INFO: cleanup@mem_pool.h:237] >> Successfully do cleanup, this->name:BufPool.
+[2023-10-04 14:09:07.992391 pid:4827 tid:7fdc83c30740 ctx:0 INFO: cleanup@mem_pool.h:237] >> Successfully do cleanup, this->name:BufPool.
+[2023-10-04 14:37:36.942998 pid:20279 tid:7f89a1c71740 ctx:0 INFO: cleanup@mem_pool.h:237] >> Successfully do cleanup, this->name:BufPool.

@@ -81,6 +81,7 @@ ParserContext *get_context(yyscan_t scanner)
         TRX_COMMIT
         TRX_ROLLBACK
         INT_T
+		DATE_T
         STRING_T
         FLOAT_T
         HELP
@@ -116,6 +117,7 @@ ParserContext *get_context(yyscan_t scanner)
 %token <number> NUMBER
 %token <floats> FLOAT 
 %token <string> ID
+%token <string> DATE_STR
 %token <string> PATH
 %token <string> SSS
 %token <string> STAR
@@ -268,6 +270,7 @@ type:
 	INT_T { $$=INTS; }
        | STRING_T { $$=CHARS; }
        | FLOAT_T { $$=FLOATS; }
+	   | DATE_T {$$=DATES;}
        ;
 ID_get:
 	ID 
@@ -307,6 +310,19 @@ value:
 		}
     |FLOAT{
   		value_init_float(&CONTEXT->values[CONTEXT->value_length++], $1);
+		}
+	|DATE_STR{
+		$1=substr($1,1,strlen($1)-2);
+		if(value_init_date(&CONTEXT->values[CONTEXT->value_length++],$1)==-1)
+		{
+			CONTEXT->ssql->flag=SCF_DATE_ERROR;
+			CONTEXT->condition_length=0;
+			CONTEXT->from_length=0;
+			CONTEXT->select_length=0;
+			CONTEXT->value_length=0;
+			CONTEXT->ssql->sstr.insertion.value_num=0;
+			YYABORT;
+			}
 		}
     |SSS {
 			$1 = substr($1,1,strlen($1)-2);
