@@ -96,14 +96,16 @@ extern int yydebug;
     LE = 297,                      /* LE  */
     GE = 298,                      /* GE  */
     NE = 299,                      /* NE  */
-    NUMBER = 300,                  /* NUMBER  */
-    FLOAT = 301,                   /* FLOAT  */
-    ID = 302,                      /* ID  */
-    DATE_STR = 303,                /* DATE_STR  */
-    PATH = 304,                    /* PATH  */
-    SSS = 305,                     /* SSS  */
-    STAR = 306,                    /* STAR  */
-    STRING_V = 307                 /* STRING_V  */
+    NOT = 300,                     /* NOT  */
+    LIKE = 301,                    /* LIKE  */
+    NUMBER = 302,                  /* NUMBER  */
+    FLOAT = 303,                   /* FLOAT  */
+    ID = 304,                      /* ID  */
+    DATE_STR = 305,                /* DATE_STR  */
+    PATH = 306,                    /* PATH  */
+    SSS = 307,                     /* SSS  */
+    STAR = 308,                    /* STAR  */
+    STRING_V = 309                 /* STRING_V  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

@@ -18,8 +18,10 @@ See the Mulan PSL v2 for more details. */
 #include "storage/record/record_manager.h"
 #include "common/log/log.h"
 #include "storage/common/table.h"
+#include <vector>
 
 using namespace common;
+using namespace std;
 
 ConditionFilter::~ConditionFilter()
 {}
@@ -124,6 +126,37 @@ RC DefaultConditionFilter::init(Table &table, const Condition &condition)
   return init(left, right, type_left, condition.comp);
 }
 
+bool DefaultConditionFilter::isMatch(char* s,char* p)const
+{
+  int m=strlen(s);
+  int n=strlen(p);
+  vector<vector<int>>dp(m+1,vector<int>(n+1));
+  dp[0][0]=true;
+  for(int i=1;i<=n;i++)
+  {
+    if(p[i-1]=='%')
+    {
+      dp[0][i]=true;
+    }else{
+      break;
+    }
+  }
+  for(int i=1;i<m;i++)
+  {
+    for(int j=1;j<=n;j++)
+    {
+      if(p[j-1]=='%')
+      {
+        dp[i][j]=dp[i][j-1]|dp[i-1][j];
+      }else if(p[j-1]=='_'||s[i-1]==p[j-1]){
+        dp[i][j]=dp[i-1][j-1];
+      }
+    }
+  }
+  LOG_WARN("DefaultConditionFilter::isMatch,%s--%d-------%s--%d-------%d",s,m,p,n,dp[m][n]);
+  return dp[m][n];
+}
+
 bool DefaultConditionFilter::filter(const Record &rec) const
 {
   char *left_value = nullptr;
@@ -182,6 +215,10 @@ bool DefaultConditionFilter::filter(const Record &rec) const
       return cmp_result >= 0;
     case GREAT_THAN:
       return cmp_result > 0;
+    case LIKE_:
+      return isMatch(left_value,right_value);
+    case NOT_LIKE:
+      return !isMatch(left_value,right_value);
 
     default:
       break;

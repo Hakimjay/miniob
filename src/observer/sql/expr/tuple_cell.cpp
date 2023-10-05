@@ -17,6 +17,9 @@ See the Mulan PSL v2 for more details. */
 #include "common/log/log.h"
 #include "util/comparator.h"
 #include "util/util.h"
+#include<vector>
+
+using namespace std;
 
 void TupleCell::to_string(std::ostream &os) const
 {
@@ -46,6 +49,35 @@ void TupleCell::to_string(std::ostream &os) const
     LOG_WARN("unsupported attr type: %d", attr_type_);
   } break;
   }
+}
+
+bool TupleCell::isMatch(const TupleCell &other)const{
+  char*s =(char *)this->data_;
+  char*p=(char*)other.data_;
+  int m=strlen(s);
+  int n=other.length_;
+  vector<vector<int>>dp(m+1,vector<int>(n+1));
+  dp[0][0]=true;
+  for(int i=1;i<=n;i++)
+  {
+    if(p[i-1]=='%')
+    dp[0][i]=true;
+    else
+    break;
+  }
+
+  for(int i=1;i<=m;i++)
+  for(int j=1;j<=n;j++)
+  {
+    if(p[j-1]=='%')
+    dp[i][j]=dp[i][j-1]|dp[i-1][j];
+    else if(p[j-1]=='_'||s[i-1]==p[j-1])
+    dp[i][j]=dp[i-1][j-1];
+  }
+  LOG_WARN("TupleCell::isMatch,%s--%d---------%s--%d--------%d",s,m,p,n,dp[m][n]);
+
+  return dp[m][n];
+
 }
 
 int TupleCell::compare(const TupleCell &other) const

@@ -37,6 +37,8 @@ public:
 
   void to_string(std::ostream &os) const;
 
+  bool isMatch(const TupleCell &other) const;
+
   int compare(const TupleCell &other) const;
 
   const char *data() const

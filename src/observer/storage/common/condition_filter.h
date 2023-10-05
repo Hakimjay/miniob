@@ -51,6 +51,9 @@ public:
   virtual bool filter(const Record &rec) const;
 
 public:
+
+  bool isMatch(char* s,char* p)const;
+
   const ConDesc &left() const
   {
     return left_;

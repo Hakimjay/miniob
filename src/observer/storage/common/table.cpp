@@ -847,6 +847,8 @@ IndexScanner *Table::find_index_for_scan(const DefaultConditionFilter &filter)
   bool left_inclusive = false;
   bool right_inclusive = false;
   switch (filter.comp_op()) {
+  case NOT_LIKE:
+  case LIKE_:
   case EQUAL_TO: {
     left_key = (const char *)value_cond_desc->value;
     right_key = (const char *)value_cond_desc->value;

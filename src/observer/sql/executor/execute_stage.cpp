@@ -321,6 +321,8 @@ IndexScanOperator *try_to_create_index_scan_operator(FilterStmt *filter_stmt)
     case LESS_THAN:   { comp = GREAT_EQUAL; } break;
     case GREAT_EQUAL: { comp = LESS_THAN; }   break;
     case GREAT_THAN:  { comp = LESS_EQUAL; }  break;
+    case LIKE_:       { comp = LIKE_; }       break;
+    case NOT_LIKE:    { comp = NOT_LIKE;}     break;
     default: {
     	LOG_WARN("should not happen");
     }
@@ -344,6 +346,8 @@ IndexScanOperator *try_to_create_index_scan_operator(FilterStmt *filter_stmt)
   bool right_inclusive = false;
 
   switch (comp) {
+  case LIKE_:
+  case NOT_LIKE:
   case EQUAL_TO: {
     left_cell = &value;
     right_cell = &value;

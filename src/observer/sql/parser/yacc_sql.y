@@ -103,6 +103,8 @@ ParserContext *get_context(yyscan_t scanner)
         LE
         GE
         NE
+		NOT
+		LIKE
 
 %union {
   struct _Attr *attr;
@@ -576,6 +578,8 @@ comOp:
     | LE { CONTEXT->comp = LESS_EQUAL; }
     | GE { CONTEXT->comp = GREAT_EQUAL; }
     | NE { CONTEXT->comp = NOT_EQUAL; }
+	| LIKE {CONTEXT->comp = LIKE_;}
+	| NOT LIKE { CONTEXT->comp =NOT_LIKE;}
     ;
 
 load_data:
