@@ -271,7 +271,7 @@ RC insert_record_from_file(
           if(value_init_date(&record_values[i],str)==-1)
           rc=RC::RECORD_INVALID_KEY;
         }
-      }
+      }break;
       default: {
         errmsg << "Unsupported field type to loading: " << field->type();
         rc = RC::SCHEMA_FIELD_TYPE_MISMATCH;
