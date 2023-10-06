@@ -74,7 +74,7 @@ QUOTE            [\'\"]
 [Dd][Aa][Tt][Ee]                                     RETURN_TOKEN(DATE_T);
 [Nn][Oo][Tt]                                         RETURN_TOKEN(NOT);
 [Ll][Ii][Kk][Ee]                                     RETURN_TOKEN(LIKE);
-{QUOTE}[0-9]{4}\-(0?[1-9]|[0-9]{2})\-(0?[1-9]|[0-9]{2}){QUOTE}  yylval->string=strdup(yytext); RETURN_TOKEN(DATE_STR);
+{QUOTE}[0-9]{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01]){QUOTE}  yylval->string=strdup(yytext); RETURN_TOKEN(DATE_STR);
 {ID}                                                 yylval->string=strdup(yytext); RETURN_TOKEN(ID);
 "("                                                  RETURN_TOKEN(LBRACE);
 ")"                                                  RETURN_TOKEN(RBRACE);
