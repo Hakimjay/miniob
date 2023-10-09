@@ -272,7 +272,7 @@ type:
 	INT_T { $$=INTS; }
        | STRING_T { $$=CHARS; }
        | FLOAT_T { $$=FLOATS; }
-	   | DATE_T {$$=DATES;}
+	   | DATE_T { $$=DATES; }
        ;
 ID_get:
 	ID 
@@ -315,8 +315,7 @@ value:
 		}
 	|DATE_STR{
 		$1=substr($1,1,strlen($1)-2);
-		if(value_init_date(&CONTEXT->values[CONTEXT->value_length++],$1)==-1)
-		{
+		if(value_init_date(&CONTEXT->values[CONTEXT->value_length++],$1)==-1){
 			CONTEXT->ssql->flag=SCF_DATE_ERROR;
 			CONTEXT->condition_length=0;
 			CONTEXT->from_length=0;
@@ -326,7 +325,7 @@ value:
 			YYABORT;
 			}
 		}
-    |SSS {
+    |SSS{
 			$1 = substr($1,1,strlen($1)-2);
   		value_init_string(&CONTEXT->values[CONTEXT->value_length++], $1);
 		}
