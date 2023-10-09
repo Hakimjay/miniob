@@ -83,6 +83,23 @@ RC Db::create_table(const char *table_name, int attribute_count, const AttrInfo 
   LOG_INFO("Create table success. table name=%s", table_name);
   return RC::SUCCESS;
 }
+RC Db::drop_table(const char* table_name)
+{
+    std::unordered_map<std::string, Table *>::const_iterator iter = opened_tables_.find(table_name);
+    if (iter == opened_tables_.end()){
+        LOG_WARN("Failed to find %s.", table_name);
+        return SCHEMA_TABLE_NOT_EXIST; 
+    }
+    Table* table = iter->second;
+    RC rc = table->destroy(path_.c_str()); // 让表自己销毁资源
+    if(rc != RC::SUCCESS){
+      LOG_ERROR("Failed to destroy table %s.",table_name);
+      return rc;
+    }
+    opened_tables_.erase(iter); // 删除成功的话，从表list中将它删除
+    delete table;
+    return RC::SUCCESS;
+}
 
 Table *Db::find_table(const char *table_name) const
 {
