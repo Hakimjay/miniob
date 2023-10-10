@@ -48,7 +48,7 @@ public:
   RC create(const char *path, const char *name, const char *base_dir, int attribute_count, const AttrInfo attributes[],
       CLogManager *clog_manager);
       
-  RC destroy(const char* dir);
+  RC drop(const char *path, const char *name, const char *base_dir);
   /**
    * 打开一个表
    * @param meta_file 保存表元数据的文件完整路径
@@ -100,7 +100,6 @@ private:
 
 public:
   RC recover_insert_record(Record *record);
-
 private:
   friend class RecordUpdater;
   friend class RecordDeleter;
@@ -110,6 +109,7 @@ private:
 
 private:
   RC init_record_handler(const char *base_dir);
+  RC remove_record_handler();
   RC make_record(int value_num, const Value *values, char *&record_out);
 
 public:

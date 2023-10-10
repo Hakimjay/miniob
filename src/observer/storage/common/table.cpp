@@ -120,37 +120,44 @@ RC Table::create(
   return rc;
 }
 
-RC Table::destroy(const char* dir) {
-    RC rc = sync();
+RC Table::drop(const char *path, const char *name, const char *base_dir) {
 
-    if(rc != RC::SUCCESS) return rc;
+  if (common::is_blank(name)) {
+    LOG_WARN("Name cannot be empty");
+    return RC::INVALID_ARGUMENT;
+  }
+  LOG_INFO("Begin to drop table %s:%s", base_dir, name);
 
-    //删除元文件
-    std::string path = table_meta_file(dir, name());
-    if(unlink(path.c_str()) != 0) {
-        LOG_ERROR("Failed to remove meta file=%s, errno=%d", path.c_str(), errno);
-        return RC::GENERIC_ERROR;
+  int fd = ::open(path, O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC, 0600);
+  if (fd < 0) {
+    if (EEXIST != errno) {
+      LOG_ERROR("Failed to drop table file, it not exists. %s, EEXIST, %s", path, strerror(errno));
+      return RC::SCHEMA_TABLE_NOT_EXIST;
     }
+  }
+  close(fd);
 
-    //删除元数据
-    std::string data_file = std::string(dir) + "/" + name() + TABLE_DATA_SUFFIX;
-    if(unlink(data_file.c_str()) != 0) { 
-        LOG_ERROR("Failed to remove data file=%s, errno=%d", data_file.c_str(), errno);
-        return RC::GENERIC_ERROR;
-    }
+  RC rc = remove_record_handler();
+  if (rc != RC::SUCCESS) {
+    LOG_ERROR("Failed to drop table %s due to remove record handler failed.", name);
+    return rc;
+  }
 
-    //删除索引文件
-    const int index_num = table_meta_.index_num();
-    for (int i = 0; i < index_num; i++) {  
-        ((BplusTreeIndex*)indexes_[i])->close();
-        const IndexMeta* index_meta = table_meta_.index(i);
-        std::string index_file = table_index_file(dir, name(), index_meta->name());
-        if(unlink(index_file.c_str()) != 0) {
-            LOG_ERROR("Failed to remove index file=%s, errno=%d", index_file.c_str(), errno);
-            return RC::GENERIC_ERROR;
-        }
-    }
-    return RC::SUCCESS;
+  std::string data_file = table_data_file(base_dir, name);
+  BufferPoolManager &bpm = BufferPoolManager::instance();
+  rc = bpm.remove_file(data_file.c_str());
+  if(rc!=RC::SUCCESS){
+    LOG_ERROR("Failed to drop table %s due to remove buffer pool file failed.",name);
+    return rc;
+  }
+  
+  if(remove(path)!=RC::SUCCESS){
+    LOG_ERROR("Failed to drop table %s due to remove path failed.",name);
+    return RC::IOERR;
+  }
+  
+  return RC::SUCCESS;
+  
 }
 
 
@@ -332,6 +339,28 @@ RC Table::recover_insert_record(Record *record)
 
   return rc;
 }
+RC Table::remove_record_handler()
+{
+  RC rc =RC::SUCCESS;
+  if(record_handler_){
+    record_handler_->close();
+    delete record_handler_;
+    record_handler_=nullptr;
+  }
+
+  if(data_buffer_pool_)
+  {
+    rc=data_buffer_pool_->close_file();
+    if(rc != RC::SUCCESS)
+    {
+      LOG_ERROR("Failed to delete data buffer pool.");
+      return rc;
+    }
+    data_buffer_pool_=nullptr;
+  }
+  return rc;
+
+}
 
 RC Table::insert_record(Trx *trx, int value_num, const Value *values)
 {
@@ -430,6 +459,7 @@ RC Table::init_record_handler(const char *base_dir)
 
   return rc;
 }
+
 
 RC Table::get_record_scanner(RecordFileScanner &scanner)
 {

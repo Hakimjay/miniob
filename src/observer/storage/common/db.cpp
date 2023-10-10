@@ -90,13 +90,14 @@ RC Db::drop_table(const char* table_name)
         LOG_WARN("Failed to find %s.", table_name);
         return SCHEMA_TABLE_NOT_EXIST; 
     }
+    std::string table_file_path = table_meta_file(path_.c_str(), table_name);
     Table* table = iter->second;
-    RC rc = table->destroy(path_.c_str()); // 让表自己销毁资源
+    RC rc = table->drop(table_file_path.c_str(), table_name, path_.c_str()); 
     if(rc != RC::SUCCESS){
       LOG_ERROR("Failed to destroy table %s.",table_name);
       return rc;
     }
-    opened_tables_.erase(iter); // 删除成功的话，从表list中将它删除
+    opened_tables_.erase(iter); 
     delete table;
     return RC::SUCCESS;
 }
