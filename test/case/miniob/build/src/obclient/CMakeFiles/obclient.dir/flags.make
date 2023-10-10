@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DLINUX -DUNIX
 
-CXX_INCLUDES = -I/home/ajay/local/miniob/test/case/miniob/miniob/src/obclient/. -I/home/ajay/local/miniob/test/case/miniob/miniob/src/../deps
+CXX_INCLUDES = -I/home/ajay/local/miniob/test/case/miniob/miniob/. -I/home/ajay/local/miniob/test/case/miniob/miniob/deps
 
-CXX_FLAGS =  -Wall -DCMAKE_EXPORT_COMPILE_COMMANDS=1  -O2 -g  -std=gnu++14
+CXX_FLAGS = -std=gnu++20
 

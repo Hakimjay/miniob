@@ -125,10 +125,24 @@ deps/common/CMakeFiles/common.dir/lang/bitmap.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/common.dir/lang/bitmap.cpp.s"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/bitmap.cpp -o CMakeFiles/common.dir/lang/bitmap.cpp.s
 
+deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
+deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/comparator.cpp
+deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o"
+	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o -MF CMakeFiles/common.dir/lang/comparator.cpp.o.d -o CMakeFiles/common.dir/lang/comparator.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/comparator.cpp
+
+deps/common/CMakeFiles/common.dir/lang/comparator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/common.dir/lang/comparator.cpp.i"
+	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/comparator.cpp > CMakeFiles/common.dir/lang/comparator.cpp.i
+
+deps/common/CMakeFiles/common.dir/lang/comparator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/common.dir/lang/comparator.cpp.s"
+	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/comparator.cpp -o CMakeFiles/common.dir/lang/comparator.cpp.s
+
 deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/mutex.cpp
 deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o -MF CMakeFiles/common.dir/lang/mutex.cpp.o.d -o CMakeFiles/common.dir/lang/mutex.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/mutex.cpp
 
 deps/common/CMakeFiles/common.dir/lang/mutex.cpp.i: cmake_force
@@ -142,7 +156,7 @@ deps/common/CMakeFiles/common.dir/lang/mutex.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/lang/string.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/lang/string.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/string.cpp
 deps/common/CMakeFiles/common.dir/lang/string.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object deps/common/CMakeFiles/common.dir/lang/string.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object deps/common/CMakeFiles/common.dir/lang/string.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/lang/string.cpp.o -MF CMakeFiles/common.dir/lang/string.cpp.o.d -o CMakeFiles/common.dir/lang/string.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/lang/string.cpp
 
 deps/common/CMakeFiles/common.dir/lang/string.cpp.i: cmake_force
@@ -156,7 +170,7 @@ deps/common/CMakeFiles/common.dir/lang/string.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/log/log.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/log/log.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/log/log.cpp
 deps/common/CMakeFiles/common.dir/log/log.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object deps/common/CMakeFiles/common.dir/log/log.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object deps/common/CMakeFiles/common.dir/log/log.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/log/log.cpp.o -MF CMakeFiles/common.dir/log/log.cpp.o.d -o CMakeFiles/common.dir/log/log.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/log/log.cpp
 
 deps/common/CMakeFiles/common.dir/log/log.cpp.i: cmake_force
@@ -170,7 +184,7 @@ deps/common/CMakeFiles/common.dir/log/log.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/math/md5.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/math/md5.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/math/md5.cpp
 deps/common/CMakeFiles/common.dir/math/md5.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object deps/common/CMakeFiles/common.dir/math/md5.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object deps/common/CMakeFiles/common.dir/math/md5.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/math/md5.cpp.o -MF CMakeFiles/common.dir/math/md5.cpp.o.d -o CMakeFiles/common.dir/math/md5.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/math/md5.cpp
 
 deps/common/CMakeFiles/common.dir/math/md5.cpp.i: cmake_force
@@ -184,7 +198,7 @@ deps/common/CMakeFiles/common.dir/math/md5.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/math/random_generator.cpp
 deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o -MF CMakeFiles/common.dir/math/random_generator.cpp.o.d -o CMakeFiles/common.dir/math/random_generator.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/math/random_generator.cpp
 
 deps/common/CMakeFiles/common.dir/math/random_generator.cpp.i: cmake_force
@@ -198,7 +212,7 @@ deps/common/CMakeFiles/common.dir/math/random_generator.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/math/regex.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/math/regex.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/math/regex.cpp
 deps/common/CMakeFiles/common.dir/math/regex.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object deps/common/CMakeFiles/common.dir/math/regex.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object deps/common/CMakeFiles/common.dir/math/regex.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/math/regex.cpp.o -MF CMakeFiles/common.dir/math/regex.cpp.o.d -o CMakeFiles/common.dir/math/regex.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/math/regex.cpp
 
 deps/common/CMakeFiles/common.dir/math/regex.cpp.i: cmake_force
@@ -212,7 +226,7 @@ deps/common/CMakeFiles/common.dir/math/regex.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/console_reporter.cpp
 deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o -MF CMakeFiles/common.dir/metrics/console_reporter.cpp.o.d -o CMakeFiles/common.dir/metrics/console_reporter.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/console_reporter.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.i: cmake_force
@@ -226,7 +240,7 @@ deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/histogram_snapshot.cpp
 deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o -MF CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o.d -o CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/histogram_snapshot.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.i: cmake_force
@@ -240,7 +254,7 @@ deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/log_reporter.cpp
 deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o -MF CMakeFiles/common.dir/metrics/log_reporter.cpp.o.d -o CMakeFiles/common.dir/metrics/log_reporter.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/log_reporter.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.i: cmake_force
@@ -254,7 +268,7 @@ deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/metrics.cpp
 deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o -MF CMakeFiles/common.dir/metrics/metrics.cpp.o.d -o CMakeFiles/common.dir/metrics/metrics.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/metrics.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.i: cmake_force
@@ -268,7 +282,7 @@ deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/metrics_registry.cpp
 deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o -MF CMakeFiles/common.dir/metrics/metrics_registry.cpp.o.d -o CMakeFiles/common.dir/metrics/metrics_registry.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/metrics_registry.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.i: cmake_force
@@ -282,7 +296,7 @@ deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/reporter.cpp
 deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o -MF CMakeFiles/common.dir/metrics/reporter.cpp.o.d -o CMakeFiles/common.dir/metrics/reporter.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/reporter.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.i: cmake_force
@@ -296,7 +310,7 @@ deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/reservoir.cpp
 deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o -MF CMakeFiles/common.dir/metrics/reservoir.cpp.o.d -o CMakeFiles/common.dir/metrics/reservoir.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/reservoir.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.i: cmake_force
@@ -310,7 +324,7 @@ deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/sampler.cpp
 deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o -MF CMakeFiles/common.dir/metrics/sampler.cpp.o.d -o CMakeFiles/common.dir/metrics/sampler.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/sampler.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.i: cmake_force
@@ -324,7 +338,7 @@ deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/timer_snapshot.cpp
 deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o -MF CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o.d -o CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/timer_snapshot.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.i: cmake_force
@@ -338,7 +352,7 @@ deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/uniform_reservoir.cpp
 deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o -MF CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o.d -o CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/metrics/uniform_reservoir.cpp
 
 deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.i: cmake_force
@@ -352,7 +366,7 @@ deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/mm/mem_pool.cpp
 deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o -MF CMakeFiles/common.dir/mm/mem_pool.cpp.o.d -o CMakeFiles/common.dir/mm/mem_pool.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/mm/mem_pool.cpp
 
 deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.i: cmake_force
@@ -366,7 +380,7 @@ deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/os/os.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/os/os.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/os.cpp
 deps/common/CMakeFiles/common.dir/os/os.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object deps/common/CMakeFiles/common.dir/os/os.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object deps/common/CMakeFiles/common.dir/os/os.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/os/os.cpp.o -MF CMakeFiles/common.dir/os/os.cpp.o.d -o CMakeFiles/common.dir/os/os.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/os.cpp
 
 deps/common/CMakeFiles/common.dir/os/os.cpp.i: cmake_force
@@ -380,7 +394,7 @@ deps/common/CMakeFiles/common.dir/os/os.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/os/path.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/os/path.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/path.cpp
 deps/common/CMakeFiles/common.dir/os/path.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object deps/common/CMakeFiles/common.dir/os/path.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object deps/common/CMakeFiles/common.dir/os/path.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/os/path.cpp.o -MF CMakeFiles/common.dir/os/path.cpp.o.d -o CMakeFiles/common.dir/os/path.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/path.cpp
 
 deps/common/CMakeFiles/common.dir/os/path.cpp.i: cmake_force
@@ -394,7 +408,7 @@ deps/common/CMakeFiles/common.dir/os/path.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/pidfile.cpp
 deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o -MF CMakeFiles/common.dir/os/pidfile.cpp.o.d -o CMakeFiles/common.dir/os/pidfile.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/pidfile.cpp
 
 deps/common/CMakeFiles/common.dir/os/pidfile.cpp.i: cmake_force
@@ -408,7 +422,7 @@ deps/common/CMakeFiles/common.dir/os/pidfile.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/os/process.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/os/process.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/process.cpp
 deps/common/CMakeFiles/common.dir/os/process.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object deps/common/CMakeFiles/common.dir/os/process.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object deps/common/CMakeFiles/common.dir/os/process.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/os/process.cpp.o -MF CMakeFiles/common.dir/os/process.cpp.o.d -o CMakeFiles/common.dir/os/process.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/process.cpp
 
 deps/common/CMakeFiles/common.dir/os/process.cpp.i: cmake_force
@@ -422,7 +436,7 @@ deps/common/CMakeFiles/common.dir/os/process.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/os/process_param.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/os/process_param.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/process_param.cpp
 deps/common/CMakeFiles/common.dir/os/process_param.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object deps/common/CMakeFiles/common.dir/os/process_param.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object deps/common/CMakeFiles/common.dir/os/process_param.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/os/process_param.cpp.o -MF CMakeFiles/common.dir/os/process_param.cpp.o.d -o CMakeFiles/common.dir/os/process_param.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/process_param.cpp
 
 deps/common/CMakeFiles/common.dir/os/process_param.cpp.i: cmake_force
@@ -436,7 +450,7 @@ deps/common/CMakeFiles/common.dir/os/process_param.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/os/signal.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/os/signal.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/signal.cpp
 deps/common/CMakeFiles/common.dir/os/signal.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object deps/common/CMakeFiles/common.dir/os/signal.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object deps/common/CMakeFiles/common.dir/os/signal.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/os/signal.cpp.o -MF CMakeFiles/common.dir/os/signal.cpp.o.d -o CMakeFiles/common.dir/os/signal.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/os/signal.cpp
 
 deps/common/CMakeFiles/common.dir/os/signal.cpp.i: cmake_force
@@ -450,7 +464,7 @@ deps/common/CMakeFiles/common.dir/os/signal.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/callback.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/callback.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/callback.cpp
 deps/common/CMakeFiles/common.dir/seda/callback.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object deps/common/CMakeFiles/common.dir/seda/callback.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object deps/common/CMakeFiles/common.dir/seda/callback.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/callback.cpp.o -MF CMakeFiles/common.dir/seda/callback.cpp.o.d -o CMakeFiles/common.dir/seda/callback.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/callback.cpp
 
 deps/common/CMakeFiles/common.dir/seda/callback.cpp.i: cmake_force
@@ -464,7 +478,7 @@ deps/common/CMakeFiles/common.dir/seda/callback.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/event_dispatcher.cpp
 deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o -MF CMakeFiles/common.dir/seda/event_dispatcher.cpp.o.d -o CMakeFiles/common.dir/seda/event_dispatcher.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/event_dispatcher.cpp
 
 deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.i: cmake_force
@@ -478,7 +492,7 @@ deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/example_stage.cpp
 deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o -MF CMakeFiles/common.dir/seda/example_stage.cpp.o.d -o CMakeFiles/common.dir/seda/example_stage.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/example_stage.cpp
 
 deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.i: cmake_force
@@ -492,7 +506,7 @@ deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/init.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/init.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/init.cpp
 deps/common/CMakeFiles/common.dir/seda/init.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object deps/common/CMakeFiles/common.dir/seda/init.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object deps/common/CMakeFiles/common.dir/seda/init.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/init.cpp.o -MF CMakeFiles/common.dir/seda/init.cpp.o.d -o CMakeFiles/common.dir/seda/init.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/init.cpp
 
 deps/common/CMakeFiles/common.dir/seda/init.cpp.i: cmake_force
@@ -506,7 +520,7 @@ deps/common/CMakeFiles/common.dir/seda/init.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/kill_thread.cpp
 deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o -MF CMakeFiles/common.dir/seda/kill_thread.cpp.o.d -o CMakeFiles/common.dir/seda/kill_thread.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/kill_thread.cpp
 
 deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.i: cmake_force
@@ -520,7 +534,7 @@ deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/metrics_report_event.cpp
 deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o -MF CMakeFiles/common.dir/seda/metrics_report_event.cpp.o.d -o CMakeFiles/common.dir/seda/metrics_report_event.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/metrics_report_event.cpp
 
 deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.i: cmake_force
@@ -534,7 +548,7 @@ deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/metrics_stage.cpp
 deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o -MF CMakeFiles/common.dir/seda/metrics_stage.cpp.o.d -o CMakeFiles/common.dir/seda/metrics_stage.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/metrics_stage.cpp
 
 deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.i: cmake_force
@@ -548,7 +562,7 @@ deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/seda_config.cpp
 deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o -MF CMakeFiles/common.dir/seda/seda_config.cpp.o.d -o CMakeFiles/common.dir/seda/seda_config.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/seda_config.cpp
 
 deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.i: cmake_force
@@ -562,7 +576,7 @@ deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/stage.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/stage.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/stage.cpp
 deps/common/CMakeFiles/common.dir/seda/stage.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object deps/common/CMakeFiles/common.dir/seda/stage.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object deps/common/CMakeFiles/common.dir/seda/stage.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/stage.cpp.o -MF CMakeFiles/common.dir/seda/stage.cpp.o.d -o CMakeFiles/common.dir/seda/stage.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/stage.cpp
 
 deps/common/CMakeFiles/common.dir/seda/stage.cpp.i: cmake_force
@@ -576,7 +590,7 @@ deps/common/CMakeFiles/common.dir/seda/stage.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/stage_event.cpp
 deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o -MF CMakeFiles/common.dir/seda/stage_event.cpp.o.d -o CMakeFiles/common.dir/seda/stage_event.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/stage_event.cpp
 
 deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.i: cmake_force
@@ -590,7 +604,7 @@ deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/thread_pool.cpp
 deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o -MF CMakeFiles/common.dir/seda/thread_pool.cpp.o.d -o CMakeFiles/common.dir/seda/thread_pool.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/thread_pool.cpp
 
 deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.i: cmake_force
@@ -604,7 +618,7 @@ deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/timer_stage.cpp
 deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o -MF CMakeFiles/common.dir/seda/timer_stage.cpp.o.d -o CMakeFiles/common.dir/seda/timer_stage.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/seda/timer_stage.cpp
 
 deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.i: cmake_force
@@ -618,7 +632,7 @@ deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/time/datetime.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/time/datetime.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/time/datetime.cpp
 deps/common/CMakeFiles/common.dir/time/datetime.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object deps/common/CMakeFiles/common.dir/time/datetime.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object deps/common/CMakeFiles/common.dir/time/datetime.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/time/datetime.cpp.o -MF CMakeFiles/common.dir/time/datetime.cpp.o.d -o CMakeFiles/common.dir/time/datetime.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/time/datetime.cpp
 
 deps/common/CMakeFiles/common.dir/time/datetime.cpp.i: cmake_force
@@ -632,7 +646,7 @@ deps/common/CMakeFiles/common.dir/time/datetime.cpp.s: cmake_force
 deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o: deps/common/CMakeFiles/common.dir/flags.make
 deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o: /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/time/timeout_info.cpp
 deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o: deps/common/CMakeFiles/common.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o"
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o -MF CMakeFiles/common.dir/time/timeout_info.cpp.o.d -o CMakeFiles/common.dir/time/timeout_info.cpp.o -c /home/ajay/local/miniob/test/case/miniob/miniob/deps/common/time/timeout_info.cpp
 
 deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.i: cmake_force
@@ -649,6 +663,7 @@ common_OBJECTS = \
 "CMakeFiles/common.dir/io/io.cpp.o" \
 "CMakeFiles/common.dir/io/roll_select_dir.cpp.o" \
 "CMakeFiles/common.dir/lang/bitmap.cpp.o" \
+"CMakeFiles/common.dir/lang/comparator.cpp.o" \
 "CMakeFiles/common.dir/lang/mutex.cpp.o" \
 "CMakeFiles/common.dir/lang/string.cpp.o" \
 "CMakeFiles/common.dir/log/log.cpp.o" \
@@ -690,61 +705,56 @@ common_OBJECTS = \
 # External object files for target common
 common_EXTERNAL_OBJECTS =
 
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/conf/ini.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/io/io.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/io/roll_select_dir.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/lang/bitmap.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/lang/string.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/log/log.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/math/md5.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/math/regex.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/os/os.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/os/path.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/os/process.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/os/process_param.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/os/signal.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/callback.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/init.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/stage.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/time/datetime.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/build.make
-lib/libcommon.so.1.0.0: deps/common/CMakeFiles/common.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Linking CXX shared library ../../lib/libcommon.so"
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/conf/ini.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/io/io.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/io/roll_select_dir.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/lang/bitmap.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/lang/string.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/log/log.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/math/md5.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/math/regex.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/os/os.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/os/path.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/os/process.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/os/process_param.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/os/signal.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/callback.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/init.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/stage.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/time/datetime.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/build.make
+lib/libcommon.a: deps/common/CMakeFiles/common.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Linking CXX static library ../../lib/libcommon.a"
+	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && $(CMAKE_COMMAND) -P CMakeFiles/common.dir/cmake_clean_target.cmake
 	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/common.dir/link.txt --verbose=$(VERBOSE)
-	cd /home/ajay/local/miniob/test/case/miniob/build/deps/common && $(CMAKE_COMMAND) -E cmake_symlink_library ../../lib/libcommon.so.1.0.0 ../../lib/libcommon.so.1 ../../lib/libcommon.so
-
-lib/libcommon.so.1: lib/libcommon.so.1.0.0
-	@$(CMAKE_COMMAND) -E touch_nocreate lib/libcommon.so.1
-
-lib/libcommon.so: lib/libcommon.so.1.0.0
-	@$(CMAKE_COMMAND) -E touch_nocreate lib/libcommon.so
 
 # Rule to build all files generated by this target.
-deps/common/CMakeFiles/common.dir/build: lib/libcommon.so
+deps/common/CMakeFiles/common.dir/build: lib/libcommon.a
 .PHONY : deps/common/CMakeFiles/common.dir/build
 
 deps/common/CMakeFiles/common.dir/clean:

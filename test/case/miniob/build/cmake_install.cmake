@@ -53,9 +53,12 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/ajay/local/miniob/test/case/miniob/build/deps/cmake_install.cmake")
-  include("/home/ajay/local/miniob/test/case/miniob/build/src/cmake_install.cmake")
+  include("/home/ajay/local/miniob/test/case/miniob/build/src/obclient/cmake_install.cmake")
+  include("/home/ajay/local/miniob/test/case/miniob/build/src/observer/cmake_install.cmake")
   include("/home/ajay/local/miniob/test/case/miniob/build/test/perf/cmake_install.cmake")
-  include("/home/ajay/local/miniob/test/case/miniob/build/unitest/cmake_install.cmake")
+  include("/home/ajay/local/miniob/test/case/miniob/build/benchmark/cmake_install.cmake")
+  include("/home/ajay/local/miniob/test/case/miniob/build/tools/cmake_install.cmake")
+  include("/home/ajay/local/miniob/test/case/miniob/build/unittest/cmake_install.cmake")
 
 endif()
 

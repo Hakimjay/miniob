@@ -92,7 +92,7 @@ obclient_EXTERNAL_OBJECTS =
 
 bin/obclient: src/obclient/CMakeFiles/obclient.dir/client.cpp.o
 bin/obclient: src/obclient/CMakeFiles/obclient.dir/build.make
-bin/obclient: lib/libcommon.so.1.0.0
+bin/obclient: lib/libcommon.a
 bin/obclient: src/obclient/CMakeFiles/obclient.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../../bin/obclient"
 	cd /home/ajay/local/miniob/test/case/miniob/build/src/obclient && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/obclient.dir/link.txt --verbose=$(VERBOSE)

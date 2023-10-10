@@ -92,8 +92,11 @@ client_performance_test_EXTERNAL_OBJECTS =
 
 bin/client_performance_test: test/perf/CMakeFiles/client_performance_test.dir/client_performance_test.cpp.o
 bin/client_performance_test: test/perf/CMakeFiles/client_performance_test.dir/build.make
+bin/client_performance_test: lib/libcommon.a
 bin/client_performance_test: lib/libobserver.a
-bin/client_performance_test: lib/libcommon.so.1.0.0
+bin/client_performance_test: lib/libcommon.a
+bin/client_performance_test: /usr/local/lib/libevent_pthreads.a
+bin/client_performance_test: /usr/local/lib/libevent_core.a
 bin/client_performance_test: test/perf/CMakeFiles/client_performance_test.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ajay/local/miniob/test/case/miniob/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../../bin/client_performance_test"
 	cd /home/ajay/local/miniob/test/case/miniob/build/test/perf && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client_performance_test.dir/link.txt --verbose=$(VERBOSE)

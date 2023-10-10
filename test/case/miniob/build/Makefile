@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/ajay/local/miniob/test/case/miniob/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -175,19 +185,6 @@ common/fast:
 .PHONY : common/fast
 
 #=============================================================================
-# Target rules for targets named common_static
-
-# Build rule for target.
-common_static: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 common_static
-.PHONY : common_static
-
-# fast build rule for target.
-common_static/fast:
-	$(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/build
-.PHONY : common_static/fast
-
-#=============================================================================
 # Target rules for targets named obclient
 
 # Build rule for target.
@@ -240,6 +237,71 @@ client_performance_test/fast:
 .PHONY : client_performance_test/fast
 
 #=============================================================================
+# Target rules for targets named bplus_tree_concurrency_test
+
+# Build rule for target.
+bplus_tree_concurrency_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bplus_tree_concurrency_test
+.PHONY : bplus_tree_concurrency_test
+
+# fast build rule for target.
+bplus_tree_concurrency_test/fast:
+	$(MAKE) $(MAKESILENT) -f benchmark/CMakeFiles/bplus_tree_concurrency_test.dir/build.make benchmark/CMakeFiles/bplus_tree_concurrency_test.dir/build
+.PHONY : bplus_tree_concurrency_test/fast
+
+#=============================================================================
+# Target rules for targets named record_manager_concurrency_test
+
+# Build rule for target.
+record_manager_concurrency_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 record_manager_concurrency_test
+.PHONY : record_manager_concurrency_test
+
+# fast build rule for target.
+record_manager_concurrency_test/fast:
+	$(MAKE) $(MAKESILENT) -f benchmark/CMakeFiles/record_manager_concurrency_test.dir/build.make benchmark/CMakeFiles/record_manager_concurrency_test.dir/build
+.PHONY : record_manager_concurrency_test/fast
+
+#=============================================================================
+# Target rules for targets named server_concurrency_test
+
+# Build rule for target.
+server_concurrency_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server_concurrency_test
+.PHONY : server_concurrency_test
+
+# fast build rule for target.
+server_concurrency_test/fast:
+	$(MAKE) $(MAKESILENT) -f benchmark/CMakeFiles/server_concurrency_test.dir/build.make benchmark/CMakeFiles/server_concurrency_test.dir/build
+.PHONY : server_concurrency_test/fast
+
+#=============================================================================
+# Target rules for targets named clog_reader
+
+# Build rule for target.
+clog_reader: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clog_reader
+.PHONY : clog_reader
+
+# fast build rule for target.
+clog_reader/fast:
+	$(MAKE) $(MAKESILENT) -f tools/CMakeFiles/clog_reader.dir/build.make tools/CMakeFiles/clog_reader.dir/build
+.PHONY : clog_reader/fast
+
+#=============================================================================
+# Target rules for targets named arithmetic_expression_test
+
+# Build rule for target.
+arithmetic_expression_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 arithmetic_expression_test
+.PHONY : arithmetic_expression_test
+
+# fast build rule for target.
+arithmetic_expression_test/fast:
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/arithmetic_expression_test.dir/build.make unittest/CMakeFiles/arithmetic_expression_test.dir/build
+.PHONY : arithmetic_expression_test/fast
+
+#=============================================================================
 # Target rules for targets named bitmap_test
 
 # Build rule for target.
@@ -249,7 +311,7 @@ bitmap_test: cmake_check_build_system
 
 # fast build rule for target.
 bitmap_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/bitmap_test.dir/build.make unitest/CMakeFiles/bitmap_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/bitmap_test.dir/build.make unittest/CMakeFiles/bitmap_test.dir/build
 .PHONY : bitmap_test/fast
 
 #=============================================================================
@@ -262,7 +324,7 @@ bp_manager_test: cmake_check_build_system
 
 # fast build rule for target.
 bp_manager_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/bp_manager_test.dir/build.make unitest/CMakeFiles/bp_manager_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/bp_manager_test.dir/build.make unittest/CMakeFiles/bp_manager_test.dir/build
 .PHONY : bp_manager_test/fast
 
 #=============================================================================
@@ -275,7 +337,7 @@ bplus_tree_test: cmake_check_build_system
 
 # fast build rule for target.
 bplus_tree_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/bplus_tree_test.dir/build.make unitest/CMakeFiles/bplus_tree_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/bplus_tree_test.dir/build.make unittest/CMakeFiles/bplus_tree_test.dir/build
 .PHONY : bplus_tree_test/fast
 
 #=============================================================================
@@ -288,7 +350,7 @@ clog_test: cmake_check_build_system
 
 # fast build rule for target.
 clog_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/clog_test.dir/build.make unitest/CMakeFiles/clog_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/clog_test.dir/build.make unittest/CMakeFiles/clog_test.dir/build
 .PHONY : clog_test/fast
 
 #=============================================================================
@@ -301,7 +363,7 @@ log_test: cmake_check_build_system
 
 # fast build rule for target.
 log_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/log_test.dir/build.make unitest/CMakeFiles/log_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/log_test.dir/build.make unittest/CMakeFiles/log_test.dir/build
 .PHONY : log_test/fast
 
 #=============================================================================
@@ -314,7 +376,7 @@ lower_bound_test: cmake_check_build_system
 
 # fast build rule for target.
 lower_bound_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/lower_bound_test.dir/build.make unitest/CMakeFiles/lower_bound_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/lower_bound_test.dir/build.make unittest/CMakeFiles/lower_bound_test.dir/build
 .PHONY : lower_bound_test/fast
 
 #=============================================================================
@@ -327,7 +389,7 @@ md5_test: cmake_check_build_system
 
 # fast build rule for target.
 md5_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/md5_test.dir/build.make unitest/CMakeFiles/md5_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/md5_test.dir/build.make unittest/CMakeFiles/md5_test.dir/build
 .PHONY : md5_test/fast
 
 #=============================================================================
@@ -340,21 +402,8 @@ mem_pool_test: cmake_check_build_system
 
 # fast build rule for target.
 mem_pool_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/mem_pool_test.dir/build.make unitest/CMakeFiles/mem_pool_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/mem_pool_test.dir/build.make unittest/CMakeFiles/mem_pool_test.dir/build
 .PHONY : mem_pool_test/fast
-
-#=============================================================================
-# Target rules for targets named path_test
-
-# Build rule for target.
-path_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 path_test
-.PHONY : path_test
-
-# fast build rule for target.
-path_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/path_test.dir/build.make unitest/CMakeFiles/path_test.dir/build
-.PHONY : path_test/fast
 
 #=============================================================================
 # Target rules for targets named persist_test
@@ -366,7 +415,7 @@ persist_test: cmake_check_build_system
 
 # fast build rule for target.
 persist_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/persist_test.dir/build.make unitest/CMakeFiles/persist_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/persist_test.dir/build.make unittest/CMakeFiles/persist_test.dir/build
 .PHONY : persist_test/fast
 
 #=============================================================================
@@ -379,21 +428,8 @@ pidfile_test: cmake_check_build_system
 
 # fast build rule for target.
 pidfile_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/pidfile_test.dir/build.make unitest/CMakeFiles/pidfile_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/pidfile_test.dir/build.make unittest/CMakeFiles/pidfile_test.dir/build
 .PHONY : pidfile_test/fast
-
-#=============================================================================
-# Target rules for targets named rc_test
-
-# Build rule for target.
-rc_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 rc_test
-.PHONY : rc_test
-
-# fast build rule for target.
-rc_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/rc_test.dir/build.make unitest/CMakeFiles/rc_test.dir/build
-.PHONY : rc_test/fast
 
 #=============================================================================
 # Target rules for targets named record_manager_test
@@ -405,8 +441,21 @@ record_manager_test: cmake_check_build_system
 
 # fast build rule for target.
 record_manager_test/fast:
-	$(MAKE) $(MAKESILENT) -f unitest/CMakeFiles/record_manager_test.dir/build.make unitest/CMakeFiles/record_manager_test.dir/build
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/record_manager_test.dir/build.make unittest/CMakeFiles/record_manager_test.dir/build
 .PHONY : record_manager_test/fast
+
+#=============================================================================
+# Target rules for targets named ring_buffer_test
+
+# Build rule for target.
+ring_buffer_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ring_buffer_test
+.PHONY : ring_buffer_test
+
+# fast build rule for target.
+ring_buffer_test/fast:
+	$(MAKE) $(MAKESILENT) -f unittest/CMakeFiles/ring_buffer_test.dir/build.make unittest/CMakeFiles/ring_buffer_test.dir/build
+.PHONY : ring_buffer_test/fast
 
 # Help Target
 help:
@@ -420,13 +469,16 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... test"
+	@echo "... arithmetic_expression_test"
 	@echo "... bitmap_test"
 	@echo "... bp_manager_test"
+	@echo "... bplus_tree_concurrency_test"
 	@echo "... bplus_tree_test"
 	@echo "... client_performance_test"
+	@echo "... clog_reader"
 	@echo "... clog_test"
 	@echo "... common"
-	@echo "... common_static"
 	@echo "... log_test"
 	@echo "... lower_bound_test"
 	@echo "... md5_test"
@@ -434,11 +486,12 @@ help:
 	@echo "... obclient"
 	@echo "... observer"
 	@echo "... observer_static"
-	@echo "... path_test"
 	@echo "... persist_test"
 	@echo "... pidfile_test"
-	@echo "... rc_test"
+	@echo "... record_manager_concurrency_test"
 	@echo "... record_manager_test"
+	@echo "... ring_buffer_test"
+	@echo "... server_concurrency_test"
 .PHONY : help
 
 

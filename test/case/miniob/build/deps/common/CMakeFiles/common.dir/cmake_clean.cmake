@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
+  "../../lib/libcommon.a"
   "../../lib/libcommon.pdb"
-  "../../lib/libcommon.so"
-  "../../lib/libcommon.so.1"
-  "../../lib/libcommon.so.1.0.0"
   "CMakeFiles/common.dir/conf/ini.cpp.o"
   "CMakeFiles/common.dir/conf/ini.cpp.o.d"
   "CMakeFiles/common.dir/io/io.cpp.o"
@@ -11,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/common.dir/io/roll_select_dir.cpp.o.d"
   "CMakeFiles/common.dir/lang/bitmap.cpp.o"
   "CMakeFiles/common.dir/lang/bitmap.cpp.o.d"
+  "CMakeFiles/common.dir/lang/comparator.cpp.o"
+  "CMakeFiles/common.dir/lang/comparator.cpp.o.d"
   "CMakeFiles/common.dir/lang/mutex.cpp.o"
   "CMakeFiles/common.dir/lang/mutex.cpp.o.d"
   "CMakeFiles/common.dir/lang/string.cpp.o"

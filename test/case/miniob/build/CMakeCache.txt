@@ -209,17 +209,39 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-//OFF
+//Support concurrency operations
+CONCURRENCY:BOOL=OFF
+
+//Enable build with address sanitizer
 ENABLE_ASAN:BOOL=OFF
 
 //The directory containing a CMake configuration file for GTest.
 GTest_DIR:PATH=/usr/local/lib/cmake/GTest
 
+//The directory containing a CMake configuration file for Libevent.
+Libevent_DIR:PATH=/usr/local/lib/cmake/libevent
+
+//Path to a file.
+READLINE_INCLUDE_DIR:PATH=READLINE_INCLUDE_DIR-NOTFOUND
+
 //Path to a library.
 READLINE_LIBRARY:FILEPATH=READLINE_LIBRARY-NOTFOUND
 
+//Link std library static or dynamic, such as libgcc, libstdc++,
+// libasan
+STATIC_STDLIB:BOOL=OFF
+
 //Compile miniob with unit tests
 WITH_UNIT_TESTS:BOOL=ON
+
+//Path to a file.
+_event_h:PATH=/usr/local/include
+
+//Path to a library.
+_event_lib:FILEPATH=/usr/local/lib/libevent_pthreads.a
+
+//The directory containing a CMake configuration file for benchmark.
+benchmark_DIR:PATH=/usr/local/lib/cmake/benchmark
 
 //Value Computed by CMake
 common_BINARY_DIR:STATIC=/home/ajay/local/miniob/test/case/miniob/build/deps/common
@@ -258,25 +280,7 @@ observer_IS_TOP_LEVEL:STATIC=OFF
 observer_SOURCE_DIR:STATIC=/home/ajay/local/miniob/test/case/miniob/miniob/src/observer
 
 //Dependencies for the target
-observer_static_LIB_DEPENDS:STATIC=general;common;general;pthread;general;dl;general;event_pthreads;general;event;general;jsoncpp;
-
-//Value Computed by CMake
-test_BINARY_DIR:STATIC=/home/ajay/local/miniob/test/case/miniob/build/test/perf
-
-//Value Computed by CMake
-test_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-test_SOURCE_DIR:STATIC=/home/ajay/local/miniob/test/case/miniob/miniob/test/perf
-
-//Value Computed by CMake
-unitest_BINARY_DIR:STATIC=/home/ajay/local/miniob/test/case/miniob/build/unitest
-
-//Value Computed by CMake
-unitest_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-unitest_SOURCE_DIR:STATIC=/home/ajay/local/miniob/test/case/miniob/miniob/unitest
+observer_static_LIB_DEPENDS:STATIC=general;common;general;pthread;general;dl;general;libevent::core;general;libevent::pthreads;general;libjsoncpp.a;
 
 
 ########################
@@ -387,7 +391,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=9
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

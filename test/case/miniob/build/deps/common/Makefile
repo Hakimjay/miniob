@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/ajay/local/miniob/test/case/miniob/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -175,27 +185,12 @@ common/fast:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/build
 .PHONY : common/fast
 
-# Convenience name for target.
-deps/common/CMakeFiles/common_static.dir/rule:
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 deps/common/CMakeFiles/common_static.dir/rule
-.PHONY : deps/common/CMakeFiles/common_static.dir/rule
-
-# Convenience name for target.
-common_static: deps/common/CMakeFiles/common_static.dir/rule
-.PHONY : common_static
-
-# fast build rule for target.
-common_static/fast:
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/build
-.PHONY : common_static/fast
-
 conf/ini.o: conf/ini.cpp.o
 .PHONY : conf/ini.o
 
 # target to build an object file
 conf/ini.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/conf/ini.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/conf/ini.cpp.o
 .PHONY : conf/ini.cpp.o
 
 conf/ini.i: conf/ini.cpp.i
@@ -204,7 +199,6 @@ conf/ini.i: conf/ini.cpp.i
 # target to preprocess a source file
 conf/ini.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/conf/ini.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/conf/ini.cpp.i
 .PHONY : conf/ini.cpp.i
 
 conf/ini.s: conf/ini.cpp.s
@@ -213,7 +207,6 @@ conf/ini.s: conf/ini.cpp.s
 # target to generate assembly for a file
 conf/ini.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/conf/ini.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/conf/ini.cpp.s
 .PHONY : conf/ini.cpp.s
 
 io/io.o: io/io.cpp.o
@@ -222,7 +215,6 @@ io/io.o: io/io.cpp.o
 # target to build an object file
 io/io.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/io/io.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/io/io.cpp.o
 .PHONY : io/io.cpp.o
 
 io/io.i: io/io.cpp.i
@@ -231,7 +223,6 @@ io/io.i: io/io.cpp.i
 # target to preprocess a source file
 io/io.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/io/io.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/io/io.cpp.i
 .PHONY : io/io.cpp.i
 
 io/io.s: io/io.cpp.s
@@ -240,7 +231,6 @@ io/io.s: io/io.cpp.s
 # target to generate assembly for a file
 io/io.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/io/io.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/io/io.cpp.s
 .PHONY : io/io.cpp.s
 
 io/roll_select_dir.o: io/roll_select_dir.cpp.o
@@ -249,7 +239,6 @@ io/roll_select_dir.o: io/roll_select_dir.cpp.o
 # target to build an object file
 io/roll_select_dir.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/io/roll_select_dir.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/io/roll_select_dir.cpp.o
 .PHONY : io/roll_select_dir.cpp.o
 
 io/roll_select_dir.i: io/roll_select_dir.cpp.i
@@ -258,7 +247,6 @@ io/roll_select_dir.i: io/roll_select_dir.cpp.i
 # target to preprocess a source file
 io/roll_select_dir.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/io/roll_select_dir.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/io/roll_select_dir.cpp.i
 .PHONY : io/roll_select_dir.cpp.i
 
 io/roll_select_dir.s: io/roll_select_dir.cpp.s
@@ -267,7 +255,6 @@ io/roll_select_dir.s: io/roll_select_dir.cpp.s
 # target to generate assembly for a file
 io/roll_select_dir.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/io/roll_select_dir.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/io/roll_select_dir.cpp.s
 .PHONY : io/roll_select_dir.cpp.s
 
 lang/bitmap.o: lang/bitmap.cpp.o
@@ -276,7 +263,6 @@ lang/bitmap.o: lang/bitmap.cpp.o
 # target to build an object file
 lang/bitmap.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/bitmap.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/bitmap.cpp.o
 .PHONY : lang/bitmap.cpp.o
 
 lang/bitmap.i: lang/bitmap.cpp.i
@@ -285,7 +271,6 @@ lang/bitmap.i: lang/bitmap.cpp.i
 # target to preprocess a source file
 lang/bitmap.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/bitmap.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/bitmap.cpp.i
 .PHONY : lang/bitmap.cpp.i
 
 lang/bitmap.s: lang/bitmap.cpp.s
@@ -294,8 +279,31 @@ lang/bitmap.s: lang/bitmap.cpp.s
 # target to generate assembly for a file
 lang/bitmap.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/bitmap.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/bitmap.cpp.s
 .PHONY : lang/bitmap.cpp.s
+
+lang/comparator.o: lang/comparator.cpp.o
+.PHONY : lang/comparator.o
+
+# target to build an object file
+lang/comparator.cpp.o:
+	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/comparator.cpp.o
+.PHONY : lang/comparator.cpp.o
+
+lang/comparator.i: lang/comparator.cpp.i
+.PHONY : lang/comparator.i
+
+# target to preprocess a source file
+lang/comparator.cpp.i:
+	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/comparator.cpp.i
+.PHONY : lang/comparator.cpp.i
+
+lang/comparator.s: lang/comparator.cpp.s
+.PHONY : lang/comparator.s
+
+# target to generate assembly for a file
+lang/comparator.cpp.s:
+	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/comparator.cpp.s
+.PHONY : lang/comparator.cpp.s
 
 lang/mutex.o: lang/mutex.cpp.o
 .PHONY : lang/mutex.o
@@ -303,7 +311,6 @@ lang/mutex.o: lang/mutex.cpp.o
 # target to build an object file
 lang/mutex.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/mutex.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/mutex.cpp.o
 .PHONY : lang/mutex.cpp.o
 
 lang/mutex.i: lang/mutex.cpp.i
@@ -312,7 +319,6 @@ lang/mutex.i: lang/mutex.cpp.i
 # target to preprocess a source file
 lang/mutex.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/mutex.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/mutex.cpp.i
 .PHONY : lang/mutex.cpp.i
 
 lang/mutex.s: lang/mutex.cpp.s
@@ -321,7 +327,6 @@ lang/mutex.s: lang/mutex.cpp.s
 # target to generate assembly for a file
 lang/mutex.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/mutex.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/mutex.cpp.s
 .PHONY : lang/mutex.cpp.s
 
 lang/string.o: lang/string.cpp.o
@@ -330,7 +335,6 @@ lang/string.o: lang/string.cpp.o
 # target to build an object file
 lang/string.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/string.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/string.cpp.o
 .PHONY : lang/string.cpp.o
 
 lang/string.i: lang/string.cpp.i
@@ -339,7 +343,6 @@ lang/string.i: lang/string.cpp.i
 # target to preprocess a source file
 lang/string.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/string.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/string.cpp.i
 .PHONY : lang/string.cpp.i
 
 lang/string.s: lang/string.cpp.s
@@ -348,7 +351,6 @@ lang/string.s: lang/string.cpp.s
 # target to generate assembly for a file
 lang/string.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/lang/string.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/lang/string.cpp.s
 .PHONY : lang/string.cpp.s
 
 log/log.o: log/log.cpp.o
@@ -357,7 +359,6 @@ log/log.o: log/log.cpp.o
 # target to build an object file
 log/log.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/log/log.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/log/log.cpp.o
 .PHONY : log/log.cpp.o
 
 log/log.i: log/log.cpp.i
@@ -366,7 +367,6 @@ log/log.i: log/log.cpp.i
 # target to preprocess a source file
 log/log.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/log/log.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/log/log.cpp.i
 .PHONY : log/log.cpp.i
 
 log/log.s: log/log.cpp.s
@@ -375,7 +375,6 @@ log/log.s: log/log.cpp.s
 # target to generate assembly for a file
 log/log.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/log/log.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/log/log.cpp.s
 .PHONY : log/log.cpp.s
 
 math/md5.o: math/md5.cpp.o
@@ -384,7 +383,6 @@ math/md5.o: math/md5.cpp.o
 # target to build an object file
 math/md5.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/md5.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/md5.cpp.o
 .PHONY : math/md5.cpp.o
 
 math/md5.i: math/md5.cpp.i
@@ -393,7 +391,6 @@ math/md5.i: math/md5.cpp.i
 # target to preprocess a source file
 math/md5.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/md5.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/md5.cpp.i
 .PHONY : math/md5.cpp.i
 
 math/md5.s: math/md5.cpp.s
@@ -402,7 +399,6 @@ math/md5.s: math/md5.cpp.s
 # target to generate assembly for a file
 math/md5.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/md5.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/md5.cpp.s
 .PHONY : math/md5.cpp.s
 
 math/random_generator.o: math/random_generator.cpp.o
@@ -411,7 +407,6 @@ math/random_generator.o: math/random_generator.cpp.o
 # target to build an object file
 math/random_generator.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/random_generator.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/random_generator.cpp.o
 .PHONY : math/random_generator.cpp.o
 
 math/random_generator.i: math/random_generator.cpp.i
@@ -420,7 +415,6 @@ math/random_generator.i: math/random_generator.cpp.i
 # target to preprocess a source file
 math/random_generator.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/random_generator.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/random_generator.cpp.i
 .PHONY : math/random_generator.cpp.i
 
 math/random_generator.s: math/random_generator.cpp.s
@@ -429,7 +423,6 @@ math/random_generator.s: math/random_generator.cpp.s
 # target to generate assembly for a file
 math/random_generator.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/random_generator.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/random_generator.cpp.s
 .PHONY : math/random_generator.cpp.s
 
 math/regex.o: math/regex.cpp.o
@@ -438,7 +431,6 @@ math/regex.o: math/regex.cpp.o
 # target to build an object file
 math/regex.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/regex.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/regex.cpp.o
 .PHONY : math/regex.cpp.o
 
 math/regex.i: math/regex.cpp.i
@@ -447,7 +439,6 @@ math/regex.i: math/regex.cpp.i
 # target to preprocess a source file
 math/regex.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/regex.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/regex.cpp.i
 .PHONY : math/regex.cpp.i
 
 math/regex.s: math/regex.cpp.s
@@ -456,7 +447,6 @@ math/regex.s: math/regex.cpp.s
 # target to generate assembly for a file
 math/regex.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/math/regex.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/math/regex.cpp.s
 .PHONY : math/regex.cpp.s
 
 metrics/console_reporter.o: metrics/console_reporter.cpp.o
@@ -465,7 +455,6 @@ metrics/console_reporter.o: metrics/console_reporter.cpp.o
 # target to build an object file
 metrics/console_reporter.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/console_reporter.cpp.o
 .PHONY : metrics/console_reporter.cpp.o
 
 metrics/console_reporter.i: metrics/console_reporter.cpp.i
@@ -474,7 +463,6 @@ metrics/console_reporter.i: metrics/console_reporter.cpp.i
 # target to preprocess a source file
 metrics/console_reporter.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/console_reporter.cpp.i
 .PHONY : metrics/console_reporter.cpp.i
 
 metrics/console_reporter.s: metrics/console_reporter.cpp.s
@@ -483,7 +471,6 @@ metrics/console_reporter.s: metrics/console_reporter.cpp.s
 # target to generate assembly for a file
 metrics/console_reporter.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/console_reporter.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/console_reporter.cpp.s
 .PHONY : metrics/console_reporter.cpp.s
 
 metrics/histogram_snapshot.o: metrics/histogram_snapshot.cpp.o
@@ -492,7 +479,6 @@ metrics/histogram_snapshot.o: metrics/histogram_snapshot.cpp.o
 # target to build an object file
 metrics/histogram_snapshot.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/histogram_snapshot.cpp.o
 .PHONY : metrics/histogram_snapshot.cpp.o
 
 metrics/histogram_snapshot.i: metrics/histogram_snapshot.cpp.i
@@ -501,7 +487,6 @@ metrics/histogram_snapshot.i: metrics/histogram_snapshot.cpp.i
 # target to preprocess a source file
 metrics/histogram_snapshot.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/histogram_snapshot.cpp.i
 .PHONY : metrics/histogram_snapshot.cpp.i
 
 metrics/histogram_snapshot.s: metrics/histogram_snapshot.cpp.s
@@ -510,7 +495,6 @@ metrics/histogram_snapshot.s: metrics/histogram_snapshot.cpp.s
 # target to generate assembly for a file
 metrics/histogram_snapshot.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/histogram_snapshot.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/histogram_snapshot.cpp.s
 .PHONY : metrics/histogram_snapshot.cpp.s
 
 metrics/log_reporter.o: metrics/log_reporter.cpp.o
@@ -519,7 +503,6 @@ metrics/log_reporter.o: metrics/log_reporter.cpp.o
 # target to build an object file
 metrics/log_reporter.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/log_reporter.cpp.o
 .PHONY : metrics/log_reporter.cpp.o
 
 metrics/log_reporter.i: metrics/log_reporter.cpp.i
@@ -528,7 +511,6 @@ metrics/log_reporter.i: metrics/log_reporter.cpp.i
 # target to preprocess a source file
 metrics/log_reporter.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/log_reporter.cpp.i
 .PHONY : metrics/log_reporter.cpp.i
 
 metrics/log_reporter.s: metrics/log_reporter.cpp.s
@@ -537,7 +519,6 @@ metrics/log_reporter.s: metrics/log_reporter.cpp.s
 # target to generate assembly for a file
 metrics/log_reporter.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/log_reporter.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/log_reporter.cpp.s
 .PHONY : metrics/log_reporter.cpp.s
 
 metrics/metrics.o: metrics/metrics.cpp.o
@@ -546,7 +527,6 @@ metrics/metrics.o: metrics/metrics.cpp.o
 # target to build an object file
 metrics/metrics.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/metrics.cpp.o
 .PHONY : metrics/metrics.cpp.o
 
 metrics/metrics.i: metrics/metrics.cpp.i
@@ -555,7 +535,6 @@ metrics/metrics.i: metrics/metrics.cpp.i
 # target to preprocess a source file
 metrics/metrics.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/metrics.cpp.i
 .PHONY : metrics/metrics.cpp.i
 
 metrics/metrics.s: metrics/metrics.cpp.s
@@ -564,7 +543,6 @@ metrics/metrics.s: metrics/metrics.cpp.s
 # target to generate assembly for a file
 metrics/metrics.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/metrics.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/metrics.cpp.s
 .PHONY : metrics/metrics.cpp.s
 
 metrics/metrics_registry.o: metrics/metrics_registry.cpp.o
@@ -573,7 +551,6 @@ metrics/metrics_registry.o: metrics/metrics_registry.cpp.o
 # target to build an object file
 metrics/metrics_registry.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/metrics_registry.cpp.o
 .PHONY : metrics/metrics_registry.cpp.o
 
 metrics/metrics_registry.i: metrics/metrics_registry.cpp.i
@@ -582,7 +559,6 @@ metrics/metrics_registry.i: metrics/metrics_registry.cpp.i
 # target to preprocess a source file
 metrics/metrics_registry.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/metrics_registry.cpp.i
 .PHONY : metrics/metrics_registry.cpp.i
 
 metrics/metrics_registry.s: metrics/metrics_registry.cpp.s
@@ -591,7 +567,6 @@ metrics/metrics_registry.s: metrics/metrics_registry.cpp.s
 # target to generate assembly for a file
 metrics/metrics_registry.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/metrics_registry.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/metrics_registry.cpp.s
 .PHONY : metrics/metrics_registry.cpp.s
 
 metrics/reporter.o: metrics/reporter.cpp.o
@@ -600,7 +575,6 @@ metrics/reporter.o: metrics/reporter.cpp.o
 # target to build an object file
 metrics/reporter.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/reporter.cpp.o
 .PHONY : metrics/reporter.cpp.o
 
 metrics/reporter.i: metrics/reporter.cpp.i
@@ -609,7 +583,6 @@ metrics/reporter.i: metrics/reporter.cpp.i
 # target to preprocess a source file
 metrics/reporter.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/reporter.cpp.i
 .PHONY : metrics/reporter.cpp.i
 
 metrics/reporter.s: metrics/reporter.cpp.s
@@ -618,7 +591,6 @@ metrics/reporter.s: metrics/reporter.cpp.s
 # target to generate assembly for a file
 metrics/reporter.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/reporter.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/reporter.cpp.s
 .PHONY : metrics/reporter.cpp.s
 
 metrics/reservoir.o: metrics/reservoir.cpp.o
@@ -627,7 +599,6 @@ metrics/reservoir.o: metrics/reservoir.cpp.o
 # target to build an object file
 metrics/reservoir.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/reservoir.cpp.o
 .PHONY : metrics/reservoir.cpp.o
 
 metrics/reservoir.i: metrics/reservoir.cpp.i
@@ -636,7 +607,6 @@ metrics/reservoir.i: metrics/reservoir.cpp.i
 # target to preprocess a source file
 metrics/reservoir.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/reservoir.cpp.i
 .PHONY : metrics/reservoir.cpp.i
 
 metrics/reservoir.s: metrics/reservoir.cpp.s
@@ -645,7 +615,6 @@ metrics/reservoir.s: metrics/reservoir.cpp.s
 # target to generate assembly for a file
 metrics/reservoir.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/reservoir.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/reservoir.cpp.s
 .PHONY : metrics/reservoir.cpp.s
 
 metrics/sampler.o: metrics/sampler.cpp.o
@@ -654,7 +623,6 @@ metrics/sampler.o: metrics/sampler.cpp.o
 # target to build an object file
 metrics/sampler.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/sampler.cpp.o
 .PHONY : metrics/sampler.cpp.o
 
 metrics/sampler.i: metrics/sampler.cpp.i
@@ -663,7 +631,6 @@ metrics/sampler.i: metrics/sampler.cpp.i
 # target to preprocess a source file
 metrics/sampler.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/sampler.cpp.i
 .PHONY : metrics/sampler.cpp.i
 
 metrics/sampler.s: metrics/sampler.cpp.s
@@ -672,7 +639,6 @@ metrics/sampler.s: metrics/sampler.cpp.s
 # target to generate assembly for a file
 metrics/sampler.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/sampler.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/sampler.cpp.s
 .PHONY : metrics/sampler.cpp.s
 
 metrics/timer_snapshot.o: metrics/timer_snapshot.cpp.o
@@ -681,7 +647,6 @@ metrics/timer_snapshot.o: metrics/timer_snapshot.cpp.o
 # target to build an object file
 metrics/timer_snapshot.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/timer_snapshot.cpp.o
 .PHONY : metrics/timer_snapshot.cpp.o
 
 metrics/timer_snapshot.i: metrics/timer_snapshot.cpp.i
@@ -690,7 +655,6 @@ metrics/timer_snapshot.i: metrics/timer_snapshot.cpp.i
 # target to preprocess a source file
 metrics/timer_snapshot.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/timer_snapshot.cpp.i
 .PHONY : metrics/timer_snapshot.cpp.i
 
 metrics/timer_snapshot.s: metrics/timer_snapshot.cpp.s
@@ -699,7 +663,6 @@ metrics/timer_snapshot.s: metrics/timer_snapshot.cpp.s
 # target to generate assembly for a file
 metrics/timer_snapshot.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/timer_snapshot.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/timer_snapshot.cpp.s
 .PHONY : metrics/timer_snapshot.cpp.s
 
 metrics/uniform_reservoir.o: metrics/uniform_reservoir.cpp.o
@@ -708,7 +671,6 @@ metrics/uniform_reservoir.o: metrics/uniform_reservoir.cpp.o
 # target to build an object file
 metrics/uniform_reservoir.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/uniform_reservoir.cpp.o
 .PHONY : metrics/uniform_reservoir.cpp.o
 
 metrics/uniform_reservoir.i: metrics/uniform_reservoir.cpp.i
@@ -717,7 +679,6 @@ metrics/uniform_reservoir.i: metrics/uniform_reservoir.cpp.i
 # target to preprocess a source file
 metrics/uniform_reservoir.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/uniform_reservoir.cpp.i
 .PHONY : metrics/uniform_reservoir.cpp.i
 
 metrics/uniform_reservoir.s: metrics/uniform_reservoir.cpp.s
@@ -726,7 +687,6 @@ metrics/uniform_reservoir.s: metrics/uniform_reservoir.cpp.s
 # target to generate assembly for a file
 metrics/uniform_reservoir.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/metrics/uniform_reservoir.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/metrics/uniform_reservoir.cpp.s
 .PHONY : metrics/uniform_reservoir.cpp.s
 
 mm/mem_pool.o: mm/mem_pool.cpp.o
@@ -735,7 +695,6 @@ mm/mem_pool.o: mm/mem_pool.cpp.o
 # target to build an object file
 mm/mem_pool.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/mm/mem_pool.cpp.o
 .PHONY : mm/mem_pool.cpp.o
 
 mm/mem_pool.i: mm/mem_pool.cpp.i
@@ -744,7 +703,6 @@ mm/mem_pool.i: mm/mem_pool.cpp.i
 # target to preprocess a source file
 mm/mem_pool.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/mm/mem_pool.cpp.i
 .PHONY : mm/mem_pool.cpp.i
 
 mm/mem_pool.s: mm/mem_pool.cpp.s
@@ -753,7 +711,6 @@ mm/mem_pool.s: mm/mem_pool.cpp.s
 # target to generate assembly for a file
 mm/mem_pool.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/mm/mem_pool.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/mm/mem_pool.cpp.s
 .PHONY : mm/mem_pool.cpp.s
 
 os/os.o: os/os.cpp.o
@@ -762,7 +719,6 @@ os/os.o: os/os.cpp.o
 # target to build an object file
 os/os.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/os.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/os.cpp.o
 .PHONY : os/os.cpp.o
 
 os/os.i: os/os.cpp.i
@@ -771,7 +727,6 @@ os/os.i: os/os.cpp.i
 # target to preprocess a source file
 os/os.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/os.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/os.cpp.i
 .PHONY : os/os.cpp.i
 
 os/os.s: os/os.cpp.s
@@ -780,7 +735,6 @@ os/os.s: os/os.cpp.s
 # target to generate assembly for a file
 os/os.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/os.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/os.cpp.s
 .PHONY : os/os.cpp.s
 
 os/path.o: os/path.cpp.o
@@ -789,7 +743,6 @@ os/path.o: os/path.cpp.o
 # target to build an object file
 os/path.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/path.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/path.cpp.o
 .PHONY : os/path.cpp.o
 
 os/path.i: os/path.cpp.i
@@ -798,7 +751,6 @@ os/path.i: os/path.cpp.i
 # target to preprocess a source file
 os/path.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/path.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/path.cpp.i
 .PHONY : os/path.cpp.i
 
 os/path.s: os/path.cpp.s
@@ -807,7 +759,6 @@ os/path.s: os/path.cpp.s
 # target to generate assembly for a file
 os/path.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/path.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/path.cpp.s
 .PHONY : os/path.cpp.s
 
 os/pidfile.o: os/pidfile.cpp.o
@@ -816,7 +767,6 @@ os/pidfile.o: os/pidfile.cpp.o
 # target to build an object file
 os/pidfile.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/pidfile.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/pidfile.cpp.o
 .PHONY : os/pidfile.cpp.o
 
 os/pidfile.i: os/pidfile.cpp.i
@@ -825,7 +775,6 @@ os/pidfile.i: os/pidfile.cpp.i
 # target to preprocess a source file
 os/pidfile.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/pidfile.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/pidfile.cpp.i
 .PHONY : os/pidfile.cpp.i
 
 os/pidfile.s: os/pidfile.cpp.s
@@ -834,7 +783,6 @@ os/pidfile.s: os/pidfile.cpp.s
 # target to generate assembly for a file
 os/pidfile.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/pidfile.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/pidfile.cpp.s
 .PHONY : os/pidfile.cpp.s
 
 os/process.o: os/process.cpp.o
@@ -843,7 +791,6 @@ os/process.o: os/process.cpp.o
 # target to build an object file
 os/process.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/process.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/process.cpp.o
 .PHONY : os/process.cpp.o
 
 os/process.i: os/process.cpp.i
@@ -852,7 +799,6 @@ os/process.i: os/process.cpp.i
 # target to preprocess a source file
 os/process.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/process.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/process.cpp.i
 .PHONY : os/process.cpp.i
 
 os/process.s: os/process.cpp.s
@@ -861,7 +807,6 @@ os/process.s: os/process.cpp.s
 # target to generate assembly for a file
 os/process.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/process.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/process.cpp.s
 .PHONY : os/process.cpp.s
 
 os/process_param.o: os/process_param.cpp.o
@@ -870,7 +815,6 @@ os/process_param.o: os/process_param.cpp.o
 # target to build an object file
 os/process_param.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/process_param.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/process_param.cpp.o
 .PHONY : os/process_param.cpp.o
 
 os/process_param.i: os/process_param.cpp.i
@@ -879,7 +823,6 @@ os/process_param.i: os/process_param.cpp.i
 # target to preprocess a source file
 os/process_param.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/process_param.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/process_param.cpp.i
 .PHONY : os/process_param.cpp.i
 
 os/process_param.s: os/process_param.cpp.s
@@ -888,7 +831,6 @@ os/process_param.s: os/process_param.cpp.s
 # target to generate assembly for a file
 os/process_param.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/process_param.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/process_param.cpp.s
 .PHONY : os/process_param.cpp.s
 
 os/signal.o: os/signal.cpp.o
@@ -897,7 +839,6 @@ os/signal.o: os/signal.cpp.o
 # target to build an object file
 os/signal.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/signal.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/signal.cpp.o
 .PHONY : os/signal.cpp.o
 
 os/signal.i: os/signal.cpp.i
@@ -906,7 +847,6 @@ os/signal.i: os/signal.cpp.i
 # target to preprocess a source file
 os/signal.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/signal.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/signal.cpp.i
 .PHONY : os/signal.cpp.i
 
 os/signal.s: os/signal.cpp.s
@@ -915,7 +855,6 @@ os/signal.s: os/signal.cpp.s
 # target to generate assembly for a file
 os/signal.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/os/signal.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/os/signal.cpp.s
 .PHONY : os/signal.cpp.s
 
 seda/callback.o: seda/callback.cpp.o
@@ -924,7 +863,6 @@ seda/callback.o: seda/callback.cpp.o
 # target to build an object file
 seda/callback.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/callback.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/callback.cpp.o
 .PHONY : seda/callback.cpp.o
 
 seda/callback.i: seda/callback.cpp.i
@@ -933,7 +871,6 @@ seda/callback.i: seda/callback.cpp.i
 # target to preprocess a source file
 seda/callback.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/callback.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/callback.cpp.i
 .PHONY : seda/callback.cpp.i
 
 seda/callback.s: seda/callback.cpp.s
@@ -942,7 +879,6 @@ seda/callback.s: seda/callback.cpp.s
 # target to generate assembly for a file
 seda/callback.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/callback.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/callback.cpp.s
 .PHONY : seda/callback.cpp.s
 
 seda/event_dispatcher.o: seda/event_dispatcher.cpp.o
@@ -951,7 +887,6 @@ seda/event_dispatcher.o: seda/event_dispatcher.cpp.o
 # target to build an object file
 seda/event_dispatcher.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/event_dispatcher.cpp.o
 .PHONY : seda/event_dispatcher.cpp.o
 
 seda/event_dispatcher.i: seda/event_dispatcher.cpp.i
@@ -960,7 +895,6 @@ seda/event_dispatcher.i: seda/event_dispatcher.cpp.i
 # target to preprocess a source file
 seda/event_dispatcher.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/event_dispatcher.cpp.i
 .PHONY : seda/event_dispatcher.cpp.i
 
 seda/event_dispatcher.s: seda/event_dispatcher.cpp.s
@@ -969,7 +903,6 @@ seda/event_dispatcher.s: seda/event_dispatcher.cpp.s
 # target to generate assembly for a file
 seda/event_dispatcher.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/event_dispatcher.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/event_dispatcher.cpp.s
 .PHONY : seda/event_dispatcher.cpp.s
 
 seda/example_stage.o: seda/example_stage.cpp.o
@@ -978,7 +911,6 @@ seda/example_stage.o: seda/example_stage.cpp.o
 # target to build an object file
 seda/example_stage.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/example_stage.cpp.o
 .PHONY : seda/example_stage.cpp.o
 
 seda/example_stage.i: seda/example_stage.cpp.i
@@ -987,7 +919,6 @@ seda/example_stage.i: seda/example_stage.cpp.i
 # target to preprocess a source file
 seda/example_stage.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/example_stage.cpp.i
 .PHONY : seda/example_stage.cpp.i
 
 seda/example_stage.s: seda/example_stage.cpp.s
@@ -996,7 +927,6 @@ seda/example_stage.s: seda/example_stage.cpp.s
 # target to generate assembly for a file
 seda/example_stage.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/example_stage.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/example_stage.cpp.s
 .PHONY : seda/example_stage.cpp.s
 
 seda/init.o: seda/init.cpp.o
@@ -1005,7 +935,6 @@ seda/init.o: seda/init.cpp.o
 # target to build an object file
 seda/init.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/init.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/init.cpp.o
 .PHONY : seda/init.cpp.o
 
 seda/init.i: seda/init.cpp.i
@@ -1014,7 +943,6 @@ seda/init.i: seda/init.cpp.i
 # target to preprocess a source file
 seda/init.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/init.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/init.cpp.i
 .PHONY : seda/init.cpp.i
 
 seda/init.s: seda/init.cpp.s
@@ -1023,7 +951,6 @@ seda/init.s: seda/init.cpp.s
 # target to generate assembly for a file
 seda/init.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/init.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/init.cpp.s
 .PHONY : seda/init.cpp.s
 
 seda/kill_thread.o: seda/kill_thread.cpp.o
@@ -1032,7 +959,6 @@ seda/kill_thread.o: seda/kill_thread.cpp.o
 # target to build an object file
 seda/kill_thread.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/kill_thread.cpp.o
 .PHONY : seda/kill_thread.cpp.o
 
 seda/kill_thread.i: seda/kill_thread.cpp.i
@@ -1041,7 +967,6 @@ seda/kill_thread.i: seda/kill_thread.cpp.i
 # target to preprocess a source file
 seda/kill_thread.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/kill_thread.cpp.i
 .PHONY : seda/kill_thread.cpp.i
 
 seda/kill_thread.s: seda/kill_thread.cpp.s
@@ -1050,7 +975,6 @@ seda/kill_thread.s: seda/kill_thread.cpp.s
 # target to generate assembly for a file
 seda/kill_thread.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/kill_thread.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/kill_thread.cpp.s
 .PHONY : seda/kill_thread.cpp.s
 
 seda/metrics_report_event.o: seda/metrics_report_event.cpp.o
@@ -1059,7 +983,6 @@ seda/metrics_report_event.o: seda/metrics_report_event.cpp.o
 # target to build an object file
 seda/metrics_report_event.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/metrics_report_event.cpp.o
 .PHONY : seda/metrics_report_event.cpp.o
 
 seda/metrics_report_event.i: seda/metrics_report_event.cpp.i
@@ -1068,7 +991,6 @@ seda/metrics_report_event.i: seda/metrics_report_event.cpp.i
 # target to preprocess a source file
 seda/metrics_report_event.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/metrics_report_event.cpp.i
 .PHONY : seda/metrics_report_event.cpp.i
 
 seda/metrics_report_event.s: seda/metrics_report_event.cpp.s
@@ -1077,7 +999,6 @@ seda/metrics_report_event.s: seda/metrics_report_event.cpp.s
 # target to generate assembly for a file
 seda/metrics_report_event.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/metrics_report_event.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/metrics_report_event.cpp.s
 .PHONY : seda/metrics_report_event.cpp.s
 
 seda/metrics_stage.o: seda/metrics_stage.cpp.o
@@ -1086,7 +1007,6 @@ seda/metrics_stage.o: seda/metrics_stage.cpp.o
 # target to build an object file
 seda/metrics_stage.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/metrics_stage.cpp.o
 .PHONY : seda/metrics_stage.cpp.o
 
 seda/metrics_stage.i: seda/metrics_stage.cpp.i
@@ -1095,7 +1015,6 @@ seda/metrics_stage.i: seda/metrics_stage.cpp.i
 # target to preprocess a source file
 seda/metrics_stage.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/metrics_stage.cpp.i
 .PHONY : seda/metrics_stage.cpp.i
 
 seda/metrics_stage.s: seda/metrics_stage.cpp.s
@@ -1104,7 +1023,6 @@ seda/metrics_stage.s: seda/metrics_stage.cpp.s
 # target to generate assembly for a file
 seda/metrics_stage.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/metrics_stage.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/metrics_stage.cpp.s
 .PHONY : seda/metrics_stage.cpp.s
 
 seda/seda_config.o: seda/seda_config.cpp.o
@@ -1113,7 +1031,6 @@ seda/seda_config.o: seda/seda_config.cpp.o
 # target to build an object file
 seda/seda_config.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/seda_config.cpp.o
 .PHONY : seda/seda_config.cpp.o
 
 seda/seda_config.i: seda/seda_config.cpp.i
@@ -1122,7 +1039,6 @@ seda/seda_config.i: seda/seda_config.cpp.i
 # target to preprocess a source file
 seda/seda_config.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/seda_config.cpp.i
 .PHONY : seda/seda_config.cpp.i
 
 seda/seda_config.s: seda/seda_config.cpp.s
@@ -1131,7 +1047,6 @@ seda/seda_config.s: seda/seda_config.cpp.s
 # target to generate assembly for a file
 seda/seda_config.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/seda_config.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/seda_config.cpp.s
 .PHONY : seda/seda_config.cpp.s
 
 seda/stage.o: seda/stage.cpp.o
@@ -1140,7 +1055,6 @@ seda/stage.o: seda/stage.cpp.o
 # target to build an object file
 seda/stage.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/stage.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/stage.cpp.o
 .PHONY : seda/stage.cpp.o
 
 seda/stage.i: seda/stage.cpp.i
@@ -1149,7 +1063,6 @@ seda/stage.i: seda/stage.cpp.i
 # target to preprocess a source file
 seda/stage.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/stage.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/stage.cpp.i
 .PHONY : seda/stage.cpp.i
 
 seda/stage.s: seda/stage.cpp.s
@@ -1158,7 +1071,6 @@ seda/stage.s: seda/stage.cpp.s
 # target to generate assembly for a file
 seda/stage.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/stage.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/stage.cpp.s
 .PHONY : seda/stage.cpp.s
 
 seda/stage_event.o: seda/stage_event.cpp.o
@@ -1167,7 +1079,6 @@ seda/stage_event.o: seda/stage_event.cpp.o
 # target to build an object file
 seda/stage_event.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/stage_event.cpp.o
 .PHONY : seda/stage_event.cpp.o
 
 seda/stage_event.i: seda/stage_event.cpp.i
@@ -1176,7 +1087,6 @@ seda/stage_event.i: seda/stage_event.cpp.i
 # target to preprocess a source file
 seda/stage_event.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/stage_event.cpp.i
 .PHONY : seda/stage_event.cpp.i
 
 seda/stage_event.s: seda/stage_event.cpp.s
@@ -1185,7 +1095,6 @@ seda/stage_event.s: seda/stage_event.cpp.s
 # target to generate assembly for a file
 seda/stage_event.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/stage_event.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/stage_event.cpp.s
 .PHONY : seda/stage_event.cpp.s
 
 seda/thread_pool.o: seda/thread_pool.cpp.o
@@ -1194,7 +1103,6 @@ seda/thread_pool.o: seda/thread_pool.cpp.o
 # target to build an object file
 seda/thread_pool.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/thread_pool.cpp.o
 .PHONY : seda/thread_pool.cpp.o
 
 seda/thread_pool.i: seda/thread_pool.cpp.i
@@ -1203,7 +1111,6 @@ seda/thread_pool.i: seda/thread_pool.cpp.i
 # target to preprocess a source file
 seda/thread_pool.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/thread_pool.cpp.i
 .PHONY : seda/thread_pool.cpp.i
 
 seda/thread_pool.s: seda/thread_pool.cpp.s
@@ -1212,7 +1119,6 @@ seda/thread_pool.s: seda/thread_pool.cpp.s
 # target to generate assembly for a file
 seda/thread_pool.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/thread_pool.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/thread_pool.cpp.s
 .PHONY : seda/thread_pool.cpp.s
 
 seda/timer_stage.o: seda/timer_stage.cpp.o
@@ -1221,7 +1127,6 @@ seda/timer_stage.o: seda/timer_stage.cpp.o
 # target to build an object file
 seda/timer_stage.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/timer_stage.cpp.o
 .PHONY : seda/timer_stage.cpp.o
 
 seda/timer_stage.i: seda/timer_stage.cpp.i
@@ -1230,7 +1135,6 @@ seda/timer_stage.i: seda/timer_stage.cpp.i
 # target to preprocess a source file
 seda/timer_stage.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/timer_stage.cpp.i
 .PHONY : seda/timer_stage.cpp.i
 
 seda/timer_stage.s: seda/timer_stage.cpp.s
@@ -1239,7 +1143,6 @@ seda/timer_stage.s: seda/timer_stage.cpp.s
 # target to generate assembly for a file
 seda/timer_stage.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/seda/timer_stage.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/seda/timer_stage.cpp.s
 .PHONY : seda/timer_stage.cpp.s
 
 time/datetime.o: time/datetime.cpp.o
@@ -1248,7 +1151,6 @@ time/datetime.o: time/datetime.cpp.o
 # target to build an object file
 time/datetime.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/time/datetime.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/time/datetime.cpp.o
 .PHONY : time/datetime.cpp.o
 
 time/datetime.i: time/datetime.cpp.i
@@ -1257,7 +1159,6 @@ time/datetime.i: time/datetime.cpp.i
 # target to preprocess a source file
 time/datetime.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/time/datetime.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/time/datetime.cpp.i
 .PHONY : time/datetime.cpp.i
 
 time/datetime.s: time/datetime.cpp.s
@@ -1266,7 +1167,6 @@ time/datetime.s: time/datetime.cpp.s
 # target to generate assembly for a file
 time/datetime.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/time/datetime.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/time/datetime.cpp.s
 .PHONY : time/datetime.cpp.s
 
 time/timeout_info.o: time/timeout_info.cpp.o
@@ -1275,7 +1175,6 @@ time/timeout_info.o: time/timeout_info.cpp.o
 # target to build an object file
 time/timeout_info.cpp.o:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.o
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/time/timeout_info.cpp.o
 .PHONY : time/timeout_info.cpp.o
 
 time/timeout_info.i: time/timeout_info.cpp.i
@@ -1284,7 +1183,6 @@ time/timeout_info.i: time/timeout_info.cpp.i
 # target to preprocess a source file
 time/timeout_info.cpp.i:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.i
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/time/timeout_info.cpp.i
 .PHONY : time/timeout_info.cpp.i
 
 time/timeout_info.s: time/timeout_info.cpp.s
@@ -1293,7 +1191,6 @@ time/timeout_info.s: time/timeout_info.cpp.s
 # target to generate assembly for a file
 time/timeout_info.cpp.s:
 	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common.dir/build.make deps/common/CMakeFiles/common.dir/time/timeout_info.cpp.s
-	cd /home/ajay/local/miniob/test/case/miniob/build && $(MAKE) $(MAKESILENT) -f deps/common/CMakeFiles/common_static.dir/build.make deps/common/CMakeFiles/common_static.dir/time/timeout_info.cpp.s
 .PHONY : time/timeout_info.cpp.s
 
 # Help Target
@@ -1308,8 +1205,8 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... common"
-	@echo "... common_static"
 	@echo "... conf/ini.o"
 	@echo "... conf/ini.i"
 	@echo "... conf/ini.s"
@@ -1322,6 +1219,9 @@ help:
 	@echo "... lang/bitmap.o"
 	@echo "... lang/bitmap.i"
 	@echo "... lang/bitmap.s"
+	@echo "... lang/comparator.o"
+	@echo "... lang/comparator.i"
+	@echo "... lang/comparator.s"
 	@echo "... lang/mutex.o"
 	@echo "... lang/mutex.i"
 	@echo "... lang/mutex.s"
