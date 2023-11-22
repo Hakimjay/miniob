@@ -694,8 +694,8 @@ RC BufferPoolManager::close_file(const char *_file_name)
 */
 RC BufferPoolManager::remove_file(const char *file_name)
 {
-  ::remove(file_name);
   RC rc=close_file(file_name);
+  ::remove(file_name);
   return rc;
 }
 
