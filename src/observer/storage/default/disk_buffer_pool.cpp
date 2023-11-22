@@ -692,6 +692,7 @@ RC BufferPoolManager::close_file(const char *_file_name)
 /*
 在remove文件之前，进行的close_file就改变了file_name的指向，所以无法删除对应文件。
 */
+
 RC BufferPoolManager::remove_file(const char *file_name)
 {
   RC rc=close_file(file_name);
