@@ -1,0 +1,5 @@
+if(EXISTS "/home/ajay/local/whu_ob/test/case/miniob/build/unitest/bplus_tree_test[1]_tests.cmake")
+  include("/home/ajay/local/whu_ob/test/case/miniob/build/unitest/bplus_tree_test[1]_tests.cmake")
+else()
+  add_test(bplus_tree_test_NOT_BUILT bplus_tree_test_NOT_BUILT)
+endif()

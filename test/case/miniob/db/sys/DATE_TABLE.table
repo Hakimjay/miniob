@@ -1,0 +1,34 @@
+{
+	"fields" : 
+	[
+		{
+			"len" : 4,
+			"name" : "__trx",
+			"offset" : 0,
+			"type" : "ints",
+			"visible" : false
+		},
+		{
+			"len" : 4,
+			"name" : "ID",
+			"offset" : 4,
+			"type" : "ints",
+			"visible" : true
+		},
+		{
+			"len" : 4,
+			"name" : "U_DATE",
+			"offset" : 8,
+			"type" : "dates",
+			"visible" : true
+		}
+	],
+	"indexes" : 
+	[
+		{
+			"field_name" : "U_DATE",
+			"name" : "INDEX_ID"
+		}
+	],
+	"table_name" : "DATE_TABLE"
+}
