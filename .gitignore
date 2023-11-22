@@ -712,8 +712,6 @@ test/case/test/primary-simple-sub-query.test
 test/case/test/primary-text.test
 test/case/test/primary-unique.test
 test/case/test/primary-update.test
-test/perf/client_performance_test.cpp
-test/perf/CMakeLists.txt
 docs/how_to_build.md
 docs/how_to_dev_miniob_by_docker_on_windows.md
 docs/how_to_dev_miniob_by_vscode.md
