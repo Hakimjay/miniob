@@ -867,6 +867,10 @@ RC BplusTreeHandler::drop()
   RC rc=RC::SUCCESS;
   if (disk_buffer_pool_ != nullptr) {
     rc=disk_buffer_pool_->remove_file();
+    /*
+      添加关闭缓冲池文件部分
+    */
+    rc=disk_buffer_pool_->close_file();
     if(rc!=RC::SUCCESS)
     {
       LOG_INFO("Unable to delete disk_buffer_pool file");
@@ -875,7 +879,6 @@ RC BplusTreeHandler::drop()
     delete mem_pool_item_;
     mem_pool_item_ = nullptr;
   }
-
   disk_buffer_pool_ = nullptr;
   return rc;
 }

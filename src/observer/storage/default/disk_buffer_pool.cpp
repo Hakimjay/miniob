@@ -220,6 +220,7 @@ RC DiskBufferPool::open_file(const char *file_name)
 
 RC DiskBufferPool::remove_file()
 {
+
   RC rc=bp_manager_.remove_file(file_name_.c_str());
   if(rc!=RC::SUCCESS)
   {

@@ -86,7 +86,7 @@ RC Trx::insert_record(Table *table, Record *record)
     }
   }
 
-  // start_if_not_started();
+  //start_if_not_started();
   
   // 记录到operations中
   insert_operation(table, Operation::Type::INSERT, record->rid());
@@ -110,6 +110,7 @@ RC Trx::delete_record(Table *table, Record *record)
   insert_operation(table, Operation::Type::DELETE, record->rid());
   return rc;
 }
+
 RC Trx::update_record(Table *table, Record *record)
 {
   RC rc = RC::SUCCESS;

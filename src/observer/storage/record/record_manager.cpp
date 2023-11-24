@@ -340,6 +340,14 @@ RC RecordFileHandler::destroy()
     {
       return rc;
     }
+    /*
+      添加关闭缓冲池文件部分
+    */
+    rc=disk_buffer_pool_->close_file();
+    if(rc!=RC::SUCCESS)
+    {
+      return rc;
+    }
     disk_buffer_pool_=nullptr;
   }
   return rc;
