@@ -1,0 +1,348 @@
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: init.cpp init 230]>>Output configuration 
+Begin dump configuration
+[]
+
+[DefaultStorageStage]
+BaseDir=./miniob
+SystemDb=sys
+ThreadId=IOThreads
+
+[DefaultThreads]
+count=3
+
+[ExecuteStage]
+NextStages=DefaultStorageStage,MemStorageStage
+ThreadId=SQLThreads
+
+[IOThreads]
+count=3
+
+[LOG]
+LOG_CONSOLE_LEVEL=1
+LOG_FILE_LEVEL=3
+LOG_FILE_NAME=observer.log
+
+[MemStorageStage]
+ThreadId=IOThreads
+
+[MetricsStage]
+NextStages=TimerStage
+
+[NET]
+CLIENT_ADDRESS=INADDR_ANY
+MAX_CONNECTION_NUM=8192
+PORT=6789
+
+[OptimizeStage]
+NextStages=ExecuteStage
+ThreadId=SQLThreads
+
+[ParseStage]
+NextStages=ResolveStage
+ThreadId=SQLThreads
+
+[PlanCacheStage]
+NextStages=ParseStage
+ThreadId=SQLThreads
+
+[QueryCacheStage]
+NextStages=OptimizeStage
+ThreadId=SQLThreads
+
+[ResolveStage]
+NextStages=QueryCacheStage
+ThreadId=SQLThreads
+
+[SEDA_BASE]
+EventHistory=false
+MaxEventHistoryNum=100
+STAGES=SessionStage,ExecuteStage,OptimizeStage,ParseStage,ResolveStage,PlanCacheStage,QueryCacheStage,DefaultStorageStage,MemStorageStage,TimerStage,MetricsStage
+ThreadPools=SQLThreads,IOThreads,D
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:128, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:256, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:384, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:512, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:640, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:768, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:896, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1024, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1152, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1280, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1408, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1536, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1664, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1792, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:1920, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2048, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2176, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2304, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2432, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2560, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2688, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2816, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:2944, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3072, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3200, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3328, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3456, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3584, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3712, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3840, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:3968, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4096, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4224, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4352, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4480, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4608, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4736, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4864, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:4992, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5120, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5248, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5376, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5504, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5632, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5760, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:5888, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6016, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6144, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6272, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6400, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6528, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6656, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6784, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:6912, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7040, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7168, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7296, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7424, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7552, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7680, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7808, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:7936, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8064, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8192, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8320, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8448, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8576, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8704, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8832, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:8960, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9088, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9216, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9344, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9472, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9600, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9728, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9856, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:9984, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10112, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10240, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10368, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10496, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10624, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10752, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:10880, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11008, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11136, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11264, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11392, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11520, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11648, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11776, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:11904, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12032, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12160, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12288, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12416, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12544, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12672, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12800, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:12928, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13056, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13184, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13312, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13440, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13568, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13696, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13824, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:13952, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14080, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14208, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14336, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14464, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14592, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14720, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14848, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:14976, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15104, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15232, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15360, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15488, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15616, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15744, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:15872, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:16000, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:16128, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:16256, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h extend 265]>>Extend one pool, this->size:16384, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: mem_pool.h init 208]>>Extend one pool, this->size:16384, item_num_per_pool:128, this->name:BufPool.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: init.cpp init_seda 63]>>(Re)Starting State: Pid: 22018 Time: Fri Jan  5 20:49:44 2024
+
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: init.cpp init_seda 64]>>The process Name is observer
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_event_history 209]>>Successfully init_event_history, EventHistory:0, MaxEventHops:100
+[2024-1-5 20:49:44 pid:22018 tid:7fffe77e2640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffe77e2640, threadname = SQLThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffe6fe1640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffe6fe1640, threadname = SQLThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffe67e0640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffe67e0640, threadname = SQLThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffe5fdf640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffe5fdf640, threadname = IOThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffe57de640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffe57de640, threadname = IOThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffe4fdd640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffe4fdd640, threadname = IOThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffcffff640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffcffff640, threadname = DefaultThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffcf7fe640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffcf7fe640, threadname = DefaultThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7fffceffd640  INFO: thread_pool.cpp run_thread 258]>>threadid = 7fffceffd640, threadname = DefaultThreads
+
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage SessionStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage ExecuteStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage OptimizeStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage ParseStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage ResolveStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage PlanCacheStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage QueryCacheStage use threadpool SQLThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: default_storage_stage.cpp set_properties 87]>>Use sys as system db
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: default_handler.cpp init 64]>>Default handler init with ./miniob success
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: persist.cpp create_file 50]>>Successfully create ./miniob/db/sys/clog.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: persist.cpp open_file 71]>>Successfully open file ./miniob/db/sys/clog.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: db.cpp open_all_tables 146]>>All table have been opened. num=0
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  WARNNING: persist.cpp read_at 274]>>Failed to read 512 of 4:./miniob/db/sys/clog due to No such file or directory.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: default_storage_stage.cpp set_properties 111]>>Open system db success: sys
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage DefaultStorageStage use threadpool IOThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage MemStorageStage use threadpool IOThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp get_thread_pool 296]>>Not set thread_pool_id for TimerStage, use default threadpool DefaultThreads
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage TimerStage use threadpool DefaultThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp get_thread_pool 296]>>Not set thread_pool_id for MetricsStage, use default threadpool DefaultThreads
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: seda_config.cpp init_stages 355]>>Stage MetricsStage use threadpool DefaultThreads.
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: metrics_registry.cpp register_metric 37]>>Successfully register metric :DefaultStorageStage.query
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: metrics_registry.cpp register_metric 37]>>Successfully register metric :SessionStage.sql
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: init.cpp init 260]>>Successfully init utility
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: metrics_registry.cpp register_metric 37]>>Successfully register metric :SessionStage.readsocket
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: metrics_registry.cpp register_metric 37]>>Successfully register metric :SessionStage.writesocket
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: server.cpp start_tcp_server 328]>>Listen on port 6789
+[2024-1-5 20:49:44 pid:22018 tid:7ffff7863740  INFO: server.cpp start_tcp_server 345]>>Observer start success
+[2024-1-5 20:50:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>DefaultStorageStage.query:mean:0,tps:0
+[2024-1-5 20:50:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>SessionStage.readsocket:mean:0,tps:0
+[2024-1-5 20:50:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>SessionStage.sql:mean:0,tps:0
+[2024-1-5 20:50:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>SessionStage.writesocket:mean:0,tps:0
+[2024-1-5 20:51:44 pid:22018 tid:7fffcffff640  INFO: log_reporter.cpp report 36]>>DefaultStorageStage.query:mean:0,tps:0
+[2024-1-5 20:51:44 pid:22018 tid:7fffcffff640  INFO: log_reporter.cpp report 36]>>SessionStage.readsocket:mean:0,tps:0
+[2024-1-5 20:51:44 pid:22018 tid:7fffcffff640  INFO: log_reporter.cpp report 36]>>SessionStage.sql:mean:0,tps:0
+[2024-1-5 20:51:44 pid:22018 tid:7fffcffff640  INFO: log_reporter.cpp report 36]>>SessionStage.writesocket:mean:0,tps:0
+[2024-1-5 20:52:24 pid:22018 tid:7ffff7863740  INFO: server.cpp accept 273]>>Accepted connection from 127.0.0.1:51424
+
+[2024-1-5 20:52:44 pid:22018 tid:7fffcf7fe640  INFO: log_reporter.cpp report 36]>>DefaultStorageStage.query:mean:0,tps:0
+[2024-1-5 20:52:44 pid:22018 tid:7fffcf7fe640  INFO: log_reporter.cpp report 36]>>SessionStage.readsocket:mean:0,tps:0
+[2024-1-5 20:52:44 pid:22018 tid:7fffcf7fe640  INFO: log_reporter.cpp report 36]>>SessionStage.sql:mean:0,tps:0
+[2024-1-5 20:52:44 pid:22018 tid:7fffcf7fe640  INFO: log_reporter.cpp report 36]>>SessionStage.writesocket:mean:0,tps:0
+[2024-1-5 20:53:22 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=47): CREATE TABLE date_table(id int, u_date date);
+
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  WARNNING: stmt.cpp create_stmt 36]>>unknown query command
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: table.cpp create 63]>>Begin to create table ./miniob/db/sys:date_table
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: field_meta.cpp init 69]>>Init a field with name=__trx
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: field_meta.cpp init 69]>>Init a field with name=id
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: field_meta.cpp init 69]>>Init a field with name=u_date
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: table_meta.cpp init 97]>>Sussessfully initialized table meta. table name=date_table
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: disk_buffer_pool.cpp create_file 646]>>Successfully create ./miniob/db/sys/date_table.data.
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: disk_buffer_pool.cpp open_file 190]>>Successfully open file ./miniob/db/sys/date_table.data.
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: disk_buffer_pool.cpp open_file 219]>>Successfully open ./miniob/db/sys/date_table.data. file_desc=11, hdr_frame=0x7ffff7662010
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: record_manager.cpp init 317]>>open record file handle done. rc=SUCCESS
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: table.cpp create 120]>>Successfully create table ./miniob/db/sys:date_table
+[2024-1-5 20:53:22 pid:22018 tid:7fffe77e2640  INFO: db.cpp create_table 84]>>Create table success. table name=date_table
+[2024-1-5 20:53:23 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=46): CREATE INDEX index_id on date_table(u_date);
+
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  WARNNING: stmt.cpp create_stmt 36]>>unknown query command
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: disk_buffer_pool.cpp create_file 646]>>Successfully create ./miniob/db/sys/date_table-index_id.index.
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: bplus_tree.cpp create 761]>>Successfully create index file:./miniob/db/sys/date_table-index_id.index
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: disk_buffer_pool.cpp open_file 190]>>Successfully open file ./miniob/db/sys/date_table-index_id.index.
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: disk_buffer_pool.cpp open_file 219]>>Successfully open ./miniob/db/sys/date_table-index_id.index. file_desc=12, hdr_frame=0x7ffff7666028
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: bplus_tree.cpp create 769]>>Successfully open index file ./miniob/db/sys/date_table-index_id.index.
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: mem_pool.cpp extend 102]>>Extend one pool, this->size:128, item_size:12, item_num_per_pool:128, this->name:./miniob/db/sys/date_table-index_id.index.
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: mem_pool.cpp init 45]>>Extend one pool, this->size:128, item_size:12, item_num_per_pool:128, this->name:./miniob/db/sys/date_table-index_id.index.
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: bplus_tree.cpp create 821]>>Successfully create index ./miniob/db/sys/date_table-index_id.index
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: bplus_tree_index.cpp create 46]>>Successfully create index, file_name:./miniob/db/sys/date_table-index_id.index, index:index_id, field:u_date
+[2024-1-5 20:53:23 pid:22018 tid:7fffe6fe1640  INFO: table.cpp create_index 685]>>Successfully added a new index (index_id) on the table (date_table)
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=49): INSERT INTO date_table VALUES (1,'2020-01-21');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=49): INSERT INTO date_table VALUES (2,'2020-10-21');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=48): INSERT INTO date_table VALUES (3,'2020-1-01');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=48): INSERT INTO date_table VALUES (4,'2020-01-1');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=49): INSERT INTO date_table VALUES (5,'2019-12-21');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=48): INSERT INTO date_table VALUES (6,'2016-2-29');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=47): INSERT INTO date_table VALUES (7,'1970-1-1');
+
+[2024-1-5 20:53:27 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=49): INSERT INTO date_table VALUES (8,'2000-01-01');
+
+[2024-1-5 20:53:28 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=48): INSERT INTO date_table VALUES (9,'2038-1-19');
+
+[2024-1-5 20:53:40 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=52): SELECT * FROM date_table WHERE u_date>'2020-1-20';
+
+[2024-1-5 20:53:40 pid:22018 tid:7fffe67e0640  INFO: select_stmt.cpp create 125]>>got 1 tables in from stmt and 2 fields in query stmt
+[2024-1-5 20:53:40 pid:22018 tid:7fffe67e0640  INFO: execute_stage.cpp try_to_create_index_scan_operator 402]>>use index for scan: index_id in table date_table
+[2024-1-5 20:53:40 pid:22018 tid:7fffe67e0640  INFO: bplus_tree.cpp close 1944]>>bplus tree scanner closed
+[2024-1-5 20:53:40 pid:22018 tid:7fffe67e0640  INFO: bplus_tree.cpp close 1944]>>bplus tree scanner closed
+[2024-1-5 20:53:40 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=53): SELECT * FROM date_table WHERE u_date<'2019-12-31';
+
+[2024-1-5 20:53:40 pid:22018 tid:7fffe77e2640  INFO: select_stmt.cpp create 125]>>got 1 tables in from stmt and 2 fields in query stmt
+[2024-1-5 20:53:40 pid:22018 tid:7fffe77e2640  INFO: execute_stage.cpp try_to_create_index_scan_operator 402]>>use index for scan: index_id in table date_table
+[2024-1-5 20:53:40 pid:22018 tid:7fffe77e2640  INFO: bplus_tree.cpp close 1944]>>bplus tree scanner closed
+[2024-1-5 20:53:40 pid:22018 tid:7fffe77e2640  INFO: bplus_tree.cpp close 1944]>>bplus tree scanner closed
+[2024-1-5 20:53:41 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=51): SELECT * FROM date_table WHERE u_date='2020-1-1';
+
+[2024-1-5 20:53:41 pid:22018 tid:7fffe6fe1640  INFO: select_stmt.cpp create 125]>>got 1 tables in from stmt and 2 fields in query stmt
+[2024-1-5 20:53:41 pid:22018 tid:7fffe6fe1640  INFO: execute_stage.cpp try_to_create_index_scan_operator 402]>>use index for scan: index_id in table date_table
+[2024-1-5 20:53:41 pid:22018 tid:7fffe6fe1640  INFO: bplus_tree.cpp close 1944]>>bplus tree scanner closed
+[2024-1-5 20:53:41 pid:22018 tid:7fffe6fe1640  INFO: bplus_tree.cpp close 1944]>>bplus tree scanner closed
+[2024-1-5 20:53:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>DefaultStorageStage.query:mean:0,tps:0
+[2024-1-5 20:53:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>SessionStage.readsocket:mean:0,tps:0.233333
+[2024-1-5 20:53:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>SessionStage.sql:mean:0.142857,tps:0.233333
+[2024-1-5 20:53:44 pid:22018 tid:7fffceffd640  INFO: log_reporter.cpp report 36]>>SessionStage.writesocket:mean:0,tps:0.466667
+[2024-1-5 20:53:47 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=50): DELETE FROM date_table WHERE u_date>'2012-2-29';
+
+[2024-1-5 20:53:55 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=27): SELECT * FROM date_table;
+
+[2024-1-5 20:53:55 pid:22018 tid:7fffe77e2640  INFO: select_stmt.cpp create 125]>>got 1 tables in from stmt and 2 fields in query stmt
+[2024-1-5 20:54:9 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=52): SELECT * FROM date_table WHERE u_date='2017-2-29';
+
+[2024-1-5 20:54:9 pid:22018 tid:7fffe6fe1640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-2-29
+[2024-1-5 20:54:9 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=53): SELECT * FROM date_table WHERE u_date='2017-21-29';
+
+[2024-1-5 20:54:9 pid:22018 tid:7fffe67e0640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-21-29
+[2024-1-5 20:54:9 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=53): SELECT * FROM date_table WHERE u_date='2017-12-32';
+
+[2024-1-5 20:54:9 pid:22018 tid:7fffe77e2640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-12-32
+[2024-1-5 20:54:10 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=53): SELECT * FROM date_table WHERE u_date='2017-11-31';
+
+[2024-1-5 20:54:10 pid:22018 tid:7fffe6fe1640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-11-31
+[2024-1-5 20:54:18 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=49): INSERT INTO date_table VALUES (10,'2017-2-29');
+
+[2024-1-5 20:54:18 pid:22018 tid:7fffe67e0640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-2-29
+[2024-1-5 20:54:18 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=50): INSERT INTO date_table VALUES (11,'2017-21-29');
+
+[2024-1-5 20:54:18 pid:22018 tid:7fffe77e2640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-21-29
+[2024-1-5 20:54:18 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=50): INSERT INTO date_table VALUES (12,'2017-12-32');
+
+[2024-1-5 20:54:18 pid:22018 tid:7fffe6fe1640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-12-32
+[2024-1-5 20:54:18 pid:22018 tid:7ffff7863740  INFO: server.cpp recv 177]>>receive command(size=50): INSERT INTO date_table VALUES (13,'2017-11-31');
+
+[2024-1-5 20:54:18 pid:22018 tid:7fffe67e0640  WARNNING: parse.cpp value_init_date 78]>>Error date: 2017-11-31

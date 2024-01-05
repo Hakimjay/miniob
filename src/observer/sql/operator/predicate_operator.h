@@ -15,7 +15,6 @@ See the Mulan PSL v2 for more details. */
 #pragma once
 
 #include "sql/operator/operator.h"
-#include "sql/stmt/filter_stmt.h"
 
 class FilterStmt;
 
@@ -37,14 +36,9 @@ public:
   Tuple *current_tuple() override;
   // int tuple_cell_num() const override;
   // RC tuple_cell_spec_at(int index, TupleCellSpec &spec) const override;
-  static RC do_predicate(const FilterUnit *filter_unit, Tuple &tuple, bool &res);
-  static RC do_predicate(const std::vector<FilterUnit *> &filter_units, Tuple &tuple, bool &res);
-
 private:
-  RC do_predicate(Tuple &tuple, bool &res);
+  bool do_predicate(RowTuple &tuple);
 
 private:
   FilterStmt *filter_stmt_ = nullptr;
 };
-
-typedef PredicateOperator HavingOperator;

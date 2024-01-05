@@ -63,21 +63,9 @@ public:
    */
   RC remove(const char *name);
 
-  RC insert_record(Trx *trx, int value_num, const Value *values)
-  {
-    std::vector<const Value *> values_;
-    for (int i = 0; i < value_num; i++) {
-      values_.emplace_back(values + i);
-    }
-    return insert_record(trx, 1, value_num, values_);
-  }
-  RC insert_record(Trx *trx, int row_num, int value_num, std::vector<const Value *> &values);
-
-  RC recover_update_record(Record *record);
+  RC insert_record(Trx *trx, int value_num, const Value *values);
   RC update_record(Trx *trx, const char *attribute_name, const Value *value, int condition_num,
       const Condition conditions[], int *updated_count);
-  RC update_record(Trx *trx, std::vector<const char *> &attr_names, std::vector<Record> &records,
-      std::vector<const Value *> &values);
   RC delete_record(Trx *trx, ConditionFilter *filter, int *deleted_count);
   RC delete_record(Trx *trx, Record *record);
   RC recover_delete_record(Record *record);
@@ -85,7 +73,7 @@ public:
   RC scan_record(Trx *trx, ConditionFilter *filter, int limit, void *context,
       void (*record_reader)(const char *data, void *context));
 
-  RC create_index(Trx *trx, bool unique, const char *index_name, int attr_num, const AttrInfo *attribute_name);
+  RC create_index(Trx *trx, const char *index_name, const char *attribute_name);
 
   RC get_record_scanner(RecordFileScanner &scanner);
 
@@ -105,7 +93,6 @@ public:
   RC commit_insert(Trx *trx, const RID &rid);
   RC commit_delete(Trx *trx, const RID &rid);
   RC rollback_insert(Trx *trx, const RID &rid);
-  RC rollback_update(Trx *trx, Record &new_record, char *old_record_data);
   RC rollback_delete(Trx *trx, const RID &rid);
 
 private:
@@ -115,7 +102,7 @@ private:
       RC (*record_reader)(Record *record, void *context));
   IndexScanner *find_index_for_scan(const ConditionFilter *filter);
   IndexScanner *find_index_for_scan(const DefaultConditionFilter &filter);
-  RC insert_record(Trx *trx, int row_num, Record *records);
+  RC insert_record(Trx *trx, Record *record);
 
 public:
   RC recover_insert_record(Record *record);
@@ -129,8 +116,6 @@ private:
 
 private:
   RC init_record_handler(const char *base_dir);
-  bool record_field_is_null(const char *record, int idx) const;
-  RC change_record_value(char *&record, int idx, const Value &value) const;
   RC make_record(int value_num, const Value *values, char *&record_out);
 
 public:

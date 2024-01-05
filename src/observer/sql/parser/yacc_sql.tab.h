@@ -54,109 +54,67 @@ enum yytokentype {
   TABLE = 261,
   TABLES = 262,
   INDEX = 263,
-  INNER = 264,
-  JOIN = 265,
-  SELECT = 266,
-  DESC = 267,
-  ASC = 268,
-  AS = 269,
-  SHOW = 270,
-  SYNC = 271,
-  INSERT = 272,
-  DELETE = 273,
-  UPDATE = 274,
-  LBRACE = 275,
-  RBRACE = 276,
-  COMMA = 277,
-  TRX_BEGIN = 278,
-  TRX_COMMIT = 279,
-  TRX_ROLLBACK = 280,
-  INT_T = 281,
-  STRING_T = 282,
-  DATE_T = 283,
-  FLOAT_T = 284,
-  ORDER = 285,
-  GROUP = 286,
-  BY = 287,
-  IN = 288,
-  EXISTS = 289,
-  HAVING = 290,
-  AGGR_MAX = 291,
-  AGGR_MIN = 292,
-  AGGR_SUM = 293,
-  AGGR_AVG = 294,
-  AGGR_COUNT = 295,
-  HELP = 296,
-  TEXT = 297,
-  EXIT = 298,
-  DOT = 299,
-  INTO = 300,
-  VALUES = 301,
-  FROM = 302,
-  WHERE = 303,
-  AND = 304,
-  OR = 305,
-  SET = 306,
-  ON = 307,
-  LOAD = 308,
-  DATA = 309,
-  INFILE = 310,
-  NOT = 311,
-  LIKE = 312,
-  UNIQUE = 313,
-  ADD = 314,
-  SUB = 315,
-  MUL = 316,
-  DIV = 317,
-  IS = 318,
-  NULL_VALUE = 319,
-  NULLABLE = 320,
-  EQ = 321,
-  LT = 322,
-  GT = 323,
-  LE = 324,
-  GE = 325,
-  NE = 326,
-  LENGTH = 327,
-  ROUND = 328,
-  DATE_FORMAT = 329,
-  NUMBER = 330,
-  FLOAT = 331,
-  ID = 332,
-  PATH = 333,
-  SSS = 334,
-  STAR = 335,
-  STRING_V = 336,
-  DATE_STR = 337
+  SELECT = 264,
+  DESC = 265,
+  SHOW = 266,
+  SYNC = 267,
+  INSERT = 268,
+  DELETE = 269,
+  UPDATE = 270,
+  LBRACE = 271,
+  RBRACE = 272,
+  COMMA = 273,
+  TRX_BEGIN = 274,
+  TRX_COMMIT = 275,
+  TRX_ROLLBACK = 276,
+  INT_T = 277,
+  STRING_T = 278,
+  DATE_T = 279,
+  FLOAT_T = 280,
+  HELP = 281,
+  EXIT = 282,
+  DOT = 283,
+  INTO = 284,
+  VALUES = 285,
+  FROM = 286,
+  WHERE = 287,
+  AND = 288,
+  SET = 289,
+  ON = 290,
+  LOAD = 291,
+  DATA = 292,
+  INFILE = 293,
+  EQ = 294,
+  LT = 295,
+  GT = 296,
+  LE = 297,
+  GE = 298,
+  NE = 299,
+  NUMBER = 300,
+  FLOAT = 301,
+  ID = 302,
+  PATH = 303,
+  SSS = 304,
+  STAR = 305,
+  STRING_V = 306,
+  DATE_STR = 307
 };
 #endif
 
 /* Value type.  */
 #if !defined YYSTYPE && !defined YYSTYPE_IS_DECLARED
 union YYSTYPE {
-#line 167 "yacc_sql.y"
+#line 117 "yacc_sql.y"
 
   struct _Attr *attr;
   struct _Condition *condition1;
   struct _Value *value1;
-  struct _UnaryExpr *uexp1;
-  struct _Expr *exp1;
-  struct _Expr *exp2;
-  struct _Expr *exp3;
-  struct _Expr *exp4;
-  struct _Expr *exp5;
-  struct _Expr *exp6;
-  struct _Expr *exp7;
-  struct _Expr *exp8;
-  struct _FromInfo *from_info;
   char *string;
   int number;
   float floats;
   char *position;
-  int cur_len;
-  int comp_op;
 
-#line 162 "yacc_sql.tab.h"
+#line 120 "yacc_sql.tab.h"
 };
 typedef union YYSTYPE YYSTYPE;
 #define YYSTYPE_IS_TRIVIAL 1

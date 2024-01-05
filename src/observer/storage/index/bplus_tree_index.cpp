@@ -20,8 +20,7 @@ BplusTreeIndex::~BplusTreeIndex() noexcept
   close();
 }
 
-// RC BplusTreeIndex::create(const char *file_name, const IndexMeta &index_meta, const FieldMeta &field_meta)
-RC BplusTreeIndex::create(const char *file_name, const IndexMeta &index_meta, std::vector<FieldMeta> field_meta)
+RC BplusTreeIndex::create(const char *file_name, const IndexMeta &index_meta, const FieldMeta &field_meta)
 {
   if (inited_) {
     LOG_WARN("Failed to create index due to the index has been created before. file_name:%s, index:%s, field:%s",
@@ -33,20 +32,7 @@ RC BplusTreeIndex::create(const char *file_name, const IndexMeta &index_meta, st
 
   Index::init(index_meta, field_meta);
 
-  std::vector<int> field_id;
-  std::vector<int> field_length;
-  std::vector<int> field_offset;
-  std::vector<AttrType> field_type;
-
-  // 第0个字段为record中NULL的Bitmap
-  for (size_t i = 0; i < field_meta.size(); i++) {
-    field_id.push_back(field_meta[i].id());
-    field_length.push_back(field_meta[i].len());
-    field_offset.push_back(field_meta[i].offset());
-    field_type.push_back(field_meta[i].type());
-  }
-
-  RC rc = index_handler_.create(file_name, index_meta.is_unique(), field_id, field_type, field_length, field_offset);
+  RC rc = index_handler_.create(file_name, field_meta.type(), field_meta.len());
   if (RC::SUCCESS != rc) {
     LOG_WARN("Failed to create index_handler, file_name:%s, index:%s, field:%s, rc:%s",
         file_name,
@@ -62,7 +48,7 @@ RC BplusTreeIndex::create(const char *file_name, const IndexMeta &index_meta, st
   return RC::SUCCESS;
 }
 
-RC BplusTreeIndex::open(const char *file_name, const IndexMeta &index_meta, std::vector<FieldMeta> &field_meta)
+RC BplusTreeIndex::open(const char *file_name, const IndexMeta &index_meta, const FieldMeta &field_meta)
 {
   if (inited_) {
     LOG_WARN("Failed to open index due to the index has been initedd before. file_name:%s, index:%s, field:%s",
@@ -103,12 +89,12 @@ RC BplusTreeIndex::close()
 
 RC BplusTreeIndex::insert_entry(const char *record, const RID *rid)
 {
-  return index_handler_.insert_entry(record, rid);
+  return index_handler_.insert_entry(record + field_meta_.offset(), rid);
 }
 
 RC BplusTreeIndex::delete_entry(const char *record, const RID *rid)
 {
-  return index_handler_.delete_entry(record, rid);
+  return index_handler_.delete_entry(record + field_meta_.offset(), rid);
 }
 
 IndexScanner *BplusTreeIndex::create_scanner(
