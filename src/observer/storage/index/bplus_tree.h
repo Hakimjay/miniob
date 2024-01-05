@@ -45,8 +45,12 @@ public:
   int operator()(const char *v1, const char *v2) const
   {
     switch (attr_type_) {
+<<<<<<< HEAD
       case INTS:
       case DATES: {
+=======
+      case INTS: {
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
         return compare_int((void *)v1, (void *)v2);
       } break;
       case FLOATS: {

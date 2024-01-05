@@ -34,6 +34,7 @@ char *substr(const char *s,int n1,int n2)/*从s中提取下标为n1~n2的字符�
   return sp;
 }
 
+<<<<<<< HEAD
 //从字符串指定位置开始，查找指定字符第一次出现的位置
 int find(const char *s, int b, const char *t)
 {
@@ -44,6 +45,8 @@ int find(const char *s, int b, const char *t)
   return -1;
 }
 
+=======
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
 void yyerror(yyscan_t scanner, const char *str)
 {
   ParserContext *context = (ParserContext *)(yyget_extra(scanner));
@@ -92,7 +95,6 @@ ParserContext *get_context(yyscan_t scanner)
         TRX_ROLLBACK
         INT_T
         STRING_T
-				DATE_T
         FLOAT_T
         HELP
         EXIT
@@ -131,7 +133,6 @@ ParserContext *get_context(yyscan_t scanner)
 %token <string> SSS
 %token <string> STAR
 %token <string> STRING_V
-%token <string> DATE_STR
 //非终结符
 
 %type <number> type;
@@ -280,7 +281,6 @@ type:
 	INT_T { $$=INTS; }
        | STRING_T { $$=CHARS; }
        | FLOAT_T { $$=FLOATS; }
-			 | DATE_T { $$=DATES; }
        ;
 ID_get:
 	ID 
@@ -325,6 +325,7 @@ value:
 			$1 = substr($1,1,strlen($1)-2);
   		value_init_string(&CONTEXT->values[CONTEXT->value_length++], $1);
 		}
+<<<<<<< HEAD
 		|DATE_STR {
 			int p1 = find($1,1,"-");
 			int p2 = find($1,p1+1,"-");
@@ -335,6 +336,8 @@ value:
 				return -1;
 			}
 		}
+=======
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
     ;
     
 delete:		/*  delete 语句的语法解析树*/
@@ -377,7 +380,11 @@ select:				/*  select 语句的语法解析树*/
 	;
 
 select_attr:
+<<<<<<< HEAD
     STAR attr_list {  
+=======
+    STAR {  
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
 			RelAttr attr;
 			relation_attr_init(&attr, NULL, "*");
 			selects_append_attribute(&CONTEXT->ssql->sstr.selection, &attr);

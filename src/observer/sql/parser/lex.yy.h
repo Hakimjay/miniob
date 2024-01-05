@@ -497,7 +497,11 @@ extern int yylex(YYSTYPE *yylval_param, yyscan_t yyscanner);
 #undef yyTABLES_NAME
 #endif
 
+<<<<<<< HEAD
 #line 91 "lex_sql.l"
+=======
+#line 88 "lex_sql.l"
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
 
 #line 508 "lex.yy.h"
 #undef yyIN_HEADER

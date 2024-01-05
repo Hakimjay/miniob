@@ -90,7 +90,10 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
 
   Expression *left = nullptr;
   Expression *right = nullptr;
+<<<<<<< HEAD
   AttrType left_type, right_type;
+=======
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
   if (condition.left_is_attr) {
     Table *table = nullptr;
     const FieldMeta *field = nullptr;
@@ -100,10 +103,15 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
       return rc;
     }
     left = new FieldExpr(table, field);
+<<<<<<< HEAD
     left_type = field->type();
   } else {
     left = new ValueExpr(condition.left_value);
     left_type = condition.left_value.type;
+=======
+  } else {
+    left = new ValueExpr(condition.left_value);
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
   }
 
   if (condition.right_is_attr) {
@@ -116,6 +124,7 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
       return rc;
     }
     right = new FieldExpr(table, field);
+<<<<<<< HEAD
     right_type = field->type();
   } else {
     right = new ValueExpr(condition.right_value);
@@ -127,6 +136,12 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
     return RC::SQL_SYNTAX;
   }
 
+=======
+  } else {
+    right = new ValueExpr(condition.right_value);
+  }
+
+>>>>>>> 6fb8cdccafe87bbe9b9bd35c52618135c4443cf2
   filter_unit = new FilterUnit;
   filter_unit->set_comp(comp);
   filter_unit->set_left(left);

@@ -94,10 +94,12 @@ RC Db::drop_table(const char *table_name)
     return RC::SCHEMA_TABLE_NOT_EXIST;
   }
 
+  // 在表对象上执行删除操作
   Table *table = iter->second;
   table->remove(table_name);
   delete table;
 
+  // 从已打开的表集合中移除该表
   opened_tables_.erase(iter);
   LOG_INFO("Drop table success. table name=%s", table_name);
   return RC::SUCCESS;

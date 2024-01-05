@@ -497,12 +497,13 @@ RC ExecuteStage::do_drop_table(SQLStageEvent *sql_event)
   Db *db = session->get_current_db();
 
   Trx *trx = session->current_trx();
-  // handle trx here or passed in db->drop_table
+  // 如果存在当前事务，则通过事务对象删除表
   Table *table = db->find_table(drop_table.relation_name);
   if (nullptr != trx) {
     trx->delete_table(table);
   }
 
+  // 调用数据库对象的 drop_table 方法删除表
   RC rc = db->drop_table(drop_table.relation_name);
   if (rc == RC::SUCCESS) {
     session_event->set_response("SUCCESS\n");
