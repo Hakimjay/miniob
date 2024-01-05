@@ -22,7 +22,7 @@ class InsertStmt;
 
 class InsertOperator : public Operator {
 public:
-  InsertOperator(InsertStmt *insert_stmt, Trx *trx) : insert_stmt_(insert_stmt), trx_(trx)
+  InsertOperator(InsertStmt *insert_stmt) : insert_stmt_(insert_stmt)
   {}
 
   virtual ~InsertOperator() = default;
@@ -31,12 +31,6 @@ public:
   RC next() override;
   RC close() override;
 
-  Tuple *current_tuple() override
-  {
-    return nullptr;
-  }
-
 private:
   InsertStmt *insert_stmt_ = nullptr;
-  Trx *trx_ = nullptr;
 };

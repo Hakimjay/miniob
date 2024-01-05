@@ -94,10 +94,12 @@ RC Db::drop_table(const char *table_name)
     return RC::SCHEMA_TABLE_NOT_EXIST;
   }
 
+  // 在表对象上执行删除操作
   Table *table = iter->second;
   table->remove(table_name);
   delete table;
 
+  // 从已打开的表集合中移除该表
   opened_tables_.erase(iter);
   LOG_INFO("Drop table success. table name=%s", table_name);
   return RC::SUCCESS;
@@ -184,7 +186,6 @@ RC Db::recover()
     for (auto it = mtr_manager->log_redo_list.begin(); it != mtr_manager->log_redo_list.end(); it++) {
       CLogRecord *clog_record = *it;
       if (clog_record->get_log_type() != CLogType::REDO_INSERT &&
-          clog_record->get_log_type() != CLogType::REDO_UPDATE &&
           clog_record->get_log_type() != CLogType::REDO_DELETE) {
         delete clog_record;
         continue;
@@ -214,16 +215,6 @@ RC Db::recover()
           record.set_rid(clog_record->log_record_.ins.rid_);
 
           rc = table->recover_insert_record(&record);
-          delete[] record_data;
-        } break;
-        case CLogType::REDO_UPDATE: {
-          char *record_data = new char[clog_record->log_record_.ups.data_len_];
-          memcpy(record_data, clog_record->log_record_.ups.data_, clog_record->log_record_.ups.data_len_);
-          Record record;
-          record.set_data(record_data);
-          record.set_rid(clog_record->log_record_.ups.rid_);
-
-          rc = table->recover_update_record(&record);
           delete[] record_data;
         } break;
         case CLogType::REDO_DELETE: {

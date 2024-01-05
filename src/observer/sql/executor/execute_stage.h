@@ -16,25 +16,17 @@ See the Mulan PSL v2 for more details. */
 #define __OBSERVER_SQL_EXECUTE_STAGE_H__
 
 #include "common/seda/stage.h"
-#include "sql/operator/project_operator.h"
 #include "sql/parser/parse.h"
-#include "sql/operator/operator.h"
 #include "rc.h"
 
 class SQLStageEvent;
 class SessionEvent;
 class SelectStmt;
-class FilterUnit;
 
 class ExecuteStage : public common::Stage {
 public:
   ~ExecuteStage();
   static Stage *make_stage(const std::string &tag);
-  static RC gen_join_operator(
-      const SelectStmt *select_stmt, Operator *&result_op, std::vector<Operator *> &delete_opers);
-  static RC gen_physical_plan(
-      const SelectStmt *select_stmt, ProjectOperator *&op, std::vector<Operator *> &delete_opers);
-  static RC gen_physical_plan_for_subquery(const FilterUnit *filter, std::vector<Operator *> &delete_opers);
 
 protected:
   // common function
@@ -53,10 +45,8 @@ protected:
   RC do_create_index(SQLStageEvent *sql_event);
   RC do_show_tables(SQLStageEvent *sql_event);
   RC do_desc_table(SQLStageEvent *sql_event);
-  RC do_show_index(SQLStageEvent *sql_event);
   RC do_select(SQLStageEvent *sql_event);
   RC do_insert(SQLStageEvent *sql_event);
-  RC do_update(SQLStageEvent *sql_event);
   RC do_delete(SQLStageEvent *sql_event);
   RC do_begin(SQLStageEvent *sql_event);
   RC do_commit(SQLStageEvent *sql_event);

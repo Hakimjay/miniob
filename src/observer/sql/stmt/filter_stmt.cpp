@@ -15,8 +15,6 @@ See the Mulan PSL v2 for more details. */
 #include "rc.h"
 #include "common/log/log.h"
 #include "common/lang/string.h"
-#include "sql/expr/expression.h"
-#include "sql/parser/parse_defs.h"
 #include "sql/stmt/filter_stmt.h"
 #include "storage/common/db.h"
 #include "storage/common/table.h"
@@ -90,42 +88,35 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
     return RC::INVALID_ARGUMENT;
   }
 
-  if (AND_OP == comp || OR_OP == comp) {
-    assert(ExpType::COND == condition.left->type);
-    assert(ExpType::COND == condition.right->type);
-    FilterUnit *left_unit = nullptr;
-    FilterUnit *right_unit = nullptr;
-    rc = create_filter_unit(db, default_table, tables, *condition.left->cexp, left_unit);
-    if (rc != RC::SUCCESS) {
-      LOG_ERROR("filter unit create left expression failed");
-      return rc;
-    }
-    rc = create_filter_unit(db, default_table, tables, *condition.right->cexp, right_unit);
-    if (rc != RC::SUCCESS) {
-      LOG_ERROR("filter unit create left expression failed");
-      delete left_unit;
-      return rc;
-    }
-    filter_unit = new FilterUnit;
-    filter_unit->set_comp(comp);
-    filter_unit->set_left_unit(left_unit);
-    filter_unit->set_right_unit(right_unit);
-    return rc;
-  }
-
   Expression *left = nullptr;
   Expression *right = nullptr;
-  rc = Expression::create_expression(condition.left, *tables, std::vector<Table *>{default_table}, left, comp, db);
-  if (rc != RC::SUCCESS) {
-    LOG_ERROR("filter unit create left expression failed");
-    return rc;
+  if (condition.left_is_attr) {
+    Table *table = nullptr;
+    const FieldMeta *field = nullptr;
+    rc = get_table_and_field(db, default_table, tables, condition.left_attr, table, field);
+    if (rc != RC::SUCCESS) {
+      LOG_WARN("cannot find attr");
+      return rc;
+    }
+    left = new FieldExpr(table, field);
+  } else {
+    left = new ValueExpr(condition.left_value);
   }
-  rc = Expression::create_expression(condition.right, *tables, std::vector<Table *>{default_table}, right, comp, db);
-  if (rc != RC::SUCCESS) {
-    LOG_ERROR("filter unit create right expression failed");
-    delete left;
-    return rc;
+
+  if (condition.right_is_attr) {
+    Table *table = nullptr;
+    const FieldMeta *field = nullptr;
+    rc = get_table_and_field(db, default_table, tables, condition.right_attr, table, field);
+    if (rc != RC::SUCCESS) {
+      LOG_WARN("cannot find attr");
+      delete left;
+      return rc;
+    }
+    right = new FieldExpr(table, field);
+  } else {
+    right = new ValueExpr(condition.right_value);
   }
+
   filter_unit = new FilterUnit;
   filter_unit->set_comp(comp);
   filter_unit->set_left(left);

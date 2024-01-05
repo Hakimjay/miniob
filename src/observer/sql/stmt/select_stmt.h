@@ -17,18 +17,13 @@ See the Mulan PSL v2 for more details. */
 #include <vector>
 
 #include "rc.h"
-#include "sql/parser/parse_defs.h"
-#include "sql/stmt/filter_stmt.h"
-#include "sql/stmt/groupby_stmt.h"
 #include "sql/stmt/stmt.h"
 #include "storage/common/field.h"
 
 class FieldMeta;
 class FilterStmt;
-class OrderByStmt;
 class Db;
 class Table;
-class Expression;
 
 class SelectStmt : public Stmt {
 public:
@@ -41,52 +36,24 @@ public:
   }
 
 public:
-  static RC create(Db *db, const Selects &select_sql, const std::vector<Table *> &parent_tables,
-      const std::unordered_map<std::string, Table *> &parent_table_map, Stmt *&stmt);
+  static RC create(Db *db, const Selects &select_sql, Stmt *&stmt);
 
 public:
   const std::vector<Table *> &tables() const
   {
     return tables_;
   }
-  const std::vector<Expression *> &projects() const
+  const std::vector<Field> &query_fields() const
   {
-    return projects_;
+    return query_fields_;
   }
   FilterStmt *filter_stmt() const
   {
     return filter_stmt_;
   }
-  FilterStmt *inner_join_filter_stmt() const
-  {
-    return inner_join_filter_stmt_;
-  }
-  HavingStmt *having_stmt() const
-  {
-    return having_stmt_;
-  }
-  OrderByStmt *orderby_stmt() const
-  {
-    return orderby_stmt_;
-  }
-  OrderByStmt *orderby_stmt_for_groupby() const
-  {
-    return orderby_stmt_for_groupby_;
-  }
-  GroupByStmt *groupby_stmt() const
-  {
-    return groupby_stmt_;
-  }
 
 private:
-  // own these expression
-  std::vector<Expression *> projects_;
-
+  std::vector<Field> query_fields_;
   std::vector<Table *> tables_;
   FilterStmt *filter_stmt_ = nullptr;
-  FilterStmt *inner_join_filter_stmt_ = nullptr;
-  HavingStmt *having_stmt_ = nullptr;
-  OrderByStmt *orderby_stmt_ = nullptr;
-  OrderByStmt *orderby_stmt_for_groupby_ = nullptr;
-  GroupByStmt *groupby_stmt_ = nullptr;
 };

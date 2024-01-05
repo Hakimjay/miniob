@@ -42,7 +42,7 @@ RC TableMeta::init_sys_fields()
 {
   sys_fields_.reserve(1);
   FieldMeta field_meta;
-  RC rc = field_meta.init(0, Trx::trx_field_name(), Trx::trx_field_type(), 0, Trx::trx_field_len(), false, false);
+  RC rc = field_meta.init(Trx::trx_field_name(), Trx::trx_field_type(), 0, Trx::trx_field_len(), false);
   if (rc != RC::SUCCESS) {
     LOG_ERROR("Failed to init trx field. rc = %d:%s", rc, strrc(rc));
     return rc;
@@ -51,7 +51,6 @@ RC TableMeta::init_sys_fields()
   sys_fields_.push_back(field_meta);
   return rc;
 }
-
 RC TableMeta::init(const char *name, int field_num, const AttrInfo attributes[])
 {
   if (common::is_blank(name)) {
@@ -73,8 +72,7 @@ RC TableMeta::init(const char *name, int field_num, const AttrInfo attributes[])
     }
   }
 
-  const int extra_filed_num = 1;  // used for __null
-  fields_.resize(field_num + sys_fields_.size() + extra_filed_num);
+  fields_.resize(field_num + sys_fields_.size());
   for (size_t i = 0; i < sys_fields_.size(); i++) {
     fields_[i] = sys_fields_[i];
   }
@@ -84,13 +82,7 @@ RC TableMeta::init(const char *name, int field_num, const AttrInfo attributes[])
 
   for (int i = 0; i < field_num; i++) {
     const AttrInfo &attr_info = attributes[i];
-    rc = fields_[i + sys_fields_.size()].init(i + sys_fields_.size(),
-        attr_info.name,
-        attr_info.type,
-        field_offset,
-        attr_info.length,
-        static_cast<bool>(attr_info.nullable),
-        true);
+    rc = fields_[i + sys_fields_.size()].init(attr_info.name, attr_info.type, field_offset, attr_info.length, true);
     if (rc != RC::SUCCESS) {
       LOG_ERROR("Failed to init field meta. table name=%s, field name: %s", name, attr_info.name);
       return rc;
@@ -98,16 +90,6 @@ RC TableMeta::init(const char *name, int field_num, const AttrInfo attributes[])
 
     field_offset += attr_info.length;
   }
-
-  // put __null field end of record
-  size_t null_field_len = (field_num + sys_fields_.size() - 1) / 8 + 1;  // the length contain sys fields
-  rc = fields_[sys_fields_.size() + field_num].init(
-      field_num + sys_fields_.size(), "__null", CHARS, field_offset, null_field_len, false, false);
-  if (RC::SUCCESS != rc) {
-    LOG_ERROR("Failed to init field meta. table name=%s, field name: %s", name, "__null");
-    return rc;
-  }
-  field_offset += null_field_len;
 
   record_size_ = field_offset;
 
@@ -130,11 +112,6 @@ const char *TableMeta::name() const
 const FieldMeta *TableMeta::trx_field() const
 {
   return &fields_[0];
-}
-
-const FieldMeta *TableMeta::null_bitmap_field() const
-{
-  return &fields_.back();
 }
 
 const FieldMeta *TableMeta::field(int index) const
@@ -168,11 +145,6 @@ int TableMeta::field_num() const
   return fields_.size();
 }
 
-int TableMeta::extra_filed_num() const
-{
-  return 1;
-}
-
 int TableMeta::sys_field_num() const
 {
   return sys_fields_.size();
@@ -190,16 +162,8 @@ const IndexMeta *TableMeta::index(const char *name) const
 
 const IndexMeta *TableMeta::find_index_by_field(const char *field) const
 {
-  std::string field_name = field;
-  std::vector<std::string> fields;
-  fields.push_back(field_name);
-  return find_index_by_field(fields);
-}
-
-const IndexMeta *TableMeta::find_index_by_field(std::vector<std::string> field) const
-{
   for (const IndexMeta &index : indexes_) {
-    if (field == *index.field()) {
+    if (0 == strcmp(index.field(), field)) {
       return &index;
     }
   }
@@ -353,22 +317,4 @@ void TableMeta::desc(std::ostream &os) const
     os << std::endl;
   }
   os << ')' << std::endl;
-}
-
-void TableMeta::show_index(std::ostream &os) const
-{
-  os << "TABLE"
-     << " | "
-     << "NON_UNIQUE"
-     << " | "
-     << "KEY_NAME"
-     << " | "
-     << "SEQ_IN_INDEX"
-     << " | "
-     << "COLUMN_NAME" << std::endl;
-
-  const char *table_name = name();
-  for (const auto &index : indexes_) {
-    index.show(os, table_name);
-  }
 }

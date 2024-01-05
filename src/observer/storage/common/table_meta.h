@@ -39,7 +39,6 @@ public:
 public:
   const char *name() const;
   const FieldMeta *trx_field() const;
-  const FieldMeta *null_bitmap_field() const;
   const FieldMeta *field(int index) const;
   const FieldMeta *field(const char *name) const;
   const FieldMeta *find_field_by_offset(int offset) const;
@@ -49,11 +48,9 @@ public:
   }
   int field_num() const;  // sys field included
   int sys_field_num() const;
-  int extra_filed_num() const;
 
   const IndexMeta *index(const char *name) const;
   const IndexMeta *find_index_by_field(const char *field) const;
-  const IndexMeta *find_index_by_field(std::vector<std::string> field) const;
   const IndexMeta *index(int i) const;
   int index_num() const;
 
@@ -65,7 +62,6 @@ public:
   int get_serial_size() const override;
   void to_string(std::string &output) const override;
   void desc(std::ostream &os) const;
-  void show_index(std::ostream &os) const;
 
 protected:
   static RC init_sys_fields();

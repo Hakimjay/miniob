@@ -12,12 +12,9 @@ See the Mulan PSL v2 for more details. */
 // Created by Meiyi & Longda on 2021/4/13.
 //
 
-#include <memory>
 #include <string>
 #include <sstream>
-#include <vector>
 
-#include "common/defs.h"
 #include "execute_stage.h"
 
 #include "common/io/io.h"
@@ -29,22 +26,12 @@ See the Mulan PSL v2 for more details. */
 #include "event/storage_event.h"
 #include "event/sql_event.h"
 #include "event/session_event.h"
-#include "sql/expr/expression.h"
 #include "sql/expr/tuple.h"
-#include "sql/operator/dual_table_scan_operator.h"
-#include "sql/operator/groupby_operator.h"
-#include "sql/operator/operator.h"
 #include "sql/operator/table_scan_operator.h"
 #include "sql/operator/index_scan_operator.h"
 #include "sql/operator/predicate_operator.h"
-#include "sql/operator/insert_operator.h"
-#include "sql/operator/update_operator.h"
 #include "sql/operator/delete_operator.h"
 #include "sql/operator/project_operator.h"
-#include "sql/operator/join_operator.h"
-#include "sql/operator/sort_operator.h"
-#include "sql/parser/parse_defs.h"
-#include "sql/stmt/groupby_stmt.h"
 #include "sql/stmt/stmt.h"
 #include "sql/stmt/select_stmt.h"
 #include "sql/stmt/update_stmt.h"
@@ -60,8 +47,6 @@ See the Mulan PSL v2 for more details. */
 #include "storage/clog/clog.h"
 
 using namespace common;
-
-typedef std::vector<FilterUnit *> FilterUnits;
 
 // RC create_selection_executor(
 //   Trx *trx, const Selects &selects, const char *db, const char *table_name, SelectExeNode &select_node);
@@ -158,7 +143,7 @@ void ExecuteStage::handle_request(common::StageEvent *event)
         do_insert(sql_event);
       } break;
       case StmtType::UPDATE: {
-        do_update(sql_event);
+        // do_update((UpdateStmt *)stmt, session_event);
       } break;
       case StmtType::DELETE: {
         do_delete(sql_event);
@@ -184,9 +169,7 @@ void ExecuteStage::handle_request(common::StageEvent *event)
       case SCF_DESC_TABLE: {
         do_desc_table(sql_event);
       } break;
-      case SCF_SHOW_INDEX: {
-        do_show_index(sql_event);
-      } break;
+
       case SCF_DROP_TABLE: {
         do_drop_table(sql_event);
       } break;
@@ -266,7 +249,7 @@ void print_tuple_header(std::ostream &os, const ProjectOperator &oper)
     os << '\n';
   }
 }
-RC tuple_to_string(std::ostream &os, const Tuple &tuple)
+void tuple_to_string(std::ostream &os, const Tuple &tuple)
 {
   TupleCell cell;
   RC rc = RC::SUCCESS;
@@ -285,11 +268,11 @@ RC tuple_to_string(std::ostream &os, const Tuple &tuple)
     }
     cell.to_string(os);
   }
-  return rc;
 }
 
-IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_units)
+IndexScanOperator *try_to_create_index_scan_operator(FilterStmt *filter_stmt)
 {
+  const std::vector<FilterUnit *> &filter_units = filter_stmt->filter_units();
   if (filter_units.empty()) {
     return nullptr;
   }
@@ -304,17 +287,11 @@ IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_u
       continue;
     }
 
-    if (AND_OP == filter_unit->comp() || OR_OP == filter_unit->comp()) {
-      continue;
-    }
-
     Expression *left = filter_unit->left();
     Expression *right = filter_unit->right();
     if (left->type() == ExprType::FIELD && right->type() == ExprType::VALUE) {
     } else if (left->type() == ExprType::VALUE && right->type() == ExprType::FIELD) {
       std::swap(left, right);
-    } else {
-      continue;
     }
     FieldExpr &left_field_expr = *(FieldExpr *)left;
     const Field &field = left_field_expr.field();
@@ -374,7 +351,6 @@ IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_u
   TupleCell value;
   right_value_expr.get_tuple_cell(value);
 
-  // left是field, right是value
   const TupleCell *left_cell = nullptr;
   const TupleCell *right_cell = nullptr;
   bool left_inclusive = false;
@@ -427,345 +403,58 @@ IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_u
   return oper;
 }
 
-// TODO(wbj) have to reconsider this function
-std::unordered_map<Table *, std::unique_ptr<FilterUnits>> split_filters(
-    const std::vector<Table *> &tables, FilterStmt *filter_stmt)
-{
-  std::unordered_map<Table *, std::unique_ptr<FilterUnits>> res;
-  for (auto table : tables) {
-    res[table] = std::make_unique<FilterUnits>();
-  }
-  if (nullptr == filter_stmt) {
-    return res;
-  }
-  for (auto filter : filter_stmt->filter_units()) {
-    // TODO(wbj)
-    if (CompOp::AND_OP == filter->comp() || CompOp::OR_OP == filter->comp()) {
-      continue;
-    }
-    Expression *left = filter->left();
-    Expression *right = filter->right();
-    if (ExprType::FIELD == left->type() && ExprType::VALUE == right->type()) {
-    } else if (ExprType::FIELD == right->type() && ExprType::VALUE == left->type()) {
-      std::swap(left, right);
-    } else {
-      continue;
-    }
-    // TODO: NEED TO CONSIDER SUB_QUERY
-    // only support FILED comp VALUE or VALUE comp FILED now
-    assert(ExprType::FIELD == left->type() && ExprType::VALUE == right->type());
-    auto &left_filed_expr = *static_cast<FieldExpr *>(left);
-    const Field &field = left_filed_expr.field();
-    res[const_cast<Table *>(field.table())]->emplace_back(filter);
-  }
-  return res;
-}
-
-RC ExecuteStage::gen_join_operator(
-    const SelectStmt *select_stmt, Operator *&result_op, std::vector<Operator *> &delete_opers)
-{
-  std::list<Operator *> oper_store;
-  std::list<Table *> table_list;
-  {
-    const auto &tables = select_stmt->tables();
-    FilterStmt *filter_stmt = select_stmt->filter_stmt();  // maybe null
-    auto table_filters_ht = split_filters(tables, filter_stmt);
-    for (std::vector<Table *>::size_type i = 0; i < tables.size(); i++) {
-      Operator *scan_oper = try_to_create_index_scan_operator(*table_filters_ht[tables[i]]);
-      if (nullptr == scan_oper) {
-        scan_oper = new TableScanOperator(tables[i]);
-      }
-      oper_store.push_front(scan_oper);
-      table_list.push_front(tables[i]);
-      delete_opers.push_back(scan_oper);
-    }
-  }
-
-  std::unordered_set<const Table *> table_set;
-  table_set.insert(table_list.front());
-  table_list.pop_front();
-  std::vector<FilterUnit *> filter_units;  // push down inner join on filter. cond and cond and ...
-  if (nullptr != select_stmt->inner_join_filter_stmt()) {
-    filter_units = select_stmt->inner_join_filter_stmt()->filter_units();
-  }
-
-  while (oper_store.size() > 1) {
-    JoinOperator *join_oper = NULL;
-    Operator *left_oper = NULL;
-    Operator *right_oper = NULL;
-
-    left_oper = oper_store.front();
-    oper_store.pop_front();
-    right_oper = oper_store.front();
-    oper_store.pop_front();
-
-    table_set.insert(table_list.front());
-    table_list.pop_front();
-
-    join_oper = new JoinOperator(left_oper, right_oper);
-    oper_store.push_front(join_oper);
-    delete_opers.push_back(join_oper);
-
-    // get proper filter unit. then add to join_oper
-    for (auto it = filter_units.begin(); it != filter_units.end();) {
-      auto unit = *it;
-      bool addable = true;
-      assert(CompOp::AND_OP != unit->comp() && CompOp::OR_OP != unit->comp());
-      Expression *left_expr = unit->left();
-      if (ExprType::FIELD == left_expr->type()) {
-        if (0 == table_set.count(((FieldExpr *)left_expr)->table())) {
-          addable = false;
-        }
-      }
-      Expression *right_expr = unit->right();
-      if (ExprType::FIELD == right_expr->type()) {
-        if (0 == table_set.count(((FieldExpr *)right_expr)->table())) {
-          addable = false;
-        }
-      }
-      if (addable) {
-        join_oper->add_filter_unit(unit);
-        it = filter_units.erase(it);
-      } else {
-        it++;
-      }
-    }
-  }
-
-  result_op = oper_store.front();
-  return RC::SUCCESS;
-}
-
-RC ExecuteStage::gen_physical_plan_for_subquery(const FilterUnit *filter, std::vector<Operator *> &delete_opers)
-{
-  RC rc = RC::SUCCESS;
-  // process sub query
-  auto process_sub_query_expr = [&](Expression *expr) {
-    if (ExprType::SUBQUERYTYPE == expr->type()) {
-      auto sub_query_expr = (SubQueryExpression *)expr;
-      const SelectStmt *sub_select = sub_query_expr->get_sub_query_stmt();
-      ProjectOperator *sub_project = nullptr;
-      if (RC::SUCCESS != (rc = gen_physical_plan(sub_select, sub_project, delete_opers))) {
-        return rc;
-      }
-      assert(nullptr != sub_project);
-      sub_query_expr->set_sub_query_top_oper(sub_project);
-    }
-    return RC::SUCCESS;
-  };
-
-  if (CompOp::AND_OP == filter->comp() || CompOp::OR_OP == filter->comp()) {
-    if (RC::SUCCESS != (rc = gen_physical_plan_for_subquery(filter->left_unit(), delete_opers))) {
-      return rc;
-    }
-    return gen_physical_plan_for_subquery(filter->right_unit(), delete_opers);
-  }
-
-  if (RC::SUCCESS != (rc = process_sub_query_expr(filter->left()))) {
-    return rc;
-  }
-  return process_sub_query_expr(filter->right());
-}
-// remember to delete these operators
-RC ExecuteStage::gen_physical_plan(
-    const SelectStmt *select_stmt, ProjectOperator *&op, std::vector<Operator *> &delete_opers)
-{
-  RC rc = RC::SUCCESS;
-  bool is_single_table = true;
-  Operator *scan_oper = nullptr;
-  if (select_stmt->tables().size() > 1) {
-    rc = gen_join_operator(select_stmt, scan_oper, delete_opers);
-    if (RC::SUCCESS != rc) {
-      return rc;
-    }
-    is_single_table = false;
-  } else if (select_stmt->tables().size() == 1) {
-    if (nullptr != select_stmt->filter_stmt()) {
-      scan_oper = try_to_create_index_scan_operator(select_stmt->filter_stmt()->filter_units());
-    }
-    if (nullptr == scan_oper) {
-      scan_oper = new TableScanOperator(select_stmt->tables()[0]);
-    }
-    delete_opers.push_back(scan_oper);
-  } else {
-    scan_oper = new DualTableScanOperator();
-    delete_opers.push_back(scan_oper);
-  }
-
-  assert(nullptr != scan_oper);
-  Operator *top_op = scan_oper;
-
-  // 1. process where clause
-  PredicateOperator *pred_oper = nullptr;
-  if (nullptr != select_stmt->filter_stmt()) {
-    pred_oper = new PredicateOperator(select_stmt->filter_stmt());
-    pred_oper->add_child(top_op);
-    top_op = pred_oper;
-    delete_opers.emplace_back(pred_oper);
-
-    for (auto unit : select_stmt->filter_stmt()->filter_units()) {
-      if (RC::SUCCESS != (rc = gen_physical_plan_for_subquery(unit, delete_opers))) {
-        return rc;
-      }
-    }
-  }
-
-  // 2 process groupby clause and aggrfunc fileds
-  // 2.1 gen sort oper for groupby
-  SortOperator *sort_oper_for_groupby = nullptr;
-  if (nullptr != select_stmt->orderby_stmt_for_groupby()) {
-    sort_oper_for_groupby = new SortOperator(select_stmt->orderby_stmt_for_groupby());
-    sort_oper_for_groupby->add_child(top_op);
-    top_op = sort_oper_for_groupby;
-    delete_opers.emplace_back(sort_oper_for_groupby);
-  }
-
-  // 2.2 get aggrfunc_exprs from projects
-  std::vector<AggrFuncExpression *> aggr_exprs;
-  for (auto project : select_stmt->projects()) {
-    AggrFuncExpression::get_aggrfuncexprs(project, aggr_exprs);
-  }
-
-  // 2.3 get normal field_exprs from projects
-  std::vector<FieldExpr *> field_exprs;
-  for (auto project : select_stmt->projects()) {
-    FieldExpr::get_fieldexprs_without_aggrfunc(project, field_exprs);
-  }
-
-  // 2.4 get aggrfunc_exprs field_exprs from havings
-  HavingStmt *having_stmt = select_stmt->having_stmt();
-  if (nullptr != having_stmt) {
-    // TODO(wbj) unique
-    for (auto hf : having_stmt->filter_units()) {
-      AggrFuncExpression::get_aggrfuncexprs(hf->left(), aggr_exprs);
-      AggrFuncExpression::get_aggrfuncexprs(hf->right(), aggr_exprs);
-      FieldExpr::get_fieldexprs_without_aggrfunc(hf->left(), field_exprs);
-      FieldExpr::get_fieldexprs_without_aggrfunc(hf->right(), field_exprs);
-    }
-  }
-
-  GroupByStmt *groupby_stmt = select_stmt->groupby_stmt();
-  // 2.5 do check (we should do this check earlier actually)
-  if (!aggr_exprs.empty() && !field_exprs.empty()) {
-    if (nullptr == groupby_stmt) {
-      return RC::SQL_SYNTAX;
-    }
-    for (auto field_expr : field_exprs) {
-      bool in_groupby = false;
-      for (auto groupby_unit : groupby_stmt->groupby_units()) {
-        if (field_expr->in_expression(groupby_unit->expr())) {
-          in_groupby = true;
-          break;
-        }
-      }
-      if (!in_groupby) {
-        return RC::SQL_SYNTAX;
-      }
-    }
-  }
-
-  // 2.6 gen groupby oper
-  GroupByStmt *empty_groupby_stmt = nullptr;  // new a empty groupby stmt for no groupby fields
-  GroupByOperator *group_oper = nullptr;
-  if (0 != aggr_exprs.size()) {
-    group_oper = new GroupByOperator(groupby_stmt, aggr_exprs, field_exprs);
-    if (nullptr == select_stmt->groupby_stmt()) {
-      empty_groupby_stmt = new GroupByStmt();
-      group_oper->set_groupby_stmt(empty_groupby_stmt);
-    }
-    group_oper->add_child(top_op);
-    top_op = group_oper;
-    delete_opers.emplace_back(group_oper);
-  }
-
-  // 3 process having clause
-  HavingOperator *having_oper = nullptr;
-  if (nullptr != having_stmt) {
-    having_oper = new HavingOperator(having_stmt);
-    having_oper->add_child(top_op);
-    top_op = having_oper;
-    delete_opers.emplace_back(having_oper);
-  }
-
-  // 4. process orderby clause
-  SortOperator *sort_oper = nullptr;
-  if (nullptr != select_stmt->orderby_stmt()) {
-    sort_oper = new SortOperator(select_stmt->orderby_stmt());
-    sort_oper->add_child(top_op);
-    top_op = sort_oper;
-    delete_opers.emplace_back(sort_oper);
-  }
-
-  // 5. process select clause
-  ProjectOperator *project_oper = new ProjectOperator();
-  project_oper->add_child(top_op);
-  // top_op = project_oper;
-  auto &projects = select_stmt->projects();
-  for (auto it = projects.begin(); it != projects.end(); it++) {
-    project_oper->add_projection(*it, is_single_table);
-  }
-
-  op = project_oper;
-  return RC::SUCCESS;
-}
-
 RC ExecuteStage::do_select(SQLStageEvent *sql_event)
 {
   SelectStmt *select_stmt = (SelectStmt *)(sql_event->stmt());
   SessionEvent *session_event = sql_event->session_event();
-
-  std::vector<Operator *> delete_opers;
-  DEFER([&]() {
-    for (auto oper : delete_opers) {
-      delete oper;
-    }
-  });
-
-  ProjectOperator *project_oper = nullptr;
-  RC rc = gen_physical_plan(select_stmt, project_oper, delete_opers);
-  if (RC::SUCCESS != rc) {
-    if (RC::SQL_SYNTAX == rc) {
-      session_event->set_response("FAILURE\n");
-    }
+  RC rc = RC::SUCCESS;
+  if (select_stmt->tables().size() != 1) {
+    LOG_WARN("select more than 1 tables is not supported");
+    rc = RC::UNIMPLENMENT;
     return rc;
   }
 
-  assert(nullptr != project_oper);
+  Operator *scan_oper = try_to_create_index_scan_operator(select_stmt->filter_stmt());
+  if (nullptr == scan_oper) {
+    scan_oper = new TableScanOperator(select_stmt->tables()[0]);
+  }
 
-  rc = project_oper->open();
+  DEFER([&]() { delete scan_oper; });
+
+  PredicateOperator pred_oper(select_stmt->filter_stmt());
+  pred_oper.add_child(scan_oper);
+  ProjectOperator project_oper;
+  project_oper.add_child(&pred_oper);
+  for (const Field &field : select_stmt->query_fields()) {
+    project_oper.add_projection(field.table(), field.meta());
+  }
+  rc = project_oper.open();
   if (rc != RC::SUCCESS) {
     LOG_WARN("failed to open operator");
-    session_event->set_response("FAILURE\n");
     return rc;
   }
 
   std::stringstream ss;
-  print_tuple_header(ss, *project_oper);
-  while ((rc = project_oper->next()) == RC::SUCCESS) {
+  print_tuple_header(ss, project_oper);
+  while ((rc = project_oper.next()) == RC::SUCCESS) {
     // get current record
     // write to response
-    Tuple *tuple = project_oper->current_tuple();
+    Tuple *tuple = project_oper.current_tuple();
     if (nullptr == tuple) {
       rc = RC::INTERNAL;
       LOG_WARN("failed to get current record. rc=%s", strrc(rc));
       break;
     }
 
-    rc = tuple_to_string(ss, *tuple);
-    if (rc != RC::SUCCESS) {
-      LOG_ERROR("tuple to string failed:%d, %s", rc, strrc(rc));
-      break;
-    }
+    tuple_to_string(ss, *tuple);
     ss << std::endl;
   }
 
   if (rc != RC::RECORD_EOF) {
     LOG_WARN("something wrong while iterate operator. rc=%s", strrc(rc));
-    session_event->set_response("FAILURE\n");
-    project_oper->close();
-    return rc;
+    project_oper.close();
   } else {
-    rc = project_oper->close();
+    rc = project_oper.close();
   }
   session_event->set_response(ss.str());
   return rc;
@@ -808,12 +497,13 @@ RC ExecuteStage::do_drop_table(SQLStageEvent *sql_event)
   Db *db = session->get_current_db();
 
   Trx *trx = session->current_trx();
-  // handle trx here or passed in db->drop_table
+  // 如果存在当前事务，则通过事务对象删除表
   Table *table = db->find_table(drop_table.relation_name);
   if (nullptr != trx) {
     trx->delete_table(table);
   }
 
+  // 调用数据库对象的 drop_table 方法删除表
   RC rc = db->drop_table(drop_table.relation_name);
   if (rc == RC::SUCCESS) {
     session_event->set_response("SUCCESS\n");
@@ -834,9 +524,7 @@ RC ExecuteStage::do_create_index(SQLStageEvent *sql_event)
     return RC::SCHEMA_TABLE_NOT_EXIST;
   }
 
-  RC rc = table->create_index(
-      nullptr, create_index.unique, create_index.index_name, create_index.attribute_count, create_index.attribute_name);
-
+  RC rc = table->create_index(nullptr, create_index.index_name, create_index.attribute_name);
   sql_event->session_event()->set_response(rc == RC::SUCCESS ? "SUCCESS\n" : "FAILURE\n");
   return rc;
 }
@@ -875,26 +563,8 @@ RC ExecuteStage::do_desc_table(SQLStageEvent *sql_event)
   return RC::SUCCESS;
 }
 
-RC ExecuteStage::do_show_index(SQLStageEvent *sql_event)
-{
-  RC rc = RC::SUCCESS;
-  Query *query = sql_event->query();
-  Db *db = sql_event->session_event()->session()->get_current_db();
-  const char *table_name = query->sstr.desc_table.relation_name;
-  Table *table = db->find_table(table_name);
-  std::stringstream ss;
-  if (table != nullptr) {
-    table->table_meta().show_index(ss);
-  } else {
-    ss << "FAILURE" << std::endl;
-  }
-  sql_event->session_event()->set_response(ss.str().c_str());
-  return rc;
-}
-
 RC ExecuteStage::do_insert(SQLStageEvent *sql_event)
 {
-  RC rc = RC::SUCCESS;
   Stmt *stmt = sql_event->stmt();
   SessionEvent *session_event = sql_event->session_event();
   Session *session = session_event->session();
@@ -908,9 +578,9 @@ RC ExecuteStage::do_insert(SQLStageEvent *sql_event)
   }
 
   InsertStmt *insert_stmt = (InsertStmt *)stmt;
-  InsertOperator insert_oper(insert_stmt, trx);
+  Table *table = insert_stmt->table();
 
-  rc = insert_oper.open();
+  RC rc = table->insert_record(trx, insert_stmt->value_amount(), insert_stmt->values());
   if (rc == RC::SUCCESS) {
     if (!session->is_trx_multi_operation_mode()) {
       CLogRecord *clog_record = nullptr;
@@ -934,56 +604,6 @@ RC ExecuteStage::do_insert(SQLStageEvent *sql_event)
   } else {
     session_event->set_response("FAILURE\n");
   }
-  return rc;
-}
-
-RC ExecuteStage::do_update(SQLStageEvent *sql_event)
-{
-  RC rc = RC::SUCCESS;
-  Stmt *stmt = sql_event->stmt();
-  SessionEvent *session_event = sql_event->session_event();
-  Session *session = session_event->session();
-  Db *db = session->get_current_db();
-  Trx *trx = session->current_trx();
-  CLogManager *clog_manager = db->get_clog_manager();
-
-  if (stmt == nullptr) {
-    LOG_WARN("cannot find statement");
-    return RC::GENERIC_ERROR;
-  }
-
-  UpdateStmt *update_stmt = (UpdateStmt *)stmt;
-  TableScanOperator scan_oper(update_stmt->table());
-  PredicateOperator pred_oper(update_stmt->filter_stmt());
-  pred_oper.add_child(&scan_oper);
-  UpdateOperator update_oper(update_stmt, trx);
-  update_oper.add_child(&pred_oper);
-
-  rc = update_oper.open();
-  if (rc != RC::SUCCESS) {
-    session_event->set_response("FAILURE\n");
-  } else {
-    if (!session->is_trx_multi_operation_mode()) {
-      CLogRecord *clog_record = nullptr;
-      rc = clog_manager->clog_gen_record(CLogType::REDO_MTR_COMMIT, trx->get_current_id(), clog_record);
-      if (rc != RC::SUCCESS || clog_record == nullptr) {
-        session_event->set_response("FAILURE\n");
-        return rc;
-      }
-
-      rc = clog_manager->clog_append_record(clog_record);
-      if (rc != RC::SUCCESS) {
-        session_event->set_response("FAILURE\n");
-        return rc;
-      }
-
-      trx->next_current_id();
-      session_event->set_response("SUCCESS\n");
-    } else {
-      session_event->set_response("SUCCESS\n");
-    }
-  }
-
   return rc;
 }
 
