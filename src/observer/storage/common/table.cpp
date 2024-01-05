@@ -38,7 +38,7 @@ Table::~Table()
   }
 
   if (data_buffer_pool_ != nullptr) {
-    data_buffer_pool_->close_file();
+    BufferPoolManager::instance().close_file(table_data_file(base_dir_.c_str(), name()).c_str());
     data_buffer_pool_ = nullptr;
   }
 
@@ -183,6 +183,54 @@ RC Table::open(const char *meta_file, const char *base_dir, CLogManager *clog_ma
     clog_manager_ = clog_manager;
   }
   return rc;
+}
+
+RC Table::remove(const char *name)
+{
+  if (common::is_blank(name)) {
+    LOG_WARN("Name cannot be empty");
+    return RC::INVALID_ARGUMENT;
+  }
+
+  LOG_INFO("Begin to remove table %s:%s", base_dir_.c_str(), name);
+
+  // 移除索引文件
+  for (auto idx : indexes_) {
+    std::string index_file = table_index_file(base_dir_.c_str(), name, idx->index_meta().name());
+    delete idx;  // 文件会在析构函数中关闭
+    if (0 != ::unlink(index_file.c_str())) {
+      LOG_ERROR("Delete index file failed. filename=%s, errmsg=%d:%s", index_file.c_str(), errno, strerror(errno));
+      return RC::IOERR;
+    }
+  }
+  indexes_.clear();
+
+  assert(nullptr != record_handler_);
+  record_handler_->close();
+  delete record_handler_;
+  record_handler_ = nullptr;
+
+  std::string data_file = table_data_file(base_dir_.c_str(), name);
+
+  // 关闭数据缓冲池
+  assert(nullptr != data_buffer_pool_);
+  BufferPoolManager::instance().close_file(data_file.c_str());
+  data_buffer_pool_ = nullptr;
+
+  // 移除数据文件
+  if (0 != ::unlink(data_file.c_str())) {
+    LOG_ERROR("Delete data file failed. filename=%s, errmsg=%d:%s", data_file.c_str(), errno, strerror(errno));
+    return RC::IOERR;
+  }
+
+  // 移除元数据文件
+  std::string meta_file = table_meta_file(base_dir_.c_str(), name);
+  if (0 != ::unlink(meta_file.c_str())) {
+    LOG_ERROR("Delete data file failed. filename=%s, errmsg=%d:%s", meta_file.c_str(), errno, strerror(errno));
+    return RC::IOERR;
+  }
+
+  return RC::SUCCESS;
 }
 
 RC Table::commit_insert(Trx *trx, const RID &rid)

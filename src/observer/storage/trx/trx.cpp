@@ -282,3 +282,8 @@ void Trx::start_if_not_started()
     trx_id_ = next_trx_id();
   }
 }
+
+void Trx::delete_table(Table *table)
+{
+  operations_.erase(table);
+}
