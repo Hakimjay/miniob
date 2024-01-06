@@ -318,3 +318,22 @@ void TableMeta::desc(std::ostream &os) const
   }
   os << ')' << std::endl;
 }
+
+void TableMeta::show_index(std::ostream &os) const
+{
+  os << "Table"
+     << " | "
+     << "Non_unique"
+     << " | "
+     << "Key_name"
+     << " | "
+     << "Seq_in_index"
+     << " | "
+     << "Column_name" << std::endl;
+
+  const char *table_name = name();
+  for (const auto &index : indexes_) {
+    index.show(os, table_name);
+    os << std::endl;
+  }
+}
