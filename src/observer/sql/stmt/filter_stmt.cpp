@@ -92,7 +92,7 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
   Expression *left = nullptr;
   Expression *right = nullptr;
   //类型匹配判断
-  AttrType left_type, right_type;
+  //AttrType left_type, right_type;
   if (condition.left_is_attr) {
     Table *table = nullptr;
     const FieldMeta *field = nullptr;
@@ -102,10 +102,10 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
       return rc;
     }
     left = new FieldExpr(table, field);
-    left_type = field->type();
+  //  left_type = field->type();
   } else {
     left = new ValueExpr(condition.left_value);
-    left_type = condition.left_value.type;
+  //  left_type = condition.left_value.type;
   }
 
   if (condition.right_is_attr) {
@@ -119,15 +119,15 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
     }
     right = new FieldExpr(table, field);
     
-    right_type = field->type();
+  //  right_type = field->type();
   } else {
     right = new ValueExpr(condition.right_value);
-    right_type = condition.right_value.type;
-  }
+  //   right_type = condition.right_value.type;
+  // }
 
-  if (left_type != right_type) {
-    LOG_ERROR("Type is not match!");
-    return RC::SQL_SYNTAX;
+  // if (left_type != right_type) {
+  //   LOG_ERROR("Type is not match!");
+  //   return RC::SQL_SYNTAX;
   }
 
   filter_unit = new FilterUnit;
