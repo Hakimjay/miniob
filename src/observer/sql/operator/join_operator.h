@@ -22,17 +22,36 @@ See the Mulan PSL v2 for more details. */
 class JoinOperator : public Operator
 {
 public:
-  JoinOperator(Operator *left, Operator *right)
-  {}
 
-  virtual ~JoinOperator() = default;
+  JoinOperator(Operator *left, Operator *right) : left_(left), right_(right)
+  {
+    rht_it_ = rht_.end();
+  }
+
+  virtual ~JoinOperator()
+  {
+    for (auto &cpd_rcd : rht_) {
+      for (auto rcd : cpd_rcd) {
+        delete rcd;
+      }
+    }
+  }
 
   RC open() override;
   RC next() override;
   RC close() override;
 
+  Tuple *current_tuple() override;
+  void print_info();
+private:
+  RC fetch_right_table();
+
 private:
   Operator *left_ = nullptr;
   Operator *right_ = nullptr;
-  bool round_done_ = true;
+  CompoundTuple tuple_;
+  bool is_first_ = true;
+
+  std::vector<CompoundRecord>::iterator rht_it_;
+  std::vector<CompoundRecord> rht_;  // right hand table
 };
