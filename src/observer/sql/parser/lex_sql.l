@@ -35,8 +35,14 @@ QUOTE            [\'\"]
 {WHITE_SAPCE}                                        // ignore whitespace
 \n                                                   ;
 
-[\-]?{DIGIT}+                                        yylval->number=atoi(yytext); RETURN_TOKEN(NUMBER);
-[\-]?{DIGIT}+{DOT}{DIGIT}+                           yylval->floats=(float)(atof(yytext)); RETURN_TOKEN(FLOAT);
+
+
+{DIGIT}+                                        yylval->number=atoi(yytext); RETURN_TOKEN(NUMBER);
+{DIGIT}+{DOT}{DIGIT}+                           yylval->floats=(float)(atof(yytext)); RETURN_TOKEN(FLOAT);
+
+"-"                                                  RETURN_TOKEN(SUB);
+"+"                                                  RETURN_TOKEN(ADD);
+"/"                                                  RETURN_TOKEN(DIV);
 
 ";"                                                  RETURN_TOKEN(SEMICOLON);
 {DOT}                                                RETURN_TOKEN(DOT);
@@ -88,9 +94,7 @@ QUOTE            [\'\"]
 "("                                                  RETURN_TOKEN(LBRACE);
 ")"                                                  RETURN_TOKEN(RBRACE);
 
-"+"                                                  RETURN_TOKEN(ADD);
-"-"                                                  RETURN_TOKEN(SUB);
-"/"                                                  RETURN_TOKEN(DIV);
+
 
 ","                                                  RETURN_TOKEN(COMMA);
 "="                                                  RETURN_TOKEN(EQ);

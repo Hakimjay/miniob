@@ -35,6 +35,10 @@ public:
 
   Tuple * current_tuple() override;
 
+  const Table *get_table() const
+  {
+    return table_;
+  }
   // int tuple_cell_num() const override
   // {
   //   return tuple_.cell_num();

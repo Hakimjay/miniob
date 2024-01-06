@@ -102,7 +102,6 @@ ParserContext *get_context(yyscan_t scanner)
 
 		    ADD
         SUB
-        MUL
         DIV
 		
 
@@ -450,13 +449,13 @@ value:
     NUMBER{	
   		value_init_integer(&CONTEXT->values[CONTEXT->value_length++], $1);
 		}
-	|SUB NUMBER{	
+	| SUB NUMBER{	
   		value_init_integer(&CONTEXT->values[CONTEXT->value_length++], -($2));
 		}
-    |FLOAT{
+  | FLOAT{
   		value_init_float(&CONTEXT->values[CONTEXT->value_length++], $1);
 		}
-    |SUB FLOAT{
+  | SUB FLOAT{
   		value_init_float(&CONTEXT->values[CONTEXT->value_length++], -($2));
 		}
 
@@ -517,6 +516,68 @@ select:				/*  select 语句的语法解析树*/
 			CONTEXT->value_length = 0;
 	}
 	;
+
+
+  
+select_attr:
+    STAR attr_list {  
+			ProjectCol project_col;
+			projectcol_init_star(&project_col, NULL);
+			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
+		}
+    |
+    ID DOT STAR attr_list{
+      ProjectCol project_col;
+			projectcol_init_star(&project_col, $1);
+			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
+    }
+    |
+    add_expr attr_list{
+      ProjectCol project_col;
+      projectcol_init_expr(&project_col, $1);
+      selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
+    }
+	;
+
+attr_list:
+    /* empty */
+    | COMMA STAR attr_list {  
+			ProjectCol project_col;
+			projectcol_init_star(&project_col, NULL);
+			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
+		}
+    
+    | COMMA ID DOT STAR attr_list{
+      ProjectCol project_col;
+			projectcol_init_star(&project_col, $2);
+			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
+    }
+    
+    | COMMA add_expr attr_list{
+      ProjectCol project_col;
+      projectcol_init_expr(&project_col, $2);
+      selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
+    }
+  	;
+
+rel_list:
+    /* empty */
+    | COMMA ID rel_list {	
+				selects_append_relation(&CONTEXT->ssql->sstr.selection, $2);
+		  }
+    ;
+where:
+    /* empty */ 
+    | WHERE condition condition_list {	
+				// CONTEXT->conditions[CONTEXT->condition_length++]=*$2;
+			}
+    ;
+condition_list:
+    /* empty */
+    | AND condition condition_list {
+				// CONTEXT->conditions[CONTEXT->condition_length++]=*$2;
+			}
+    ;
 
 
 sort_unit:
@@ -593,66 +654,6 @@ opt_order_by:
 
 	}
 	;
-  
-select_attr:
-    STAR attr_list {  
-			ProjectCol project_col;
-			projectcol_init_star(&project_col, NULL);
-			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
-		}
-    |
-    ID DOT STAR attr_list{
-      ProjectCol project_col;
-			projectcol_init_star(&project_col, $1);
-			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
-    }
-    |
-    add_expr attr_list{
-      ProjectCol project_col;
-      projectcol_init_expr(&project_col, $1);
-      selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
-    }
-	;
-
-attr_list:
-    /* empty */
-    | COMMA STAR attr_list {  
-			ProjectCol project_col;
-			projectcol_init_star(&project_col, NULL);
-			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
-		}
-    
-    | COMMA ID DOT STAR attr_list{
-      ProjectCol project_col;
-			projectcol_init_star(&project_col, $2);
-			selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
-    }
-    
-    | COMMA add_expr attr_list{
-      ProjectCol project_col;
-      projectcol_init_expr(&project_col, $2);
-      selects_append_projects(&CONTEXT->ssql->sstr.selection, &project_col);
-    }
-  	;
-
-rel_list:
-    /* empty */
-    | COMMA ID rel_list {	
-				selects_append_relation(&CONTEXT->ssql->sstr.selection, $2);
-		  }
-    ;
-where:
-    /* empty */ 
-    | WHERE condition condition_list {	
-				// CONTEXT->conditions[CONTEXT->condition_length++]=*$2;
-			}
-    ;
-condition_list:
-    /* empty */
-    | AND condition condition_list {
-				// CONTEXT->conditions[CONTEXT->condition_length++]=*$2;
-			}
-    ;
 
 comOp:
   	  EQ { CONTEXT->comp = EQUAL_TO; }

@@ -465,7 +465,7 @@ RC ExecuteStage::do_join(SelectStmt *select_stmt, Operator **result_op, std::vec
 
     join_oper = new JoinOperator(left_oper, right_oper);
     oper_store.push_front(join_oper);
-    
+
     delete_opers.push_back(join_oper);
   }
   *result_op = oper_store.front();
@@ -510,7 +510,7 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
   }
   ProjectOperator project_oper;
   project_oper.add_child(top_op);
-
+  
   auto &projects = select_stmt->projects();
   for (auto it = projects.begin(); it != projects.end(); it++) {
     project_oper.add_projection(*it, is_single_table);

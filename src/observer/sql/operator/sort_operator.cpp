@@ -98,11 +98,7 @@ RC SortOperator::next()
     if (RC::SUCCESS != rc) {
       return rc;
     }
-    // rc = sort_table();
-    // std::sort(st_.begin(), st_.end(), CmpAsc);
-    if (RC::SUCCESS != rc) {
-      return rc;
-    }
+
   }
 
   // cache并sort之后填充返回tuple

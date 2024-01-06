@@ -182,10 +182,12 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
 
   //排序
   OrderByStmt *orderby_stmt = nullptr;
-  rc = OrderByStmt::create(db, default_table, &table_map, select_sql.orderbys, select_sql.orderby_num, orderby_stmt);
-  if (rc != RC::SUCCESS) {
-    LOG_WARN("cannot construct order by stmt");
-    return rc;
+  if (0 != select_sql.orderby_num) {
+    rc = OrderByStmt::create(db, default_table, &table_map, select_sql.orderbys, select_sql.orderby_num, orderby_stmt);
+    if (rc != RC::SUCCESS) {
+      LOG_WARN("cannot construct order by stmt");
+      return rc;
+    }
   }
 
   // everything alright
