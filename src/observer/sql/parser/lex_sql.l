@@ -72,6 +72,8 @@ QUOTE            [\'\"]
 [Dd][Aa][Tt][Aa]                                     RETURN_TOKEN(DATA);
 [Ii][Nn][Ff][Ii][Ll][Ee]                             RETURN_TOKEN(INFILE);
 
+
+
 [Dd][Aa][Tt][Ee]                                     RETURN_TOKEN(DATE_T);
 {QUOTE}([0-9]{4})\-([0-9]|[0-9]{2})\-([0-9]|[0-9]{2}){QUOTE}     yylval->string=strdup(yytext); RETURN_TOKEN(DATE_STR);
 
@@ -81,6 +83,10 @@ QUOTE            [\'\"]
 
 "("                                                  RETURN_TOKEN(LBRACE);
 ")"                                                  RETURN_TOKEN(RBRACE);
+
+"+"                                                  RETURN_TOKEN(ADD);
+"-"                                                  RETURN_TOKEN(SUB);
+"/"                                                  RETURN_TOKEN(DIV);
 
 ","                                                  RETURN_TOKEN(COMMA);
 "="                                                  RETURN_TOKEN(EQ);

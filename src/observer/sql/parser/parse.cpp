@@ -16,6 +16,7 @@ See the Mulan PSL v2 for more details. */
 #include "sql/parser/parse.h"
 #include "rc.h"
 #include "common/log/log.h"
+#include "sql/parser/parse_defs.h"
 
 RC parse(char *st, Query *sqln);
 
@@ -86,6 +87,31 @@ void value_init_string(Value *value, const char *v)
   value->type = CHARS;
   value->data = strdup(v);
 }
+
+void projectcol_init_star(ProjectCol *projectcol, const char *relation_name)
+{
+  projectcol->is_star = 1;
+  if (relation_name != nullptr) {
+    projectcol->relation_name = strdup(relation_name);
+  } else {
+    projectcol->relation_name = nullptr;
+  }
+}
+
+void projectcol_init_expr(ProjectCol *projectcol, Expr *expr)
+{
+  projectcol->is_star = 0;
+  projectcol->relation_name = nullptr;
+  projectcol->expr = expr;
+}
+
+void projectcol_destroy(ProjectCol *projectcol)
+{
+  if (nullptr != projectcol->relation_name)
+    free(projectcol->relation_name);
+  projectcol->relation_name = nullptr;
+}
+
 void value_destroy(Value *value)
 {
   value->type = UNDEFINED;
@@ -93,37 +119,78 @@ void value_destroy(Value *value)
   value->data = nullptr;
 }
 
-void condition_init(Condition *condition, CompOp comp, int left_is_attr, RelAttr *left_attr, Value *left_value,
-    int right_is_attr, RelAttr *right_attr, Value *right_value)
+void unary_expr_init_value(UnaryExpr *expr, Value *value)
 {
-  condition->comp = comp;
-  condition->left_is_attr = left_is_attr;
-  if (left_is_attr) {
-    condition->left_attr = *left_attr;
-  } else {
-    condition->left_value = *left_value;
-  }
+  expr->is_attr = 0;
+  expr->value = *value;
+}
 
-  condition->right_is_attr = right_is_attr;
-  if (right_is_attr) {
-    condition->right_attr = *right_attr;
-  } else {
-    condition->right_value = *right_value;
-  }
+void unary_expr_init_attr(UnaryExpr *expr, RelAttr *relation_attr)
+{
+  expr->is_attr = 1;
+  expr->attr = *relation_attr;
+}
+void unary_expr_destroy(UnaryExpr *expr)
+{
+  return;
+}
+
+void binary_expr_init(BinaryExpr *expr, ExpOp op, Expr *left_expr, Expr *right_expr)
+{
+  expr->left = left_expr;
+  expr->right = right_expr;
+  expr->op = op;
+  expr->minus = 0;
+}
+void binary_expr_set_minus(BinaryExpr *expr)
+{
+  expr->minus = 1;
+}
+void binary_expr_destroy(BinaryExpr *expr)
+{
+  expr_destroy(expr->left);
+  expr_destroy(expr->right);
+}
+
+void condition_init(Condition *condition, CompOp op, Expr *left_expr, Expr *right_expr)
+{
+  condition->left = left_expr;
+  condition->right = right_expr;
+  condition->comp = op;
 }
 void condition_destroy(Condition *condition)
 {
-  if (condition->left_is_attr) {
-    relation_attr_destroy(&condition->left_attr);
+  expr_destroy(condition->left);
+  expr_destroy(condition->right);
+}
+
+void expr_init_unary(Expr *expr, UnaryExpr *u_expr)
+{
+  expr->type = 0;
+  expr->uexp = u_expr;
+  expr->bexp = NULL;
+  expr->with_brace = 0;
+}
+void expr_init_binary(Expr *expr, BinaryExpr *b_expr)
+{
+  expr->type = 1;
+  expr->bexp = b_expr;
+  expr->uexp = NULL;
+  expr->with_brace = 0;
+}
+void expr_set_with_brace(Expr *expr)
+{
+  expr->with_brace = 1;
+}
+void expr_destroy(Expr *expr)
+{
+  if (expr->type) {
+    binary_expr_destroy(expr->bexp);
   } else {
-    value_destroy(&condition->left_value);
-  }
-  if (condition->right_is_attr) {
-    relation_attr_destroy(&condition->right_attr);
-  } else {
-    value_destroy(&condition->right_value);
+    unary_expr_destroy(expr->uexp);
   }
 }
+
 
 void attr_info_init(AttrInfo *attr_info, const char *name, AttrType type, size_t length)
 {
@@ -137,6 +204,77 @@ void attr_info_destroy(AttrInfo *attr_info)
   attr_info->name = nullptr;
 }
 
+void attr_print(RelAttr *attr, int indent)
+{
+  for (int i = 0; i < indent; i++) {
+    printf("\t");
+  }
+  if (NULL != attr->relation_name) {
+    printf("%s ", attr->relation_name);
+  }
+  printf("%s\n", attr->attribute_name);
+}
+
+void value_print(Value *value, int indent)
+{
+  for (int i = 0; i < indent; i++) {
+    printf("\t");
+  }
+  switch (value->type) {
+    case INTS:
+      printf("%d ", *(int *)(value->data));
+      break;
+    case FLOATS:
+      printf("%f ", *(float *)(value->data));
+      break;
+    case CHARS:
+      printf("%s ", (char *)value->data);
+      break;
+    default:
+      break;
+  }
+  printf("\n");
+}
+
+void unary_expr_print(UnaryExpr *expr, int indent)
+{
+  if (expr->is_attr) {
+    attr_print(&(expr->attr), indent);
+  } else {
+    value_print(&(expr->value), indent);
+  }
+}
+
+void binary_expr_print(BinaryExpr *expr, int indent)
+{
+  for (int i = 0; i < indent; i++) {
+    printf("\t");
+  }
+  printf("%d\n", expr->op);
+  expr_print(expr->left, indent + 1);
+  expr_print(expr->right, indent + 1);
+}
+
+void condition_print(Condition *condition, int indent)
+{
+  for (int i = 0; i < indent; i++) {
+    printf("\t");
+  }
+  printf("%d\n", condition->comp);
+  expr_print(condition->left, indent + 1);
+  expr_print(condition->right, indent + 1);
+}
+
+void expr_print(Expr *expr, int indent)
+{
+  if (expr->type == 0) {
+    unary_expr_print(expr->uexp, indent);
+  } else {
+    binary_expr_print(expr->bexp, indent);
+  }
+}
+
+
 void selects_init(Selects *selects, ...);
 void selects_append_attribute(Selects *selects, RelAttr *rel_attr)
 {
@@ -147,12 +285,18 @@ void selects_append_relation(Selects *selects, const char *relation_name)
   selects->relations[selects->relation_num++] = strdup(relation_name);
 }
 
+void selects_append_projects(Selects *selects, ProjectCol *project_col)
+{
+  selects->projects[selects->project_num++] = *project_col;
+}
+
 void selects_append_conditions(Selects *selects, Condition conditions[], size_t condition_num)
 {
   assert(condition_num <= sizeof(selects->conditions) / sizeof(selects->conditions[0]));
   for (size_t i = 0; i < condition_num; i++) {
     selects->conditions[i] = conditions[i];
   }
+
   selects->condition_num = condition_num;
 }
 
@@ -173,6 +317,11 @@ void selects_destroy(Selects *selects)
     condition_destroy(&selects->conditions[i]);
   }
   selects->condition_num = 0;
+
+  for (size_t i = 0; i < selects->project_num; i++) {
+    projectcol_destroy(&selects->projects[i]);
+  }
+  selects->project_num = 0;
 }
 
 void inserts_init(Inserts *inserts, const char *relation_name, Value values[], size_t value_num)
@@ -429,8 +578,10 @@ RC parse(const char *st, Query *sqln)
 {
   sql_parse(st, sqln);
 
-  if (sqln->flag == SCF_ERROR)
+  if (sqln->flag == SCF_ERROR){
+    printf("sql parse error");
     return SQL_SYNTAX;
+  }
   else
     return SUCCESS;
 }

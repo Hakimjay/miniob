@@ -38,6 +38,9 @@ See the Mulan PSL v2 for more details. */
 #include "sql/operator/predicate_operator.h"
 #include "sql/operator/update_operator.h"
 #include "sql/operator/delete_operator.h"
+
+//#include "sql/operator/sort_operator.h"
+
 #include "sql/operator/project_operator.h"
 #include "sql/operator/join_operator.h"
 #include "sql/stmt/stmt.h"
@@ -294,7 +297,7 @@ IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_u
   // 这里的查找规则是比较简单的，就是尽量找到使用相等比较的索引
   // 如果没有就找范围比较的，但是直接排除不等比较的索引查询. (你知道为什么?)
   const FilterUnit *better_filter = nullptr;
-  for (const FilterUnit * filter_unit : filter_units) {
+  for (const FilterUnit *filter_unit : filter_units) {
     if (filter_unit->comp() == NOT_EQUAL) {
       continue;
     }
@@ -304,6 +307,8 @@ IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_u
     if (left->type() == ExprType::FIELD && right->type() == ExprType::VALUE) {
     } else if (left->type() == ExprType::VALUE && right->type() == ExprType::FIELD) {
       std::swap(left, right);
+    } else {
+      continue;
     }
     FieldExpr &left_field_expr = *(FieldExpr *)left;
     const Field &field = left_field_expr.field();
@@ -314,10 +319,11 @@ IndexScanOperator *try_to_create_index_scan_operator(const FilterUnits &filter_u
         better_filter = filter_unit;
       } else if (filter_unit->comp() == EQUAL_TO) {
         better_filter = filter_unit;
-    	break;
+        break;
       }
     }
   }
+
 
   if (better_filter == nullptr) {
     return nullptr;
@@ -495,10 +501,9 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
   pred_oper.add_child(scan_oper);
   ProjectOperator project_oper;
   project_oper.add_child(&pred_oper);
-
-  auto &field = select_stmt->query_fields();
-  for (auto it = field.begin(); it != field.end(); it++) {
-    project_oper.add_projection(it->table(), it->meta(), is_single_table);
+  auto &projects = select_stmt->projects();
+  for (auto it = projects.begin(); it != projects.end(); it++) {
+    project_oper.add_projection(*it, is_single_table);
   }
   rc = project_oper.open();
   if (rc != RC::SUCCESS) {

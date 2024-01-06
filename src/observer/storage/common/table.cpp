@@ -942,6 +942,7 @@ Index *Table::find_index(const char *index_name) const
   }
   return nullptr;
 }
+
 Index *Table::find_index_by_field(const char *field_name) const
 {
   const TableMeta &table_meta = this->table_meta();
