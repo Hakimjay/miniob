@@ -1,6 +1,9 @@
 
 %{
 
+#define TRUE 1
+#define FALSE 0
+
 #include "sql/parser/parse_defs.h"
 #include "sql/parser/yacc_sql.tab.h"
 #include "sql/parser/lex.yy.h"
@@ -16,8 +19,10 @@ typedef struct ParserContext {
   size_t condition_length;
   size_t from_length;
   size_t value_length;
+  size_t orderby_length;
   Value values[MAX_NUM];
   Condition conditions[MAX_NUM];
+  OrderBy orderbys[MAX_NUM];
   CompOp comp;
 	char id[MAX_NUM];
 } ParserContext;
@@ -53,6 +58,7 @@ void yyerror(yyscan_t scanner, const char *str)
   context->from_length = 0;
   context->select_length = 0;
   context->value_length = 0;
+  context->orderby_length = 0;
   context->ssql->sstr.insertion.value_num = 0;
   printf("parse sql failed. error=%s", str);
 }
@@ -94,13 +100,17 @@ ParserContext *get_context(yyscan_t scanner)
         STRING_T
         FLOAT_T
 
-		ADD
+		    ADD
         SUB
         MUL
         DIV
 		
 
-		DATE_T
+		    DATE_T
+
+        ASC
+        ORDER
+		    BY
 
         HELP
         EXIT
@@ -399,6 +409,7 @@ condition:
     add_expr comOp add_expr{
       Condition expr;
       condition_init(&expr, CONTEXT->comp, $1, $3);
+      condition_print(&expr, 0);
       CONTEXT->conditions[CONTEXT->condition_length++] = expr;
     }
     ;
@@ -486,17 +497,20 @@ update:			/*  update 语句的语法解析树*/
 		}
     ;
 select:				/*  select 语句的语法解析树*/
-    SELECT select_attr FROM ID rel_list where SEMICOLON
+    SELECT select_attr FROM ID rel_list where opt_order_by SEMICOLON
 		{
 			// CONTEXT->ssql->sstr.selection.relations[CONTEXT->from_length++]=$4;
 			selects_append_relation(&CONTEXT->ssql->sstr.selection, $4);
 
 			selects_append_conditions(&CONTEXT->ssql->sstr.selection, CONTEXT->conditions, CONTEXT->condition_length);
 
+			selects_append_orderbys(&CONTEXT->ssql->sstr.selection, CONTEXT->orderbys, CONTEXT->orderby_length);
+
 			CONTEXT->ssql->flag=SCF_SELECT;//"select";
 			// CONTEXT->ssql->sstr.selection.attr_num = CONTEXT->select_length;
 
 			//临时变量清零
+			CONTEXT->orderby_length=0;
 			CONTEXT->condition_length=0;
 			CONTEXT->from_length=0;
 			CONTEXT->select_length=0;
@@ -504,6 +518,82 @@ select:				/*  select 语句的语法解析树*/
 	}
 	;
 
+
+sort_unit:
+	ID
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, NULL, $1);
+		OrderBy orderby;
+		orderby_init(&orderby, TRUE, &attr);
+		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
+	}
+	|
+	ID DOT ID
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, $1, $3);
+		OrderBy orderby;
+		orderby_init(&orderby, TRUE, &attr);
+		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
+	}
+	|
+	ID DESC
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, NULL, $1);
+		OrderBy orderby;
+		orderby_init(&orderby, FALSE, &attr);
+		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
+	}
+	|
+	ID ASC
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, NULL, $1);
+		OrderBy orderby;
+		orderby_init(&orderby, TRUE, &attr);
+		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
+	}
+	|
+	ID DOT ID DESC
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, $1, $3);
+		OrderBy orderby;
+		orderby_init(&orderby, FALSE, &attr);
+		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
+		printf("hhh\n");
+	}
+	|
+	ID DOT ID ASC
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, $1, $3);
+		OrderBy orderby;
+		orderby_init(&orderby, TRUE, &attr);
+		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
+		printf("hhh\n");
+	}
+	;
+sort_list:
+	sort_unit COMMA sort_list
+		{
+			
+	}
+	| sort_unit
+		{
+			
+	}
+	;
+opt_order_by:
+	/* empty */
+	| ORDER BY sort_list
+		{
+
+	}
+	;
+  
 select_attr:
     STAR attr_list {  
 			ProjectCol project_col;

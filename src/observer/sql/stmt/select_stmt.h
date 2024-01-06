@@ -25,6 +25,7 @@ class FilterStmt;
 class Db;
 class Table;
 class Expression;
+class OrderByStmt;
 
 
 class SelectStmt : public Stmt
@@ -42,10 +43,12 @@ public:
   const std::vector<Table *> &tables() const { return tables_; }
   const std::vector<Expression *> &projects() const { return projects_; }
   FilterStmt *filter_stmt() const { return filter_stmt_; }
+  OrderByStmt *orderby_stmt() const { return orderby_stmt_; }
 
 private:
   std::vector<Expression *> projects_;
   std::vector<Table *> tables_;
   FilterStmt *filter_stmt_ = nullptr;
+  OrderByStmt *orderby_stmt_ = nullptr;
 };
 

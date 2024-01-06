@@ -39,6 +39,36 @@ public:
 
   int compare(const TupleCell &other) const;
 
+  bool operator==(const TupleCell &other) const
+  {
+    return 0 == compare(other);
+  }
+
+  bool operator!=(const TupleCell &other) const
+  {
+    return 0 != compare(other);
+  }
+
+  bool operator<(const TupleCell &other) const
+  {
+    return 0 > compare(other);
+  }
+
+  bool operator<=(const TupleCell &other) const
+  {
+    return 0 >= compare(other);
+  }
+
+  bool operator>(const TupleCell &other) const
+  {
+    return 0 < compare(other);
+  }
+
+  bool operator>=(const TupleCell &other) const
+  {
+    return 0 <= compare(other);
+  }
+
 
   static const TupleCell add(const TupleCell &left, const TupleCell &right);
   static const TupleCell sub(const TupleCell &left, const TupleCell &right);

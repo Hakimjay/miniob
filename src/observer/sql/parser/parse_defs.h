@@ -92,6 +92,11 @@ typedef struct _Condition {
   Expr *right;
 } Condition;
 
+typedef struct _OrderBy {
+  RelAttr sort_attr;  // order by attribute
+  int is_asc;         // sort type:asc or desc ,asc is true, desc is false
+} OrderBy;
+
 // struct of select
 typedef struct {
   size_t attr_num;                // Length of attrs in Select clause
@@ -103,6 +108,9 @@ typedef struct {
 
   size_t project_num;            
   ProjectCol projects[MAX_NUM]; 
+
+  size_t orderby_num;             // Length of orderby
+  OrderBy orderbys[MAX_NUM];      // order by
 } Selects;
 
 // struct of insert
@@ -236,9 +244,14 @@ void selects_append_relation(Selects *selects, const char *relation_name);
 void selects_append_conditions(Selects *selects, Condition conditions[], size_t condition_num);
 
 void selects_append_projects(Selects *selects, ProjectCol *project_col);
+void selects_append_orderbys(Selects *selects, OrderBy orderbys[], size_t orderby_num);
 void selects_destroy(Selects *selects);
 
+// void inserts_init(Inserts *inserts, const char *relation_name, Value values[], size_t value_num);
 
+
+void orderby_init(OrderBy *orderby, int is_asc, RelAttr *attr);
+void orderby_destroy(OrderBy *orderby);
 
 
 void unary_expr_init_attr(UnaryExpr *expr, RelAttr *relation_attr);
