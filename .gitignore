@@ -18,7 +18,10 @@ GRTAGS
 GPATH
 GTAGS
 /db
-/deps
+/deps/googletest
+/deps/jsoncpp
+/deps/libevent
+
 /src/observer/.vscode/*
 result_tmp/
 miniob_data_test/
