@@ -83,5 +83,5 @@ void IndexMeta::desc(std::ostream &os) const
 
 void IndexMeta::show(std::ostream &os, const char *table_name) const
 {
-  os << 1 << " | " << name_ << " | " << 1 << " | " << field_;
+  os << table_name << " | " << 1 << " | " << name_ << " | " << 1 << " | " << field_;
 }
