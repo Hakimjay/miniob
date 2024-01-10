@@ -25,6 +25,7 @@ class Db;
 class Table;
 class FieldMeta;
 
+
 class FilterUnit
 {
 public:
@@ -100,3 +101,5 @@ private:
 };
 RC get_table_and_field(Db *db, Table *default_table, std::unordered_map<std::string, Table *> *tables,
     const RelAttr &attr, Table *&table, const FieldMeta *&field);
+
+typedef FilterStmt HavingStmt;

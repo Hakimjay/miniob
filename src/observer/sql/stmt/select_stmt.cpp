@@ -29,6 +29,12 @@ SelectStmt::~SelectStmt()
     delete filter_stmt_;
     filter_stmt_ = nullptr;
   }
+
+  if (nullptr != having_stmt_) {
+    delete having_stmt_;
+    having_stmt_ = nullptr;
+  }
+
   for (auto expr : projects_) {
     delete expr;
   }
@@ -61,92 +67,92 @@ static void wildcard_fields(Table *table, std::vector<Expression *> &projects)
   }
 }
 
-RC gen_project_expression(Expr *expr, const std::unordered_map<std::string, Table *> &table_map,
-    const std::vector<Table *> &tables, Expression *&res_expr)
-{
-  bool with_brace = expr->with_brace;
-  if (expr->type == UNARY) {
-    UnaryExpr *uexpr = expr->uexp;
-    if (uexpr->is_attr) {
-      const char *table_name = uexpr->attr.relation_name;
-      const char *field_name = uexpr->attr.attribute_name;
-      if (common::is_blank(table_name)) {
-        if (tables.size() != 1) {
-          LOG_WARN("invalid. I do not know the attr's table. attr=%s", field_name);
-          return RC::SCHEMA_FIELD_MISSING;
-        }
-        Table *table = tables[0];
-        const FieldMeta *field_meta = table->table_meta().field(field_name);
-        if (nullptr == field_meta) {
-          LOG_WARN("no such field. field=%s.%s", table->name(), field_name);
-          return RC::SCHEMA_FIELD_MISSING;
-        }
-        res_expr = new FieldExpr(table, field_meta, with_brace);
-        return RC::SUCCESS;
-      } else {
-        auto iter = table_map.find(table_name);
-        if (iter == table_map.end()) {
-          LOG_WARN("no such table in from list: %s", table_name);
-          return RC::SCHEMA_FIELD_MISSING;
-        }
+// RC gen_project_expression(Expr *expr, const std::unordered_map<std::string, Table *> &table_map,
+//     const std::vector<Table *> &tables, Expression *&res_expr)
+// {
+//   bool with_brace = expr->with_brace;
+//   if (expr->type == UNARY) {
+//     UnaryExpr *uexpr = expr->uexp;
+//     if (uexpr->is_attr) {
+//       const char *table_name = uexpr->attr.relation_name;
+//       const char *field_name = uexpr->attr.attribute_name;
+//       if (common::is_blank(table_name)) {
+//         if (tables.size() != 1) {
+//           LOG_WARN("invalid. I do not know the attr's table. attr=%s", field_name);
+//           return RC::SCHEMA_FIELD_MISSING;
+//         }
+//         Table *table = tables[0];
+//         const FieldMeta *field_meta = table->table_meta().field(field_name);
+//         if (nullptr == field_meta) {
+//           LOG_WARN("no such field. field=%s.%s", table->name(), field_name);
+//           return RC::SCHEMA_FIELD_MISSING;
+//         }
+//         res_expr = new FieldExpr(table, field_meta, with_brace);
+//         return RC::SUCCESS;
+//       } else {
+//         auto iter = table_map.find(table_name);
+//         if (iter == table_map.end()) {
+//           LOG_WARN("no such table in from list: %s", table_name);
+//           return RC::SCHEMA_FIELD_MISSING;
+//         }
 
-        Table *table = iter->second;
-        const FieldMeta *field_meta = table->table_meta().field(field_name);
-        if (nullptr == field_meta) {
-          LOG_WARN("no such field. field=%s.%s", table->name(), field_name);
-          return RC::SCHEMA_FIELD_MISSING;
-        }
-        res_expr = new FieldExpr(table, field_meta, with_brace);
-        return RC::SUCCESS;
-      }
-    } else {
-      res_expr = new ValueExpr(uexpr->value, with_brace);
-      return RC::SUCCESS;
-    }
+//         Table *table = iter->second;
+//         const FieldMeta *field_meta = table->table_meta().field(field_name);
+//         if (nullptr == field_meta) {
+//           LOG_WARN("no such field. field=%s.%s", table->name(), field_name);
+//           return RC::SCHEMA_FIELD_MISSING;
+//         }
+//         res_expr = new FieldExpr(table, field_meta, with_brace);
+//         return RC::SUCCESS;
+//       }
+//     } else {
+//       res_expr = new ValueExpr(uexpr->value, with_brace);
+//       return RC::SUCCESS;
+//     }
 
-  } else if (expr->type == BINARY) {
-    Expression *left_expr;
-    Expression *right_expr;
-    RC rc = gen_project_expression(expr->bexp->left, table_map, tables, left_expr);
-    if (rc != RC::SUCCESS) {
-      return rc;
-    }
-    rc = gen_project_expression(expr->bexp->right, table_map, tables, right_expr);
-    if (rc != RC::SUCCESS) {
-      return rc;
-    }
-    res_expr = new BinaryExpression(expr->bexp->op, left_expr, right_expr, with_brace, expr->bexp->minus);
-    return RC::SUCCESS;
-  } else if (AGGRFUNC == expr->type) {
+//   } else if (expr->type == BINARY) {
+//     Expression *left_expr;
+//     Expression *right_expr;
+//     RC rc = gen_project_expression(expr->bexp->left, table_map, tables, left_expr);
+//     if (rc != RC::SUCCESS) {
+//       return rc;
+//     }
+//     rc = gen_project_expression(expr->bexp->right, table_map, tables, right_expr);
+//     if (rc != RC::SUCCESS) {
+//       return rc;
+//     }
+//     res_expr = new BinaryExpression(expr->bexp->op, left_expr, right_expr, with_brace, expr->bexp->minus);
+//     return RC::SUCCESS;
+//   } else if (AGGRFUNC == expr->type) {
 
-    // TODO(wbj)
-    if (UNARY == expr->afexp->param->type && 0 == expr->afexp->param->uexp->is_attr) {
-      // count(*) count(1) count(Value)
-      assert(AggrFuncType::COUNT == expr->afexp->type);
-      // substitue * or 1 with some field
-      Expression *tmp_value_exp = nullptr;
-      RC rc = gen_project_expression(expr->afexp->param, table_map, tables, tmp_value_exp);
-      if (rc != RC::SUCCESS) {
-        return rc;
-      }
-      assert(ExprType::VALUE == tmp_value_exp->type());
-      auto aggr_func_expr = new AggrFuncExpression(
-          AggrFuncType::COUNT, new FieldExpr(tables[0], tables[0]->table_meta().field(1)), with_brace);
-      aggr_func_expr->set_param_value((ValueExpr *)tmp_value_exp);
-      res_expr = aggr_func_expr;
-      return RC::SUCCESS;
-    }
-    Expression *param = nullptr;
-    RC rc = gen_project_expression(expr->afexp->param, table_map, tables, param);
-    if (rc != RC::SUCCESS) {
-      return rc;
-    }
-    assert(nullptr != param && ExprType::FIELD == param->type());
-    res_expr = new AggrFuncExpression(expr->afexp->type, (FieldExpr *)param, with_brace);
-    return RC::SUCCESS;
-  }
-  return RC::SUCCESS;
-}
+//     // TODO(wbj)
+//     if (UNARY == expr->afexp->param->type && 0 == expr->afexp->param->uexp->is_attr) {
+//       // count(*) count(1) count(Value)
+//       assert(AggrFuncType::COUNT == expr->afexp->type);
+//       // substitue * or 1 with some field
+//       Expression *tmp_value_exp = nullptr;
+//       RC rc = gen_project_expression(expr->afexp->param, table_map, tables, tmp_value_exp);
+//       if (rc != RC::SUCCESS) {
+//         return rc;
+//       }
+//       assert(ExprType::VALUE == tmp_value_exp->type());
+//       auto aggr_func_expr = new AggrFuncExpression(
+//           AggrFuncType::COUNT, new FieldExpr(tables[0], tables[0]->table_meta().field(1)), with_brace);
+//       aggr_func_expr->set_param_value((ValueExpr *)tmp_value_exp);
+//       res_expr = aggr_func_expr;
+//       return RC::SUCCESS;
+//     }
+//     Expression *param = nullptr;
+//     RC rc = gen_project_expression(expr->afexp->param, table_map, tables, param);
+//     if (rc != RC::SUCCESS) {
+//       return rc;
+//     }
+//     assert(nullptr != param && ExprType::FIELD == param->type());
+//     res_expr = new AggrFuncExpression(expr->afexp->type, (FieldExpr *)param, with_brace);
+//     return RC::SUCCESS;
+//   }
+//   return RC::SUCCESS;
+// }
 
 RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
 {
@@ -202,7 +208,7 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
       }
       } else { // expression
       Expression *res_project;
-      RC rc = gen_project_expression(project_col.expr, table_map, tables, res_project);
+      RC rc = Expression::create_expression(project_col.expr, table_map, tables, res_project);
       if (rc != RC::SUCCESS) {
         return rc;
       }
@@ -253,7 +259,15 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
     }
   }
 
-
+  // create having filter statement in `having` clause
+  HavingStmt *having_stmt = nullptr;
+  if (0 != select_sql.having_num) {
+    rc = FilterStmt::create(db, default_table, &table_map, select_sql.havings, select_sql.having_num, having_stmt);
+    if (rc != RC::SUCCESS) {
+      LOG_WARN("cannot construct having filter stmt");
+      return rc;
+    }
+  }
 
   // everything alright
   SelectStmt *select_stmt = new SelectStmt();
@@ -261,6 +275,7 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
   select_stmt->projects_.swap(projects);
   select_stmt->filter_stmt_ = filter_stmt;
   select_stmt->orderby_stmt_ = orderby_stmt;
+  select_stmt->having_stmt_ = having_stmt;
   select_stmt->orderby_stmt_for_groupby_ = orderby_stmt_for_groupby;
   select_stmt->groupby_stmt_ = groupby_stmt;
   stmt = select_stmt;

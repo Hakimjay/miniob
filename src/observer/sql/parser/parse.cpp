@@ -336,6 +336,16 @@ void expr_print(Expr *expr, int indent)
   } else {
     binary_expr_print(expr->bexp, indent);
   }
+   switch (expr->type) {
+    case ExpType::UNARY:
+      unary_expr_print(expr->uexp, indent);
+      break;
+    case ExpType::BINARY:
+      binary_expr_print(expr->bexp, indent);
+      break;
+    default:
+      break;
+  }
 }
 
 
@@ -362,6 +372,16 @@ void selects_append_conditions(Selects *selects, Condition conditions[], size_t 
   }
 
   selects->condition_num = condition_num;
+}
+
+void selects_append_havings(Selects *selects, Condition conditions[], size_t condition_num)
+{
+  assert(condition_num <= sizeof(selects->havings) / sizeof(selects->havings[0]));
+  for (size_t i = 0; i < condition_num; i++) {
+    selects->havings[i] = conditions[i];
+  }
+
+  selects->having_num = condition_num;
 }
 
 void selects_destroy(Selects *selects)
@@ -391,6 +411,17 @@ void selects_destroy(Selects *selects)
     orderby_destroy(&selects->orderbys[i]);
   }
   selects->orderby_num = 0;
+  
+  for (size_t i = 0; i < selects->groupby_num; i++) {
+    relation_attr_destroy(&selects->groupbys[i]);
+  }
+  selects->groupby_num = 0;
+
+  for (size_t i = 0; i < selects->having_num; i++) {
+    condition_destroy(&selects->havings[i]);
+  }
+  selects->having_num = 0;
+
 }
 
 void inserts_init(Inserts *inserts, const char *relation_name, Value values[], size_t value_num)

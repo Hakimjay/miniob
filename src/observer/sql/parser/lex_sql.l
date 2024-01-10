@@ -83,6 +83,8 @@ QUOTE            [\'\"]
 [Bb][Yy]                                             RETURN_TOKEN(BY);
 
 [Gg][Rr][Oo][Uu][Pp]                                 RETURN_TOKEN(GROUP);
+[Hh][Aa][Vv][Ii][Nn][Gg]                             RETURN_TOKEN(HAVING);
+
 
 [Mm][Aa][Xx]                                         RETURN_TOKEN(AGGR_MAX);
 [Mm][Ii][Nn]                                         RETURN_TOKEN(AGGR_MIN);

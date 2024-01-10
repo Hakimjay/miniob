@@ -530,7 +530,19 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
     }
   }
 
-  // 2.4 gen groupby oper
+  // 2.4 get aggrfunc_exprs field_exprs from havings
+  HavingStmt *having_stmt = select_stmt->having_stmt();
+  if (nullptr != having_stmt) {
+    // TODO(wbj) unique
+    for (auto hf : having_stmt->filter_units()) {
+      AggrFuncExpression::get_aggrfuncexprs(hf->left(), aggr_exprs);
+      AggrFuncExpression::get_aggrfuncexprs(hf->right(), aggr_exprs);
+      FieldExpr::get_fieldexprs(hf->left(), field_exprs);
+      FieldExpr::get_fieldexprs(hf->right(), field_exprs);
+    }
+  }  
+
+  // 2.5 gen groupby oper
   GroupByStmt *empty_groupby_stmt = nullptr;
   DEFER([&]() {
     if (nullptr != empty_groupby_stmt) {
@@ -538,7 +550,7 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
     }
   });
 
-   GroupByOperator group_oper(select_stmt->groupby_stmt(), aggr_exprs, field_exprs);
+  GroupByOperator group_oper(select_stmt->groupby_stmt(), aggr_exprs, field_exprs);
   if (0 != aggr_exprs.size()) {
     if (nullptr == select_stmt->groupby_stmt()) {
       empty_groupby_stmt = new GroupByStmt();
@@ -549,14 +561,21 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
     top_op = &group_oper;
   }
 
- // 3. process orderby clause
+  // 3 process having clause
+  HavingOperator having_oper(having_stmt);
+  if (nullptr != having_stmt) {
+    having_oper.add_child(top_op);
+    top_op = &having_oper;
+  }
+
+ // 4. process orderby clause
   SortOperator sort_oper(select_stmt->orderby_stmt());
   if (nullptr != select_stmt->orderby_stmt()) {
     sort_oper.add_child(top_op);
     top_op = &sort_oper;
   }
 
-   // 4. process select clause
+   // 5. process select clause
   ProjectOperator project_oper;
   project_oper.add_child(top_op);
 

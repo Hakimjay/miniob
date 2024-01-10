@@ -125,12 +125,12 @@ RC FilterStmt::create_filter_unit(Db *db, Table *default_table, std::unordered_m
   Expression *left = nullptr;
   Expression *right = nullptr;
 
-  rc = create_expression(db, default_table, tables, condition.left, left);
+  rc = Expression::create_expression(condition.left, *tables, std::vector<Table *>{default_table}, left);
   if (rc != RC::SUCCESS) {
     LOG_ERROR("filter unit create left expression failed");
     return rc;
   }
-  rc = create_expression(db, default_table, tables, condition.right, right);
+  rc = Expression::create_expression(condition.right, *tables, std::vector<Table *>{default_table}, right);
   if (rc != RC::SUCCESS) {
     LOG_ERROR("filter unit create right expression failed");
     return rc;

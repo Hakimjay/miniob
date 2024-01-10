@@ -130,6 +130,10 @@ typedef struct {
 
   size_t groupby_num;             // Length of groupby
   GroupBy groupbys[MAX_NUM];      // group by
+
+  size_t having_num;              // Length of conditions in Having clause
+  Condition havings[MAX_NUM];     // conditions in Having clause
+
 } Selects;
 
 // struct of insert
@@ -265,6 +269,8 @@ void selects_init(Selects *selects, ...);
 void selects_append_attribute(Selects *selects, RelAttr *rel_attr);
 void selects_append_relation(Selects *selects, const char *relation_name);
 void selects_append_conditions(Selects *selects, Condition conditions[], size_t condition_num);
+void selects_append_havings(Selects *selects, Condition conditions[], size_t condition_num);
+
 
 void selects_append_groupbys(Selects *selects, GroupBy groupbys[], size_t groupby_num);
 void selects_append_projects(Selects *selects, ProjectCol *project_col);
