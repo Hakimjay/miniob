@@ -116,7 +116,7 @@ RC gen_project_expression(Expr *expr, const std::unordered_map<std::string, Tabl
     res_expr = new BinaryExpression(expr->bexp->op, left_expr, right_expr, with_brace, expr->bexp->minus);
     return RC::SUCCESS;
   } else if (AGGRFUNC == expr->type) {
-    
+
     // TODO(wbj)
     if (UNARY == expr->afexp->param->type && 0 == expr->afexp->param->uexp->is_attr) {
       // count(*) count(1) count(Value)
@@ -224,8 +224,8 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
     LOG_WARN("cannot construct filter stmt");
     return rc;
   }
-  OrderByStmt *orderby_stmt_for_groupby = nullptr;
 
+  OrderByStmt *orderby_stmt_for_groupby = nullptr;
   GroupByStmt *groupby_stmt = nullptr;
   if (0 != select_sql.groupby_num) {
     rc = OrderByStmt::create(
@@ -260,6 +260,7 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
   select_stmt->filter_stmt_ = filter_stmt;
   select_stmt->orderby_stmt_ = orderby_stmt;
   select_stmt->orderby_stmt_for_groupby_ = orderby_stmt_for_groupby;
+  select_stmt->groupby_stmt_ = groupby_stmt;
   stmt = select_stmt;
   return RC::SUCCESS;
 }
