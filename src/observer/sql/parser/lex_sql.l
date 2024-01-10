@@ -90,6 +90,10 @@ QUOTE            [\'\"]
 [Aa][Vv][Gg]                                         RETURN_TOKEN(AGGR_AVG);
 [Cc][Oo][Uu][Nn][Tt]                                 RETURN_TOKEN(AGGR_COUNT);
 
+[Nn][Uu][Ll][Ll]                                     RETURN_TOKEN(NULL_VALUE);
+[Nn][Uu][Ll][Ll][Aa][Bb][Ll][Ee]                     RETURN_TOKEN(NULLABLE);
+[Nn][Oo][Tt]                                         RETURN_TOKEN(NOT);
+
 
 
 [Dd][Aa][Tt][Ee]                                     RETURN_TOKEN(DATE_T);

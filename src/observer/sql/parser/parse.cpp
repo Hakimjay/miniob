@@ -69,6 +69,12 @@ int value_init_date(Value *value, const char *year, const char *month, const cha
   return 0;
 }
 
+void value_init_null(Value *value)
+{
+  value->type = NULLS;
+  value->data = nullptr;
+}
+
 
 void value_init_integer(Value *value, int v)
 {
@@ -186,8 +192,10 @@ void expr_destroy(Expr *expr)
 void value_destroy(Value *value)
 {
   value->type = UNDEFINED;
-  free(value->data);
-  value->data = nullptr;
+  if (nullptr != value->data) {
+    free(value->data);
+    value->data = nullptr;
+  }
 }
 
 void unary_expr_init_value(UnaryExpr *expr, Value *value)
@@ -237,11 +245,12 @@ void condition_destroy(Condition *condition)
 
 
 
-void attr_info_init(AttrInfo *attr_info, const char *name, AttrType type, size_t length)
+void attr_info_init(AttrInfo *attr_info, const char *name, AttrType type, size_t length, char nullable)
 {
   attr_info->name = strdup(name);
   attr_info->type = type;
   attr_info->length = length;
+  attr_info->nullable = nullable;
 }
 void attr_info_destroy(AttrInfo *attr_info)
 {

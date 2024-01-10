@@ -34,7 +34,7 @@ public:
   void set_length(int length) { this->length_ = length; }
   void set_data(char *data) { this->data_ = data; }
   void set_data(const char *data) { this->set_data(const_cast<char *>(data)); }
-
+  void set_null() { this->attr_type_ = AttrType::NULLS; }
   void to_string(std::ostream &os) const;
 
   int compare(const TupleCell &other) const;
@@ -67,6 +67,11 @@ public:
   bool operator>=(const TupleCell &other) const
   {
     return 0 <= compare(other);
+  }
+
+  bool is_null() const
+  {
+    return AttrType::NULLS == attr_type_;
   }
 
 
