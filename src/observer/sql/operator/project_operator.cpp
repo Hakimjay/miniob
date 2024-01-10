@@ -14,6 +14,7 @@ See the Mulan PSL v2 for more details. */
 
 #include "common/log/log.h"
 #include "sql/operator/project_operator.h"
+#include "sql/expr/expression.h"
 #include "storage/record/record.h"
 #include "storage/common/table.h"
 #include <sstream>
@@ -88,6 +89,30 @@ void gen_project_name(const Expression *expr, bool is_single_table, std::string 
       gen_project_name(bexpr->get_right(), is_single_table, result_name);
       break;
     }
+    case ExprType::AGGRFUNCTION: {
+      if (expr->with_brace()) {
+        result_name += '(';
+      }
+      AggrFuncExpression *afexpr = (AggrFuncExpression *)expr;
+      result_name += afexpr->get_func_name();
+      result_name += '(';
+      if (afexpr->is_param_value()) {
+        gen_project_name(afexpr->get_param_value(), is_single_table, result_name);
+
+      } else {
+        const Field &field = afexpr->field();
+        if (!is_single_table) {
+          result_name += std::string(field.table_name()) + '.' + std::string(field.field_name());
+        } else {
+          result_name += std::string(field.field_name());
+        }
+      }
+      result_name += ')';
+      if (expr->with_brace()) {
+        result_name += ')';
+      }
+      break;
+    }  
     default:
       break;
   }

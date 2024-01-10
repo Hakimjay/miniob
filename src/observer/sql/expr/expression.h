@@ -16,6 +16,7 @@ See the Mulan PSL v2 for more details. */
 
 #include <cassert>
 #include <string.h>
+#include <ostream>
 #include "common/log/log.h"
 #include "storage/common/field.h"
 #include "sql/expr/tuple_cell.h"
@@ -28,6 +29,7 @@ enum class ExprType {
   NONE,
   FIELD,
   BINARY,
+  AGGRFUNCTION,
   VALUE,
 };
 
@@ -39,6 +41,7 @@ public:
 
   virtual RC get_value(const Tuple &tuple, TupleCell &cell) const = 0;
   virtual ExprType type() const = 0;
+  virtual void to_string(std::ostream &os) const = 0;
 
   void set_with_brace()
   {
@@ -48,6 +51,7 @@ public:
   {
     return with_brace_;
   }
+
 
 private:
   bool with_brace_ = 0;
@@ -104,6 +108,7 @@ public:
     }
     return '?';
   }
+  const char get_op_char() const;
 
   const Expression *get_left() const
   {
@@ -114,38 +119,25 @@ public:
     return right_expr_;
   }
 
-
-  RC get_value(const Tuple &tuple, TupleCell &cell) const override
+  Expression *get_left()
   {
-    TupleCell left_cell;
-    TupleCell right_cell;
-    RC rc = left_expr_->get_value(tuple, left_cell);
-    rc = right_expr_->get_value(tuple, right_cell);
-    
-    // calculate
-    assert(left_cell.attr_type() != DATES && right_cell.attr_type() != DATES);
-    assert(left_cell.attr_type() != CHARS && right_cell.attr_type() != CHARS);
-    switch (op_) {
-      case ADD_OP:
-        cell = TupleCell::add(left_cell, right_cell);
-        break;
-      case SUB_OP:
-        cell = TupleCell::sub(left_cell, right_cell);
-        break;
-      case MUL_OP:
-        cell = TupleCell::mul(left_cell, right_cell);
-        break;
-      case DIV_OP:
-        cell = TupleCell::div(left_cell, right_cell);
-        break;
-      default:
-        LOG_ERROR("unsupported calculate op");
-        break;
-    }
-
-    // at first, convert to float
-    return rc;
+    return left_expr_;
   }
+  Expression *get_right()
+  {
+    return right_expr_;
+  }
+
+  void set_left(Expression *expr)
+  {
+    left_expr_ = expr;
+  }
+  void set_right(Expression *expr)
+  {
+    right_expr_ = expr;
+  }
+  RC get_value(const Tuple &tuple, TupleCell &final_cell) const override;
+  void to_string(std::ostream &os) const override;
 
 
   ExprType type() const override
@@ -154,11 +146,11 @@ public:
   }
 
 private:
-  ExpOp op_ = NO_EXP_OP;
+  ExpOp op_;
   Expression *left_expr_ = nullptr;
   Expression *right_expr_ = nullptr;
   TupleCell expr_result_;
-  bool is_minus_ = false;
+  bool is_minus_ = false;  // only used for output
 };
 
 class FieldExpr : public Expression
@@ -180,6 +172,11 @@ public:
   ExprType type() const override
   {
     return ExprType::FIELD;
+  }
+
+  AttrType attr_type() const
+  {
+    return field_.attr_type();
   }
 
   Field &field()
@@ -205,8 +202,9 @@ public:
   {
     return field_.table();
   }
-  
 
+  static void get_fieldexprs(const Expression *expr, std::vector<FieldExpr *> &field_exprs);
+  void to_string(std::ostream &os) const override;
   RC get_value(const Tuple &tuple, TupleCell &cell) const override;
 private:
   Field field_;
@@ -241,7 +239,89 @@ public:
   void get_tuple_cell(TupleCell &cell) const {
     cell = tuple_cell_;
   }
+  void to_string(std::ostream &os) const override;
 
 private:
   TupleCell tuple_cell_;
+};
+
+class AggrFuncExpression : public Expression {
+public:
+  AggrFuncExpression() = default;
+  AggrFuncExpression(AggrFuncType type, const FieldExpr *field) : type_(type), field_(field)
+  {}
+  AggrFuncExpression(AggrFuncType type, const FieldExpr *field, bool with_brace) : AggrFuncExpression(type, field)
+  {
+    if (with_brace) {
+      set_with_brace();
+    }
+  }
+  virtual ~AggrFuncExpression() = default;
+
+  void set_param_value(const ValueExpr *value)
+  {
+    value_ = value;
+  }
+
+  bool is_param_value() const
+  {
+    return nullptr != value_;
+  }
+
+  const ValueExpr *get_param_value() const
+  {
+    assert(nullptr != value_);
+    return value_;
+  }
+
+  ExprType type() const override
+  {
+    return ExprType::AGGRFUNCTION;
+  }
+
+  const Field &field() const
+  {
+    return field_->field();
+  }
+
+  const FieldExpr &fieldexpr() const
+  {
+    return *field_;
+  }
+
+  const Table *table() const
+  {
+    return field_->table();
+  }
+
+  const char *table_name() const
+  {
+    return field_->table_name();
+  }
+
+  const char *field_name() const
+  {
+    return field_->field_name();
+  }
+
+  RC get_value(const Tuple &tuple, TupleCell &cell) const override;
+  
+  std::string get_func_name() const;
+
+  AttrType get_return_type() const;
+
+  AggrFuncType get_aggr_func_type() const
+  {
+    return type_;
+  }
+
+ void to_string(std::ostream &os) const override;
+
+ static void get_aggrfuncexprs(const Expression *expr, std::vector<AggrFuncExpression *> &aggrfunc_exprs);
+
+
+private:
+  AggrFuncType type_;
+  const FieldExpr *field_ = nullptr;  // don't own this. keep const.
+  const ValueExpr *value_ = nullptr; 
 };

@@ -112,6 +112,77 @@ void projectcol_destroy(ProjectCol *projectcol)
   projectcol->relation_name = nullptr;
 }
 
+
+
+void aggr_func_expr_init(AggrFuncExpr *func_expr, AggrFuncType type, Expr *param)
+{
+  func_expr->is_star = 0;
+  func_expr->type = type;
+  func_expr->param = param;
+}
+void aggr_func_expr_init_star(AggrFuncExpr *func_expr, AggrFuncType type)
+{
+  func_expr->is_star = 1;
+  func_expr->type = type;
+  func_expr->param = NULL;
+}
+void aggr_func_expr_destory(AggrFuncExpr *expr)
+{
+  expr_destroy(expr->param);
+  expr->param = NULL;
+}
+
+
+void expr_init_aggr_func(Expr *expr, AggrFuncExpr *f_expr)
+{
+  expr->type = ExpType::AGGRFUNC;
+  expr->afexp = f_expr;
+  expr->bexp = NULL;
+  expr->uexp = NULL;
+  expr->with_brace = 0;
+}
+void expr_init_unary(Expr *expr, UnaryExpr *u_expr)
+{
+  expr->type = ExpType::UNARY;
+  expr->uexp = u_expr;
+  expr->bexp = NULL;
+  expr->afexp = NULL;
+  expr->with_brace = 0;
+}
+void expr_init_binary(Expr *expr, BinaryExpr *b_expr)
+{
+  expr->type = ExpType::BINARY;
+  expr->bexp = b_expr;
+  expr->uexp = NULL;
+  expr->afexp = NULL;
+  expr->with_brace = 0;
+}
+void expr_set_with_brace(Expr *expr)
+{
+  expr->with_brace = 1;
+}
+void expr_destroy(Expr *expr)
+{
+  switch (expr->type) {
+    case ExpType::UNARY:
+      unary_expr_destroy(expr->uexp);
+      expr->uexp = NULL;
+      break;
+    case ExpType::BINARY:
+      binary_expr_destroy(expr->bexp);
+      expr->bexp = NULL;
+      break;
+    case ExpType::AGGRFUNC:
+      aggr_func_expr_destory(expr->afexp);
+      expr->afexp = NULL;
+      break;
+    default:
+      break;
+  }
+  expr->with_brace = 0;
+}
+
+
 void value_destroy(Value *value)
 {
   value->type = UNDEFINED;
@@ -164,32 +235,6 @@ void condition_destroy(Condition *condition)
   expr_destroy(condition->right);
 }
 
-void expr_init_unary(Expr *expr, UnaryExpr *u_expr)
-{
-  expr->type = 0;
-  expr->uexp = u_expr;
-  expr->bexp = NULL;
-  expr->with_brace = 0;
-}
-void expr_init_binary(Expr *expr, BinaryExpr *b_expr)
-{
-  expr->type = 1;
-  expr->bexp = b_expr;
-  expr->uexp = NULL;
-  expr->with_brace = 0;
-}
-void expr_set_with_brace(Expr *expr)
-{
-  expr->with_brace = 1;
-}
-void expr_destroy(Expr *expr)
-{
-  if (expr->type) {
-    binary_expr_destroy(expr->bexp);
-  } else {
-    unary_expr_destroy(expr->uexp);
-  }
-}
 
 
 void attr_info_init(AttrInfo *attr_info, const char *name, AttrType type, size_t length)
@@ -471,6 +516,15 @@ void create_index_destroy(CreateIndex *create_index)
   create_index->index_name = nullptr;
   create_index->relation_name = nullptr;
   create_index->attribute_name = nullptr;
+}
+
+void selects_append_groupbys(Selects *selects, GroupBy groupbys[], size_t groupby_num)
+{
+  assert(groupby_num <= sizeof(selects->groupbys) / sizeof(selects->groupbys[0]));
+  for (size_t i = 0; i < groupby_num; i++) {
+    selects->groupbys[i] = groupbys[i];
+  }
+  selects->groupby_num = groupby_num;
 }
 
 void drop_index_init(DropIndex *drop_index, const char *index_name)

@@ -20,9 +20,13 @@ typedef struct ParserContext {
   size_t from_length;
   size_t value_length;
   size_t orderby_length;
+  size_t groupby_length;
+  size_t aggrfunc_length;
   Value values[MAX_NUM];
   Condition conditions[MAX_NUM];
   OrderBy orderbys[MAX_NUM];
+  GroupBy groupbys[MAX_NUM];
+  AggrFuncType aggrfunctype;
   CompOp comp;
 	char id[MAX_NUM];
 } ParserContext;
@@ -111,6 +115,14 @@ ParserContext *get_context(yyscan_t scanner)
         ORDER
 		    BY
 
+        GROUP
+
+        AGGR_MAX
+        AGGR_MIN
+        AGGR_SUM
+        AGGR_AVG
+        AGGR_COUNT
+
         HELP
         EXIT
         DOT //QUOTE
@@ -140,6 +152,7 @@ ParserContext *get_context(yyscan_t scanner)
   struct _Expr* exp1;
   struct _Expr* exp2;
   struct _Expr* exp3;
+  struct _Expr* exp5;
 
   char *string;
   int number;
@@ -165,6 +178,7 @@ char *position;
 %type <exp1> unary_expr;
 %type <exp2> mul_expr;
 %type <exp3> add_expr;
+%type <exp5> aggr_func_expr;
 
 %%
 
@@ -443,6 +457,58 @@ unary_expr:
       expr_set_with_brace($2);
       $$ = $2;
     }
+    | aggr_func_expr {
+      $$ = $1;
+    }
+    ;
+
+aggr_func_type:
+    AGGR_MAX {
+      CONTEXT->aggrfunctype = MAX;
+    }
+    | AGGR_MIN {
+      CONTEXT->aggrfunctype = MIN;
+    }
+    | AGGR_SUM {
+      CONTEXT->aggrfunctype = SUM;
+    }
+    | AGGR_AVG {
+      CONTEXT->aggrfunctype = AVG;
+    }
+    | AGGR_COUNT {
+      CONTEXT->aggrfunctype = COUNT;
+    }
+    ;
+
+aggr_func_expr:
+    aggr_func_type LBRACE add_expr RBRACE
+    {
+      AggrFuncExpr* afexpr = malloc(sizeof(AggrFuncExpr));
+      aggr_func_expr_init(afexpr, CONTEXT->aggrfunctype, $3);
+      Expr* expr = malloc(sizeof(Expr));
+      expr_init_aggr_func(expr, afexpr);
+      $$ = expr;
+    }
+    | aggr_func_type LBRACE STAR RBRACE
+    {
+      if (CONTEXT->aggrfunctype != COUNT) {
+        return -1;
+      }
+      // regard as a string value
+  		value_init_string(&CONTEXT->values[CONTEXT->value_length++], "*");
+
+    	Expr *param = malloc(sizeof(Expr));
+      UnaryExpr* u_expr = malloc(sizeof(UnaryExpr));
+      unary_expr_init_value(u_expr, &CONTEXT->values[CONTEXT->value_length-1]);
+      expr_init_unary(param, u_expr);
+
+      AggrFuncExpr* afexpr = malloc(sizeof(AggrFuncExpr));
+      aggr_func_expr_init(afexpr, COUNT, param);
+      Expr* expr = malloc(sizeof(Expr));
+      expr_init_aggr_func(expr, afexpr);
+      $$ = expr;
+    }
+    ;
     ;
 
 value:
@@ -496,7 +562,7 @@ update:			/*  update 语句的语法解析树*/
 		}
     ;
 select:				/*  select 语句的语法解析树*/
-    SELECT select_attr FROM ID rel_list where opt_order_by SEMICOLON
+    SELECT select_attr FROM ID rel_list where opt_order_by opt_group_by  SEMICOLON
 		{
 			// CONTEXT->ssql->sstr.selection.relations[CONTEXT->from_length++]=$4;
 			selects_append_relation(&CONTEXT->ssql->sstr.selection, $4);
@@ -505,11 +571,14 @@ select:				/*  select 语句的语法解析树*/
 
 			selects_append_orderbys(&CONTEXT->ssql->sstr.selection, CONTEXT->orderbys, CONTEXT->orderby_length);
 
+			selects_append_groupbys(&CONTEXT->ssql->sstr.selection, CONTEXT->groupbys, CONTEXT->groupby_length);
+
 			CONTEXT->ssql->flag=SCF_SELECT;//"select";
 			// CONTEXT->ssql->sstr.selection.attr_num = CONTEXT->select_length;
 
 			//临时变量清零
-			CONTEXT->orderby_length=0;
+			CONTEXT->groupby_length=0;
+      CONTEXT->orderby_length=0;
 			CONTEXT->condition_length=0;
 			CONTEXT->from_length=0;
 			CONTEXT->select_length=0;
@@ -624,7 +693,6 @@ sort_unit:
 		OrderBy orderby;
 		orderby_init(&orderby, FALSE, &attr);
 		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
-		printf("hhh\n");
 	}
 	|
 	ID DOT ID ASC
@@ -634,7 +702,6 @@ sort_unit:
 		OrderBy orderby;
 		orderby_init(&orderby, TRUE, &attr);
 		CONTEXT->orderbys[CONTEXT->orderby_length++] = orderby;
-		printf("hhh\n");
 	}
 	;
 sort_list:
@@ -650,6 +717,41 @@ sort_list:
 opt_order_by:
 	/* empty */
 	| ORDER BY sort_list
+		{
+
+	}
+	;
+
+
+groupby_unit:
+	ID
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, NULL, $1);
+		CONTEXT->groupbys[CONTEXT->groupby_length++] = attr;
+	}
+	|
+	ID DOT ID
+	{
+		RelAttr attr;
+		relation_attr_init(&attr, $1, $3);
+		CONTEXT->groupbys[CONTEXT->groupby_length++] = attr;
+	}
+  ;
+
+groupby_list:
+	groupby_unit COMMA groupby_list
+		{
+			
+	}
+	| groupby_unit
+		{
+			
+	}
+	;
+opt_group_by:
+	/* empty */
+	| GROUP BY groupby_list
 		{
 
 	}

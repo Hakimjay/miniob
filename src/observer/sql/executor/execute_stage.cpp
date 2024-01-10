@@ -40,6 +40,7 @@ See the Mulan PSL v2 for more details. */
 #include "sql/operator/delete_operator.h"
 
 #include "sql/operator/sort_operator.h"
+#include "sql/operator/groupby_operator.h"
 
 #include "sql/operator/project_operator.h"
 #include "sql/operator/join_operator.h"
@@ -49,6 +50,8 @@ See the Mulan PSL v2 for more details. */
 #include "sql/stmt/delete_stmt.h"
 #include "sql/stmt/insert_stmt.h"
 #include "sql/stmt/filter_stmt.h"
+
+#include "sql/stmt/groupby_stmt.h"
 #include "storage/common/table.h"
 #include "storage/common/field.h"
 #include "storage/index/index.h"
@@ -499,18 +502,64 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
     }
   });
 
+  // 1. process where clause
   Operator *top_op = scan_oper;
   PredicateOperator pred_oper(select_stmt->filter_stmt());
   pred_oper.add_child(top_op);
   top_op = &pred_oper;
+
+  // 2 process groupby clause and aggrfunc fileds
+  // 2.1 gen sort oper for groupby
+  SortOperator sort_oper_for_groupby(select_stmt->orderby_stmt_for_groupby());
+  if (nullptr != select_stmt->orderby_stmt_for_groupby()) {
+    sort_oper_for_groupby.add_child(top_op);
+    top_op = &sort_oper_for_groupby;
+  }
+
+  // 2.2 get aggrfunc_exprs from projects
+  std::vector<AggrFuncExpression *> aggr_exprs;
+  for (auto project : select_stmt->projects()) {
+    AggrFuncExpression::get_aggrfuncexprs(project, aggr_exprs);
+  }
+
+  // 2.3 get normal field_exprs from projects
+  std::vector<FieldExpr *> field_exprs;
+  if (0 != aggr_exprs.size()) {
+    for (auto project : select_stmt->projects()) {
+      FieldExpr::get_fieldexprs(project, field_exprs);
+    }
+  }
+
+  // 2.4 gen groupby oper
+  GroupByStmt *empty_groupby_stmt = nullptr;
+  DEFER([&]() {
+    if (nullptr != empty_groupby_stmt) {
+      delete empty_groupby_stmt;
+    }
+  });
+
+   GroupByOperator group_oper(select_stmt->groupby_stmt(), aggr_exprs, field_exprs);
+  if (0 != aggr_exprs.size()) {
+    if (nullptr == select_stmt->groupby_stmt()) {
+      empty_groupby_stmt = new GroupByStmt();
+      group_oper.set_groupby_stmt(empty_groupby_stmt);
+    }
+    group_oper.add_child(top_op);
+    // TODO add sort oper as child
+    top_op = &group_oper;
+  }
+
+ // 3. process orderby clause
   SortOperator sort_oper(select_stmt->orderby_stmt());
   if (nullptr != select_stmt->orderby_stmt()) {
     sort_oper.add_child(top_op);
     top_op = &sort_oper;
   }
+
+   // 4. process select clause
   ProjectOperator project_oper;
   project_oper.add_child(top_op);
-  
+
   auto &projects = select_stmt->projects();
   for (auto it = projects.begin(); it != projects.end(); it++) {
     project_oper.add_projection(*it, is_single_table);

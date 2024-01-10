@@ -15,6 +15,9 @@ See the Mulan PSL v2 for more details. */
 #include "sql/stmt/select_stmt.h"
 #include "sql/stmt/filter_stmt.h"
 #include "sql/stmt/orderby_stmt.h"
+#include "sql/stmt/groupby_stmt.h"
+#include "sql/expr/expression.h"
+#include "sql/parser/parse_defs.h"
 #include "common/log/log.h"
 #include "common/lang/string.h"
 #include "storage/common/db.h"
@@ -30,6 +33,21 @@ SelectStmt::~SelectStmt()
     delete expr;
   }
   projects_.clear();
+
+  if (nullptr != orderby_stmt_) {
+    delete orderby_stmt_;
+    orderby_stmt_ = nullptr;
+  }
+
+  if (nullptr != orderby_stmt_for_groupby_) {
+    delete orderby_stmt_for_groupby_;
+    orderby_stmt_for_groupby_ = nullptr;
+  }
+
+  if (nullptr != groupby_stmt_) {
+    delete groupby_stmt_;
+    groupby_stmt_ = nullptr;
+  }
 }
 
 static void wildcard_fields(Table *table, std::vector<Expression *> &projects)
@@ -96,6 +114,33 @@ RC gen_project_expression(Expr *expr, const std::unordered_map<std::string, Tabl
       return rc;
     }
     res_expr = new BinaryExpression(expr->bexp->op, left_expr, right_expr, with_brace, expr->bexp->minus);
+    return RC::SUCCESS;
+  } else if (AGGRFUNC == expr->type) {
+    
+    // TODO(wbj)
+    if (UNARY == expr->afexp->param->type && 0 == expr->afexp->param->uexp->is_attr) {
+      // count(*) count(1) count(Value)
+      assert(AggrFuncType::COUNT == expr->afexp->type);
+      // substitue * or 1 with some field
+      Expression *tmp_value_exp = nullptr;
+      RC rc = gen_project_expression(expr->afexp->param, table_map, tables, tmp_value_exp);
+      if (rc != RC::SUCCESS) {
+        return rc;
+      }
+      assert(ExprType::VALUE == tmp_value_exp->type());
+      auto aggr_func_expr = new AggrFuncExpression(
+          AggrFuncType::COUNT, new FieldExpr(tables[0], tables[0]->table_meta().field(1)), with_brace);
+      aggr_func_expr->set_param_value((ValueExpr *)tmp_value_exp);
+      res_expr = aggr_func_expr;
+      return RC::SUCCESS;
+    }
+    Expression *param = nullptr;
+    RC rc = gen_project_expression(expr->afexp->param, table_map, tables, param);
+    if (rc != RC::SUCCESS) {
+      return rc;
+    }
+    assert(nullptr != param && ExprType::FIELD == param->type());
+    res_expr = new AggrFuncExpression(expr->afexp->type, (FieldExpr *)param, with_brace);
     return RC::SUCCESS;
   }
   return RC::SUCCESS;
@@ -179,7 +224,23 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
     LOG_WARN("cannot construct filter stmt");
     return rc;
   }
+  OrderByStmt *orderby_stmt_for_groupby = nullptr;
 
+  GroupByStmt *groupby_stmt = nullptr;
+  if (0 != select_sql.groupby_num) {
+    rc = OrderByStmt::create(
+        db, default_table, &table_map, select_sql.groupbys, select_sql.groupby_num, orderby_stmt_for_groupby);
+    if (rc != RC::SUCCESS) {
+      LOG_WARN("cannot construct order by stmt for groupby");
+      return rc;
+    }
+
+    rc = GroupByStmt::create(db, default_table, &table_map, select_sql.groupbys, select_sql.groupby_num, groupby_stmt);
+    if (rc != RC::SUCCESS) {
+      LOG_WARN("cannot construct group by stmt");
+      return rc;
+    }
+  }
   //排序
   OrderByStmt *orderby_stmt = nullptr;
   if (0 != select_sql.orderby_num) {
@@ -190,12 +251,15 @@ RC SelectStmt::create(Db *db, const Selects &select_sql, Stmt *&stmt)
     }
   }
 
+
+
   // everything alright
   SelectStmt *select_stmt = new SelectStmt();
   select_stmt->tables_.swap(tables);
   select_stmt->projects_.swap(projects);
   select_stmt->filter_stmt_ = filter_stmt;
   select_stmt->orderby_stmt_ = orderby_stmt;
+  select_stmt->orderby_stmt_for_groupby_ = orderby_stmt_for_groupby;
   stmt = select_stmt;
   return RC::SUCCESS;
 }

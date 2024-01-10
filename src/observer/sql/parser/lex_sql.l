@@ -82,6 +82,14 @@ QUOTE            [\'\"]
 [Oo][Rr][Dd][Ee][Rr]                                 RETURN_TOKEN(ORDER);
 [Bb][Yy]                                             RETURN_TOKEN(BY);
 
+[Gg][Rr][Oo][Uu][Pp]                                 RETURN_TOKEN(GROUP);
+
+[Mm][Aa][Xx]                                         RETURN_TOKEN(AGGR_MAX);
+[Mm][Ii][Nn]                                         RETURN_TOKEN(AGGR_MIN);
+[Ss][Uu][Mm]                                         RETURN_TOKEN(AGGR_SUM);
+[Aa][Vv][Gg]                                         RETURN_TOKEN(AGGR_AVG);
+[Cc][Oo][Uu][Nn][Tt]                                 RETURN_TOKEN(AGGR_COUNT);
+
 
 
 [Dd][Aa][Tt][Ee]                                     RETURN_TOKEN(DATE_T);

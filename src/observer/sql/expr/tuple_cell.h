@@ -74,8 +74,10 @@ public:
   static const TupleCell sub(const TupleCell &left, const TupleCell &right);
   static const TupleCell mul(const TupleCell &left, const TupleCell &right);
   static const TupleCell div(const TupleCell &left, const TupleCell &right);
+  static const TupleCell &min(const TupleCell &a, const TupleCell &b) { return a <= b ? a : b; }
+  static const TupleCell &max(const TupleCell &a, const TupleCell &b) { return a >= b ? a : b; }
 
-  const char *data() const
+  char *data() const
   {
     return data_;
   }

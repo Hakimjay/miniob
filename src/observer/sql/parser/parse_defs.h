@@ -39,8 +39,9 @@ typedef enum {
   NO_OP
 } CompOp;
 
-typedef enum { NO_EXP_OP, ADD_OP, SUB_OP, MUL_OP, DIV_OP, EXP_OP_NUM } ExpOp;
-typedef enum { UNARY, BINARY } ExpType;
+typedef enum { ADD_OP, SUB_OP, MUL_OP, DIV_OP, EXP_OP_NUM } ExpOp;
+typedef enum { MAX, MIN, SUM, AVG, COUNT, AGGR_FUNC_TYPE_NUM } AggrFuncType;
+typedef enum { UNARY, BINARY, FUNC, AGGRFUNC, EXP_TYPE_NUM } ExpType;
 
 //属性值类型
 typedef enum
@@ -51,6 +52,8 @@ typedef enum
   DATES,
   FLOATS
 } AttrType;
+
+typedef RelAttr GroupBy;
 
 //属性值
 typedef struct _Value {
@@ -65,10 +68,13 @@ typedef struct _UnaryExpr {
 } UnaryExpr;
 
 typedef struct _BinaryExpr BinaryExpr;
+typedef struct _AggrFuncExpr AggrFuncExpr;
+
 typedef struct _Expr {
-  int type;  
+  ExpType type;
   UnaryExpr *uexp;
   BinaryExpr *bexp;
+  AggrFuncExpr *afexp;
   int with_brace;
 } Expr;
 
@@ -78,6 +84,12 @@ typedef struct _BinaryExpr {
   Expr *right;
   int minus;
 } BinaryExpr;
+
+typedef struct _AggrFuncExpr {
+  int is_star;
+  AggrFuncType type;
+  Expr *param;
+} AggrFuncExpr;
 
 
 typedef struct _ProjectCol {
@@ -111,6 +123,9 @@ typedef struct {
 
   size_t orderby_num;             // Length of orderby
   OrderBy orderbys[MAX_NUM];      // order by
+
+  size_t groupby_num;             // Length of groupby
+  GroupBy groupbys[MAX_NUM];      // group by
 } Selects;
 
 // struct of insert
@@ -243,6 +258,7 @@ void selects_append_attribute(Selects *selects, RelAttr *rel_attr);
 void selects_append_relation(Selects *selects, const char *relation_name);
 void selects_append_conditions(Selects *selects, Condition conditions[], size_t condition_num);
 
+void selects_append_groupbys(Selects *selects, GroupBy groupbys[], size_t groupby_num);
 void selects_append_projects(Selects *selects, ProjectCol *project_col);
 void selects_append_orderbys(Selects *selects, OrderBy orderbys[], size_t orderby_num);
 void selects_destroy(Selects *selects);
@@ -262,6 +278,7 @@ void binary_expr_init(BinaryExpr *expr, ExpOp op, Expr *left_expr, Expr *right_e
 void binary_expr_destroy(BinaryExpr *expr);
 void binary_expr_set_minus(BinaryExpr *expr);
 
+void expr_init_aggr_func(Expr *expr, AggrFuncExpr *f_expr);
 void expr_init_unary(Expr *expr, UnaryExpr *u_expr);
 void expr_init_binary(Expr *expr, BinaryExpr *b_expr);
 void expr_destroy(Expr *expr);
@@ -273,6 +290,10 @@ void condition_destroy(Condition *condition);
 void projectcol_init_star(ProjectCol *projectcol, const char *relation_name);
 void projectcol_init_expr(ProjectCol *projectcol, Expr *expr);
 void projectcol_destroy(ProjectCol *projectcol);
+
+void aggr_func_expr_init(AggrFuncExpr *func_expr, AggrFuncType type, Expr *param);
+void aggr_func_expr_init_star(AggrFuncExpr *func_expr, AggrFuncType type);
+void aggr_func_expr_destory(AggrFuncExpr *expr);
 
 void attr_print(RelAttr *attr, int indent);
 void value_print(Value *value, int indent);
