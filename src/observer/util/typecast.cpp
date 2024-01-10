@@ -1,6 +1,7 @@
 #include "util/typecast.h"
 #include <cstdlib>
 #include <cstring>
+#include <cassert>
 
 cast_func_ptr cast_to[AttrType::FLOATS + 1][AttrType::FLOATS + 1] = {{
                                                                          not_support,
@@ -53,9 +54,9 @@ cast_func_ptr cast_to[AttrType::FLOATS + 1][AttrType::FLOATS + 1] = {{
         float_to_float,
     }};
 
-void *identity(void *src)
+bool type_cast_not_support(AttrType i, AttrType j)
 {
-  return src;
+  return cast_to[i][j] == not_support;
 }
 void *not_support(void *src)
 {

@@ -93,11 +93,11 @@ RC TableMeta::init(const char *name, int field_num, const AttrInfo attributes[])
     field_offset += attr_info.length;
   }
 
-  // put null-bitmap field end of record
+  // put __null field end of record
   size_t null_field_len = (field_num + sys_fields_.size() - 1) / 8 + 1;  // the length contain sys fields
-  rc = fields_[sys_fields_.size() + field_num].init("null-bitmap", CHARS, field_offset, null_field_len, false, false);
+  rc = fields_[sys_fields_.size() + field_num].init("__null", CHARS, field_offset, null_field_len, false, false);
   if (RC::SUCCESS != rc) {
-    LOG_ERROR("Failed to init field meta. table name=%s, field name: %s", name, "null-bitmap");
+    LOG_ERROR("Failed to init field meta. table name=%s, field name: %s", name, "__null");
     return rc;
   }
   field_offset += null_field_len;

@@ -17,6 +17,7 @@ See the Mulan PSL v2 for more details. */
 #include "storage/common/table.h"
 #include "rc.h"
 
+
 RC InsertOperator::open()
 {
   Table *table = insert_stmt_->table();

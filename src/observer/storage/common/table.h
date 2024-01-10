@@ -111,7 +111,9 @@ private:
 private:
   RC init_record_handler(const char *base_dir);
   RC make_record(int value_num, const Value *values, char *&record_out);
-
+  bool record_field_is_null(const char *record, int idx) const;
+  RC change_record_value(char *&record, int idx, const Value &value) const;
+  
 public:
   Index *find_index(const char *index_name) const;
   Index *find_index_by_field(const char *field_name) const;
