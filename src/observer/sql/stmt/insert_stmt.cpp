@@ -65,7 +65,6 @@ RC InsertStmt::create(Db *db, const Inserts &inserts, Stmt *&stmt)
               value_type);
           return RC::SCHEMA_FIELD_TYPE_MISMATCH;
         }
-        continue;
       }
   }
 

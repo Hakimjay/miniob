@@ -8,11 +8,13 @@ cast_func_ptr cast_to[AttrType::FLOATS + 1][AttrType::FLOATS + 1] = {{
                                                                          not_support,
                                                                          not_support,
                                                                          not_support,
+                                                                         not_support,
                                                                      },
     {
         not_support,
         char_to_char,
         char_to_int,
+        not_support,
         not_support,
         char_to_float,
     },
@@ -20,6 +22,7 @@ cast_func_ptr cast_to[AttrType::FLOATS + 1][AttrType::FLOATS + 1] = {{
         not_support,
         int_to_char,
         int_to_int,
+        not_support,
         not_support,
         int_to_float,
     },
@@ -29,11 +32,23 @@ cast_func_ptr cast_to[AttrType::FLOATS + 1][AttrType::FLOATS + 1] = {{
         not_support,
         not_support,
         not_support,
+        not_support,
+
+    },
+    {
+        not_support,
+        not_support,
+        not_support,
+        not_support,
+        not_support,
+        not_support,
+
     },
     {
         not_support,
         float_to_char,
         float_to_int,
+        not_support,
         not_support,
         float_to_float,
     }};

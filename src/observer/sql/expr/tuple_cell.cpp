@@ -83,6 +83,10 @@ int TupleCell::compare(const TupleCell &other) const
 const TupleCell TupleCell::sub(const TupleCell &left, const TupleCell &right)
 {
   TupleCell result_cell;
+  if (left.is_null() || right.is_null()) {
+    result_cell.set_null();
+    return result_cell;
+  }
   if (left.attr_type_ == INTS && right.attr_type_ == INTS) {
     int result = *(int *)left.data_ - *(int *)right.data_;
     int *result_data = new int(result);
@@ -105,6 +109,10 @@ const TupleCell TupleCell::sub(const TupleCell &left, const TupleCell &right)
 const TupleCell TupleCell::mul(const TupleCell &left, const TupleCell &right)
 {
   TupleCell result_cell;
+  if (left.is_null() || right.is_null()) {
+    result_cell.set_null();
+    return result_cell;
+  }
   if (left.attr_type_ == INTS && right.attr_type_ == INTS) {
     int result = *(int *)left.data_ * *(int *)right.data_;
     int *result_data = new int(result);
@@ -123,19 +131,27 @@ const TupleCell TupleCell::mul(const TupleCell &left, const TupleCell &right)
   }
   return result_cell;
 }
+
 const TupleCell TupleCell::div(const TupleCell &left, const TupleCell &right)
 {
   TupleCell result_cell;
+  if (left.is_null() || right.is_null()) {
+    result_cell.set_null();
+    return result_cell;
+  }
   float *tmp_left = (float *)cast_to[left.attr_type_][FLOATS](left.data_);
   float *tmp_right = (float *)cast_to[right.attr_type_][FLOATS](right.data_);
   assert(nullptr != tmp_left);
   assert(nullptr != tmp_right);
   float result = 0;
-  if (0 != *tmp_right)
-    result = *tmp_left / *tmp_right;
+  if (0 == *tmp_right) {
+    result_cell.set_type(AttrType::NULLS);
+  } else {
+  result = *tmp_left / *tmp_right;
   float *result_data = new float(result);
   result_cell.set_data((char *)result_data);
   result_cell.set_type(FLOATS);
+  }
   delete tmp_left;
   delete tmp_right;
   return result_cell;
@@ -144,6 +160,10 @@ const TupleCell TupleCell::div(const TupleCell &left, const TupleCell &right)
 const TupleCell TupleCell::add(const TupleCell &left, const TupleCell &right)
 {
   TupleCell result_cell;
+  if (left.is_null() || right.is_null()) {
+    result_cell.set_null();
+    return result_cell;
+  }
   if (left.attr_type_ == INTS && right.attr_type_ == INTS) {
     int result = *(int *)left.data_ + *(int *)right.data_;
     int *result_data = new int(result);

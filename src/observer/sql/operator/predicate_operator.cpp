@@ -73,11 +73,13 @@ bool PredicateOperator::do_predicate(Tuple &tuple)
     TupleCell right_cell;
     left_expr->get_value(tuple, left_cell);
     right_expr->get_value(tuple, right_cell);
-    
+
+    // 0. at first, check null
     if (left_cell.is_null() || right_cell.is_null()) {
       return false;
     }
 
+    // 1. for compare: > >= < <= == != <>
     const int compare = left_cell.compare(right_cell);
     bool filter_result = false;
     switch (comp) {
