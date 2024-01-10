@@ -126,6 +126,7 @@ ParserContext *get_context(yyscan_t scanner)
         NULL_VALUE
         NULLABLE
         NOT
+        IS
 
         HELP
         EXIT
@@ -457,6 +458,34 @@ condition:
       condition_init(&expr, CONTEXT->comp, $1, $3);
       condition_print(&expr, 0);
       CONTEXT->conditions[CONTEXT->condition_length++] = expr;
+    }
+    | add_expr IS NULL_VALUE {
+      Value value;
+      value_init_null(&value);
+
+      UnaryExpr* u_expr = malloc(sizeof(UnaryExpr));
+      unary_expr_init_value(u_expr, &value);
+
+    	Expr *expr = malloc(sizeof(Expr));
+      expr_init_unary(expr, u_expr);
+
+      Condition cond;
+      condition_init(&cond, IS_NULL, $1, expr);
+      CONTEXT->conditions[CONTEXT->condition_length++] = cond;
+    }
+    | add_expr IS NOT NULL_VALUE {
+      Value value;
+      value_init_null(&value);
+
+      UnaryExpr* u_expr = malloc(sizeof(UnaryExpr));
+      unary_expr_init_value(u_expr, &value);
+
+    	Expr *expr = malloc(sizeof(Expr));
+      expr_init_unary(expr, u_expr);
+
+      Condition cond;
+      condition_init(&cond, IS_NOT_NULL, $1, expr);
+      CONTEXT->conditions[CONTEXT->condition_length++] = cond;
     }
     ;
 

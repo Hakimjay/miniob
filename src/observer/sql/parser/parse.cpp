@@ -237,10 +237,20 @@ void condition_init(Condition *condition, CompOp op, Expr *left_expr, Expr *righ
   condition->right = right_expr;
   condition->comp = op;
 }
+
+void condition_init_with_null(Condition *condition, CompOp op, Expr *left_expr)
+{
+  condition->comp = op;
+  condition->left = left_expr;
+  condition->right = NULL;
+}
+
 void condition_destroy(Condition *condition)
 {
   expr_destroy(condition->left);
-  expr_destroy(condition->right);
+  if (NULL != condition->right) {
+    expr_destroy(condition->right);
+  }
 }
 
 

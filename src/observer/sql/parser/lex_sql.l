@@ -93,6 +93,7 @@ QUOTE            [\'\"]
 [Nn][Uu][Ll][Ll]                                     RETURN_TOKEN(NULL_VALUE);
 [Nn][Uu][Ll][Ll][Aa][Bb][Ll][Ee]                     RETURN_TOKEN(NULLABLE);
 [Nn][Oo][Tt]                                         RETURN_TOKEN(NOT);
+[Ii][Ss]                                             RETURN_TOKEN(IS);
 
 
 

@@ -74,7 +74,17 @@ bool PredicateOperator::do_predicate(Tuple &tuple)
     left_expr->get_value(tuple, left_cell);
     right_expr->get_value(tuple, right_cell);
 
-    // 0. at first, check null
+    // 0. for is [not] null
+    if (CompOp::IS_NULL == comp) {
+      assert(right_cell.is_null());
+      return left_cell.is_null();
+    }
+    if (CompOp::IS_NOT_NULL == comp) {
+      assert(right_cell.is_null());
+      return !left_cell.is_null();
+    }
+
+    // 1. at first, check null
     if (left_cell.is_null() || right_cell.is_null()) {
       return false;
     }
