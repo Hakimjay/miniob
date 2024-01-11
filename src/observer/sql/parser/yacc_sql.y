@@ -118,6 +118,8 @@ ParserContext *get_context(yyscan_t scanner)
         STRING_T
         FLOAT_T
 
+        UNIQUE
+
 		    ADD
         SUB
         DIV
@@ -214,7 +216,6 @@ char *position;
 %type <cur_len> attr_list;
 %type <from_info> from;
 %type <from_info> rel_list;
-%type <cur_len> inner_join_conditions;
 %type <cur_len> where;
 %type <cur_len> condition_list;
 %type <cur_len> opt_group_by;
@@ -311,8 +312,13 @@ create_index:		/*create index 语句的语法解析树*/
     CREATE INDEX ID ON ID LBRACE ID RBRACE SEMICOLON 
 		{
 			CONTEXT->ssql->flag = SCF_CREATE_INDEX;//"create_index";
-			create_index_init(&CONTEXT->ssql->sstr.create_index, $3, $5, $7);
+			create_index_init(&CONTEXT->ssql->sstr.create_index, false, $3, $5, $7);
 		}
+    | CREATE UNIQUE INDEX ID ON ID LBRACE ID RBRACE SEMICOLON
+		{
+			CONTEXT->ssql->flag = SCF_CREATE_INDEX;//"create_index";
+			create_index_init(&CONTEXT->ssql->sstr.create_index, true, $4, $6, $8);
+    }
     ;
 
 drop_index:			/*drop index 语句的语法解析树*/

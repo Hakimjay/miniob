@@ -85,6 +85,8 @@ QUOTE            [\'\"]
 [Gg][Rr][Oo][Uu][Pp]                                 RETURN_TOKEN(GROUP);
 [Hh][Aa][Vv][Ii][Nn][Gg]                             RETURN_TOKEN(HAVING);
 
+[Uu][Nn][Ii][Qq][Uu][Ee]                             RETURN_TOKEN(UNIQUE);
+
 
 [Mm][Aa][Xx]                                         RETURN_TOKEN(AGGR_MAX);
 [Mm][Ii][Nn]                                         RETURN_TOKEN(AGGR_MIN);
