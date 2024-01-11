@@ -39,12 +39,20 @@ typedef enum {
 
   IS_NULL,      //"is null"      6
   IS_NOT_NULL,  //"is not null"  7
+
+  IN_OP,        // sub_query IN      8
+  NOT_IN,       // sub_query NOT IN  9
+  EXISTS_OP,    // sub_query EXISTS  10
+  NOT_EXISTS,   // sub_query NOT EXISTS  11
+
   NO_OP
 } CompOp;
 
 typedef enum { ADD_OP, SUB_OP, MUL_OP, DIV_OP, EXP_OP_NUM } ExpOp;
 typedef enum { MAX, MIN, SUM, AVG, COUNT, AGGR_FUNC_TYPE_NUM } AggrFuncType;
-typedef enum { UNARY, BINARY, FUNC, AGGRFUNC, EXP_TYPE_NUM } ExpType;
+typedef enum { UNARY, BINARY, AGGRFUNC, SUBQUERY, SUBLIST, EXP_TYPE_NUM } ExpType;
+typedef enum { SUB_IN, SUB_NOT_IN, SUB_EXISTS, SUB_NOT_EXISTS, SUB_NORMAL, SUB_TYPE_NUM } SubQueryType;
+
 
 //属性值类型
 typedef enum
@@ -58,6 +66,7 @@ typedef enum
 } AttrType;
 
 typedef RelAttr GroupBy;
+typedef char *Relation;
 
 //属性值
 typedef struct _Value {
@@ -73,12 +82,17 @@ typedef struct _UnaryExpr {
 
 typedef struct _BinaryExpr BinaryExpr;
 typedef struct _AggrFuncExpr AggrFuncExpr;
+typedef struct _SubQueryExpr SubQueryExpr;
+typedef struct _ListExpr ListExpr;
 
 typedef struct _Expr {
   ExpType type;
   UnaryExpr *uexp;
   BinaryExpr *bexp;
   AggrFuncExpr *afexp;
+
+  SubQueryExpr *sexp;
+  ListExpr *lexp;
   int with_brace;
 } Expr;
 
@@ -94,6 +108,8 @@ typedef struct _AggrFuncExpr {
   AggrFuncType type;
   Expr *param;
 } AggrFuncExpr;
+
+
 
 
 typedef struct _ProjectCol {
@@ -135,6 +151,18 @@ typedef struct {
   Condition havings[MAX_NUM];     // conditions in Having clause
 
 } Selects;
+
+
+// struct of sub_select
+typedef struct _SubQueryExpr {
+  Selects *sub_select;
+} SubQueryExpr;
+
+// sub_select list
+typedef struct _ListExpr {
+  int list_length;
+  Value list[MAX_NUM];
+} ListExpr;
 
 // struct of insert
 typedef struct {
@@ -271,9 +299,12 @@ void selects_append_relation(Selects *selects, const char *relation_name);
 void selects_append_conditions(Selects *selects, Condition conditions[], size_t condition_num);
 void selects_append_havings(Selects *selects, Condition conditions[], size_t condition_num);
 
+void selects_append_project(Selects *selects, ProjectCol *project_col);
+void selects_append_projects(Selects *selects, ProjectCol project_col[], size_t project_num);
+void selects_append_froms(Selects *selects, Relation froms[], size_t from_num);
+
 
 void selects_append_groupbys(Selects *selects, GroupBy groupbys[], size_t groupby_num);
-void selects_append_projects(Selects *selects, ProjectCol *project_col);
 void selects_append_orderbys(Selects *selects, OrderBy orderbys[], size_t orderby_num);
 void selects_destroy(Selects *selects);
 
@@ -295,8 +326,12 @@ void binary_expr_set_minus(BinaryExpr *expr);
 void expr_init_aggr_func(Expr *expr, AggrFuncExpr *f_expr);
 void expr_init_unary(Expr *expr, UnaryExpr *u_expr);
 void expr_init_binary(Expr *expr, BinaryExpr *b_expr);
+void expr_init_list(Expr *expr, ListExpr *l_expr);
+void expr_init_sub_query(Expr *expr, SubQueryExpr *s_expr);
+
 void expr_destroy(Expr *expr);
 void expr_set_with_brace(Expr *expr);
+
 
 void condition_init(Condition *condition, CompOp op, Expr *left_expr, Expr *right_expr);
 void condition_destroy(Condition *condition);
@@ -308,6 +343,12 @@ void projectcol_destroy(ProjectCol *projectcol);
 void aggr_func_expr_init(AggrFuncExpr *func_expr, AggrFuncType type, Expr *param);
 void aggr_func_expr_init_star(AggrFuncExpr *func_expr, AggrFuncType type);
 void aggr_func_expr_destory(AggrFuncExpr *expr);
+
+void list_expr_init(ListExpr *expr, Value values[], size_t value_num);
+void list_expr_destory(ListExpr *expr);
+
+void sub_query_expr_init(SubQueryExpr *expr, Selects *sub_select);
+void sub_query_expr_destory(SubQueryExpr *expr);
 
 void attr_print(RelAttr *attr, int indent);
 void value_print(Value *value, int indent);

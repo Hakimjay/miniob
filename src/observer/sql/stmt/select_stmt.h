@@ -40,7 +40,8 @@ public:
 
   StmtType type() const override { return StmtType::SELECT; }
 public:
-  static RC create(Db *db, const Selects &select_sql, Stmt *&stmt);
+  static RC create(Db *db, const Selects &select_sql, const std::vector<Table *> &parent_tables,
+      const std::unordered_map<std::string, Table *> &parent_table_map, Stmt *&stmt);
 
 public:
   const std::vector<Table *> &tables() const { return tables_; }
@@ -59,6 +60,6 @@ private:
   GroupByStmt *groupby_stmt_ = nullptr;
   OrderByStmt *orderby_stmt_for_groupby_ = nullptr;
   HavingStmt *having_stmt_ = nullptr;
-  
+
 };
 

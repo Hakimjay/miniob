@@ -421,6 +421,9 @@ std::unordered_map<Table *, std::unique_ptr<FilterUnits>> split_filters(
   for (auto table : tables) {
     res[table] = std::make_unique<FilterUnits>();
   }
+  if (nullptr == filter_stmt) {
+    return res;
+  }
   for (auto filter : filter_stmt->filter_units()) {
     Expression *left = filter->left();
     Expression *right = filter->right();
@@ -440,9 +443,11 @@ std::unordered_map<Table *, std::unique_ptr<FilterUnits>> split_filters(
   return res;
 }
 
-RC ExecuteStage::do_join(SelectStmt *select_stmt, Operator **result_op, std::vector<Operator *> &delete_opers)
+RC ExecuteStage::gen_join_operator(
+    const SelectStmt *select_stmt, Operator *&result_op, std::vector<Operator *> &delete_opers)
 {
   std::list<Operator *> oper_store;
+  std::list<Table *> table_list;
   {
     const auto &tables = select_stmt->tables();
     FilterStmt *filter_stmt = select_stmt->filter_stmt();
@@ -453,9 +458,20 @@ RC ExecuteStage::do_join(SelectStmt *select_stmt, Operator **result_op, std::vec
         scan_oper = new TableScanOperator(tables[i]);
       }
       oper_store.push_front(scan_oper);
+      table_list.push_front(tables[i]);
       delete_opers.push_back(scan_oper);
     }
   }
+
+
+  std::unordered_set<const Table *> table_set;
+  table_set.insert(table_list.front());
+  table_list.pop_front();
+  std::vector<FilterUnit *> filter_units;
+  if (nullptr != select_stmt->filter_stmt()) {
+    filter_units = select_stmt->filter_stmt()->filter_units();
+  }
+
   while (oper_store.size() > 1) {
     JoinOperator *join_oper = NULL;
     Operator *left_oper = NULL;
@@ -470,50 +486,104 @@ RC ExecuteStage::do_join(SelectStmt *select_stmt, Operator **result_op, std::vec
     oper_store.push_front(join_oper);
 
     delete_opers.push_back(join_oper);
+
+    // get proper filter unit. then add to join_oper
+    for (auto it = filter_units.begin(); it != filter_units.end();) {
+      auto unit = *it;
+      bool addable = true;
+      Expression *left_expr = unit->left();
+      if (ExprType::FIELD == left_expr->type()) {
+        if (0 == table_set.count(((FieldExpr *)left_expr)->table())) {
+          addable = false;
+        }
+      }
+      Expression *right_expr = unit->right();
+      if (ExprType::FIELD == right_expr->type()) {
+        if (0 == table_set.count(((FieldExpr *)right_expr)->table())) {
+          addable = false;
+        }
+      }
+      if (addable) {
+        join_oper->add_filter_unit(unit);
+        it = filter_units.erase(it);
+      } else {
+        it++;
+      }
+    }
   }
-  *result_op = oper_store.front();
+  result_op = oper_store.front();
   return RC::SUCCESS;
 }
 
-RC ExecuteStage::do_select(SQLStageEvent *sql_event)
+// remember to delete these operators
+RC ExecuteStage::gen_physical_plan(
+    const SelectStmt *select_stmt, ProjectOperator *&op, std::vector<Operator *> &delete_opers)
 {
-  SelectStmt *select_stmt = (SelectStmt *)(sql_event->stmt());
-  SessionEvent *session_event = sql_event->session_event();
   RC rc = RC::SUCCESS;
 
   //多表查询
   bool is_single_table = true;
-  std::vector<Operator *> delete_opers;
   Operator *scan_oper = NULL;
   if (select_stmt->tables().size() > 1) {
-    rc = do_join(select_stmt, &scan_oper, delete_opers);
+    rc = gen_join_operator(select_stmt, scan_oper, delete_opers);
+    if (RC::SUCCESS != rc) {
+      return rc;
+    }
     is_single_table = false;
   } else {
-    scan_oper = try_to_create_index_scan_operator(select_stmt->filter_stmt()->filter_units());
+    if (nullptr != select_stmt->filter_stmt()) {
+      scan_oper = try_to_create_index_scan_operator(select_stmt->filter_stmt()->filter_units());
+    }
     if (nullptr == scan_oper) {
       scan_oper = new TableScanOperator(select_stmt->tables()[0]);
     }
     delete_opers.push_back(scan_oper);
   }
 
-  DEFER([&]() {
-    for (auto oper : delete_opers) {
-      delete oper;
-    }
-  });
+  assert(nullptr != scan_oper);
 
   // 1. process where clause
   Operator *top_op = scan_oper;
-  PredicateOperator pred_oper(select_stmt->filter_stmt());
-  pred_oper.add_child(top_op);
-  top_op = &pred_oper;
+  PredicateOperator *pred_oper = nullptr;
+  if (nullptr != select_stmt->filter_stmt()) {
+    pred_oper = new PredicateOperator(select_stmt->filter_stmt());
+    pred_oper->add_child(top_op);
+    top_op = pred_oper;
+    delete_opers.emplace_back(pred_oper);
+
+    // process sub query
+    auto process_sub_query = [&](Expression *expr) {
+      if (ExprType::SUBQUERYTYPE == expr->type()) {
+        auto sub_query_expr = (SubQueryExpression *)expr;
+        const SelectStmt *sub_select = sub_query_expr->get_sub_query_stmt();
+        ProjectOperator *sub_project = nullptr;
+        if (RC::SUCCESS != (rc = gen_physical_plan(sub_select, sub_project, delete_opers))) {
+          return rc;
+        }
+        assert(nullptr != sub_project);
+        sub_query_expr->set_sub_query_top_oper(sub_project);
+      }
+      return RC::SUCCESS;
+    };
+    for (auto unit : select_stmt->filter_stmt()->filter_units()) {
+      if (RC::SUCCESS != (rc = process_sub_query(unit->left()))) {
+        return rc;
+      }
+      if (RC::SUCCESS != (rc = process_sub_query(unit->right()))) {
+        return rc;
+      }
+    }
+  }
+
 
   // 2 process groupby clause and aggrfunc fileds
   // 2.1 gen sort oper for groupby
-  SortOperator sort_oper_for_groupby(select_stmt->orderby_stmt_for_groupby());
+  SortOperator *sort_oper_for_groupby = nullptr;
   if (nullptr != select_stmt->orderby_stmt_for_groupby()) {
-    sort_oper_for_groupby.add_child(top_op);
-    top_op = &sort_oper_for_groupby;
+    sort_oper_for_groupby = new SortOperator(select_stmt->orderby_stmt_for_groupby());
+    sort_oper_for_groupby->add_child(top_op);
+    top_op = sort_oper_for_groupby;
+    delete_opers.emplace_back(sort_oper_for_groupby);
   }
 
   // 2.2 get aggrfunc_exprs from projects
@@ -542,48 +612,77 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
     }
   }  
 
+  GroupByStmt *groupby_stmt = select_stmt->groupby_stmt();
+
   // 2.5 gen groupby oper
   GroupByStmt *empty_groupby_stmt = nullptr;
-  DEFER([&]() {
-    if (nullptr != empty_groupby_stmt) {
-      delete empty_groupby_stmt;
-    }
-  });
-
-  GroupByOperator group_oper(select_stmt->groupby_stmt(), aggr_exprs, field_exprs);
+  GroupByOperator *group_oper = nullptr;
+  
   if (0 != aggr_exprs.size()) {
+    group_oper = new GroupByOperator(groupby_stmt, aggr_exprs, field_exprs);
     if (nullptr == select_stmt->groupby_stmt()) {
       empty_groupby_stmt = new GroupByStmt();
-      group_oper.set_groupby_stmt(empty_groupby_stmt);
+      group_oper->set_groupby_stmt(empty_groupby_stmt);
     }
-    group_oper.add_child(top_op);
-    // TODO add sort oper as child
-    top_op = &group_oper;
+    group_oper->add_child(top_op);
+    top_op = group_oper;
+    delete_opers.emplace_back(group_oper);
   }
 
   // 3 process having clause
-  HavingOperator having_oper(having_stmt);
+  HavingOperator *having_oper = nullptr;
   if (nullptr != having_stmt) {
-    having_oper.add_child(top_op);
-    top_op = &having_oper;
+    having_oper = new HavingOperator(having_stmt);
+    having_oper->add_child(top_op);
+    top_op = having_oper;
+    delete_opers.emplace_back(having_oper);
   }
 
  // 4. process orderby clause
-  SortOperator sort_oper(select_stmt->orderby_stmt());
+  SortOperator *sort_oper = nullptr;
   if (nullptr != select_stmt->orderby_stmt()) {
-    sort_oper.add_child(top_op);
-    top_op = &sort_oper;
+    sort_oper = new SortOperator(select_stmt->orderby_stmt());
+    sort_oper->add_child(top_op);
+    top_op = sort_oper;
+    delete_opers.emplace_back(sort_oper);
   }
 
    // 5. process select clause
-  ProjectOperator project_oper;
-  project_oper.add_child(top_op);
+  ProjectOperator *project_oper = new ProjectOperator();
+  project_oper->add_child(top_op);
 
   auto &projects = select_stmt->projects();
   for (auto it = projects.begin(); it != projects.end(); it++) {
-    project_oper.add_projection(*it, is_single_table);
+    project_oper->add_projection(*it, is_single_table);
   }
-  rc = project_oper.open();
+  op = project_oper;
+  return RC::SUCCESS;
+}
+
+RC ExecuteStage::do_select(SQLStageEvent *sql_event)
+{
+  SelectStmt *select_stmt = (SelectStmt *)(sql_event->stmt());
+  SessionEvent *session_event = sql_event->session_event();
+
+  std::vector<Operator *> delete_opers;
+  DEFER([&]() {
+    for (auto oper : delete_opers) {
+      delete oper;
+    }
+  });
+
+  ProjectOperator *project_oper = nullptr;
+  RC rc = gen_physical_plan(select_stmt, project_oper, delete_opers);
+  if (RC::SUCCESS != rc) {
+    if (RC::SQL_SYNTAX == rc) {
+      session_event->set_response("FAILURE\n");
+    }
+    return rc;
+  }
+
+  assert(nullptr != project_oper);
+
+  rc = project_oper->open();
   if (rc != RC::SUCCESS) {
     LOG_WARN("failed to open operator");
     session_event->set_response("FAILURE\n");
@@ -591,11 +690,11 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
   }
 
   std::stringstream ss;
-  print_tuple_header(ss, project_oper);
-  while ((rc = project_oper.next()) == RC::SUCCESS) {
+  print_tuple_header(ss, *project_oper);
+  while ((rc = project_oper->next()) == RC::SUCCESS) {
     // get current record
     // write to response
-    Tuple * tuple = project_oper.current_tuple();
+    Tuple *tuple = project_oper->current_tuple();
     if (nullptr == tuple) {
       rc = RC::INTERNAL;
       LOG_WARN("failed to get current record. rc=%s", strrc(rc));
@@ -608,9 +707,10 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
 
   if (rc != RC::RECORD_EOF) {
     LOG_WARN("something wrong while iterate operator. rc=%s", strrc(rc));
-    project_oper.close();
+    project_oper->close();
+    return rc;
   } else {
-    rc = project_oper.close();
+    rc = project_oper->close();
   }
   session_event->set_response(ss.str());
   return rc;

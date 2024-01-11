@@ -97,6 +97,8 @@ QUOTE            [\'\"]
 [Nn][Oo][Tt]                                         RETURN_TOKEN(NOT);
 [Ii][Ss]                                             RETURN_TOKEN(IS);
 
+[Ii][Nn]                                             RETURN_TOKEN(IN);
+[Ee][Xx][Ii][Ss][Tt][Ss]                             RETURN_TOKEN(EXISTS);
 
 
 [Dd][Aa][Tt][Ee]                                     RETURN_TOKEN(DATE_T);

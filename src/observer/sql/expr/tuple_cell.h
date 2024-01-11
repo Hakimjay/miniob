@@ -15,6 +15,7 @@ See the Mulan PSL v2 for more details. */
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include "storage/common/table.h"
 #include "storage/common/field_meta.h"
 
@@ -79,6 +80,7 @@ public:
   static const TupleCell sub(const TupleCell &left, const TupleCell &right);
   static const TupleCell mul(const TupleCell &left, const TupleCell &right);
   static const TupleCell div(const TupleCell &left, const TupleCell &right);
+  
   static const TupleCell &min(const TupleCell &a, const TupleCell &b) { 
     if (a.is_null()) {
       return b;  // even if b is also null
@@ -103,6 +105,40 @@ public:
   {
     return attr_type_;
   }
+
+
+ bool equal_to(const TupleCell &other) const
+  {
+    if (is_null()) {
+      return other.is_null();
+    }
+    if (other.is_null()) {
+      return false;
+    }
+    return 0 == compare(other);
+  }
+
+  bool in_cells(const std::vector<TupleCell> &cells) const
+  {
+    for (auto &cell : cells) {
+      if (equal_to(cell)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // return false if is_null and null in cells
+  bool not_in_cells(const std::vector<TupleCell> &cells) const
+  {
+    for (auto &cell : cells) {
+      if (equal_to(cell)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 
 private:
   AttrType attr_type_ = UNDEFINED;

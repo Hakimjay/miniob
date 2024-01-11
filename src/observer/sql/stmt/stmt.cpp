@@ -12,6 +12,7 @@ See the Mulan PSL v2 for more details. */
 // Created by Wangyunlai on 2022/5/22.
 //
 
+#include <vector>
 #include "rc.h"
 #include "common/log/log.h"
 #include "sql/stmt/insert_stmt.h"
@@ -34,8 +35,10 @@ RC Stmt::create_stmt(Db *db, const Query &query, Stmt *&stmt)
       return DeleteStmt::create(db, query.sstr.deletion, stmt);   
     }
   case SCF_SELECT: {
-    return SelectStmt::create(db, query.sstr.selection, stmt);
-  }
+    std::vector<Table *> tables;
+      std::unordered_map<std::string, Table *> table_map;
+      return SelectStmt::create(db, query.sstr.selection, tables, table_map, stmt);
+    }
   default: {
       LOG_WARN("unknown query command");
     }
