@@ -453,7 +453,19 @@ RC Table::update_record(Trx *trx, const char *attr_name, Record *record, Value *
   if (trx != nullptr) {
     trx->update_record(this, record);
 
-    // TO DO CLOG
+    // DO CLOG
+      CLogRecord *clog_record = nullptr;
+      rc = clog_manager_->clog_gen_record(
+          CLogType::REDO_UPDATE, trx->get_current_id(), clog_record, name(), table_meta_.record_size(), record);
+      if (rc != RC::SUCCESS) {
+        LOG_ERROR("Failed to create a clog record. rc=%d:%s", rc, strrc(rc));
+        return rc;
+      }
+      rc = clog_manager_->clog_append_record(clog_record);
+      if (rc != RC::SUCCESS) {
+        LOG_ERROR("Failed to append clog record. rc=%d:%s", rc, strrc(rc));
+        return rc;
+      }
   }
   return rc;
 }
@@ -845,6 +857,19 @@ RC Table::create_index(Trx *trx,bool unique, const char *index_name, const char 
   table_meta_.swap(new_table_meta);
 
   LOG_INFO("Successfully added a new index (%s) on the table (%s)", index_name, name());
+
+  return rc;
+}
+
+RC Table::recover_update_record(Record *record)
+{
+  RC rc = RC::SUCCESS;
+
+  rc = record_handler_->recover_update_record(record->data(), table_meta_.record_size(), &record->rid());
+  if (rc != RC::SUCCESS) {
+    LOG_ERROR("Update record failed. table name=%s, rc=%d:%s", table_meta_.name(), rc, strrc(rc));
+    return rc;
+  }
 
   return rc;
 }

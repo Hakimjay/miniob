@@ -43,7 +43,7 @@ struct CLogBlockHeader;
 struct CLogBlock;
 struct CLogMTRManager;
 
-enum CLogType { REDO_ERROR = 0, REDO_MTR_BEGIN, REDO_MTR_COMMIT, REDO_INSERT, REDO_DELETE };
+enum CLogType { REDO_ERROR = 0, REDO_MTR_BEGIN, REDO_MTR_COMMIT, REDO_INSERT, REDO_UPDATE, REDO_DELETE };
 
 struct CLogRecordHeader {
   int32_t lsn_;
@@ -94,6 +94,7 @@ struct CLogMTRRecord {
 union CLogRecords {
   CLogInsertRecord ins;
   CLogDeleteRecord del;
+  CLogInsertRecord ups;
   CLogMTRRecord mtr;
   char *errors;
 };
