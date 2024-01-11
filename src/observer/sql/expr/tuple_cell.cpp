@@ -75,6 +75,25 @@ int TupleCell::compare(const TupleCell &other) const
     float other_data = *(int *)other.data_;
     return compare_float(data_, &other_data);
   }
+
+  // for compare.
+  float *tmp_left_float = nullptr;
+  float *tmp_right_float = nullptr;
+  DEFER([&]() {
+    if (tmp_left_float)
+      free(tmp_left_float);
+    if (tmp_right_float)
+      free(tmp_right_float);
+  });
+  tmp_left_float = (float *)cast_to[this->attr_type_][FLOATS](this->data_);
+  assert(nullptr != tmp_left_float);
+  std::cout << *tmp_left_float << std::endl;
+  tmp_right_float = (float *)cast_to[other.attr_type_][FLOATS](other.data_);
+  assert(nullptr != tmp_right_float);
+  std::cout << *tmp_right_float << std::endl;
+  return compare_float(tmp_left_float, tmp_right_float);
+
+
   LOG_WARN("not supported");
   return -1; // TODO return rc?
 }
