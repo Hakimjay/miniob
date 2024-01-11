@@ -38,6 +38,26 @@ RC AggrFuncExpression::get_value(const Tuple &tuple, TupleCell &cell) const
   return tuple.find_cell(tmp_field, cell);
 }
 
+bool FieldExpr::in_expression(const Expression *expr) const
+{
+  switch (expr->type()) {
+    case ExprType::FIELD: {
+      return field_.equal(((const FieldExpr *)expr)->field_);
+    }
+    case ExprType::AGGRFUNCTION: {
+      const AggrFuncExpression *afexp = (const AggrFuncExpression *)expr;
+      return in_expression(&afexp->fieldexpr());
+    }
+    case ExprType::BINARY: {
+      const BinaryExpression *bexp = (const BinaryExpression *)expr;
+      return in_expression(bexp->get_left()) || in_expression(bexp->get_right());
+    }
+    default:
+      break;
+  }
+  return false;
+}
+
 void FieldExpr::to_string(std::ostream &os) const
 {
   if (with_brace()) {
@@ -212,8 +232,7 @@ void FieldExpr::get_fieldexprs(const Expression *expr, std::vector<FieldExpr *> 
       break;
     }
     case ExprType::AGGRFUNCTION: {
-      const AggrFuncExpression *afexp = (const AggrFuncExpression *)expr;
-      get_fieldexprs(&afexp->fieldexpr(), field_exprs);
+      
       break;
     }
     case ExprType::BINARY: {

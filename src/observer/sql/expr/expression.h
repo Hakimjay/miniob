@@ -218,6 +218,8 @@ public:
     return field_.table();
   }
 
+  bool in_expression(const Expression *expr) const;
+
   static RC create_expression(const Expr *expr, const std::unordered_map<std::string, Table *> &table_map,
       const std::vector<Table *> &tables, Expression *&res_expr, CompOp comp = NO_OP, Db *db = nullptr);
 

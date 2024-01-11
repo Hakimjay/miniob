@@ -524,6 +524,7 @@ RC ExecuteStage::gen_physical_plan(
   //多表查询
   bool is_single_table = true;
   Operator *scan_oper = NULL;
+
   if (select_stmt->tables().size() > 1) {
     rc = gen_join_operator(select_stmt, scan_oper, delete_opers);
     if (RC::SUCCESS != rc) {
@@ -610,11 +611,32 @@ RC ExecuteStage::gen_physical_plan(
       FieldExpr::get_fieldexprs(hf->left(), field_exprs);
       FieldExpr::get_fieldexprs(hf->right(), field_exprs);
     }
-  }  
+  }
 
   GroupByStmt *groupby_stmt = select_stmt->groupby_stmt();
+  // 2.5 do check (we should do this check earlier actually)
+  if (!aggr_exprs.empty() && !field_exprs.empty()) {
+    if (nullptr == groupby_stmt) {
+      return RC::SQL_SYNTAX;
+    }
+    for (auto field_expr : field_exprs) {
+      bool in_groupby = false;
+      for (auto groupby_unit : groupby_stmt->groupby_units()) {
+        if (field_expr->in_expression(groupby_unit->expr())) {
+          in_groupby = true;
+          break;
+        }
+      }
+      if (!in_groupby) {
+        return RC::SQL_SYNTAX;
+      }
+    }
+  }
 
-  // 2.5 gen groupby oper
+  
+
+
+  // 2. gen groupby oper
   GroupByStmt *empty_groupby_stmt = nullptr;
   GroupByOperator *group_oper = nullptr;
   
@@ -707,6 +729,7 @@ RC ExecuteStage::do_select(SQLStageEvent *sql_event)
 
   if (rc != RC::RECORD_EOF) {
     LOG_WARN("something wrong while iterate operator. rc=%s", strrc(rc));
+    session_event->set_response("FAILURE\n");
     project_oper->close();
     return rc;
   } else {
